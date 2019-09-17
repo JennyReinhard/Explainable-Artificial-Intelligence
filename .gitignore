@@ -1,0 +1,6 @@
+riskywally/__pycache__
+.DS_Store
+risckywally/migrations
+accounts/migrations
+home/migrations
+dss/migrations
