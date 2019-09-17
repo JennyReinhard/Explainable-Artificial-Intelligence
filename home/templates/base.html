@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    {% load static %}
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="{% static 'home/css/bootstrap.min.css'%}">
+    <title>Risky Wally</title>
+  </head>
+  <main role="main" class="container">
+    <h1 class="mt-5">Risky Wally</h1>
+    <hr>
+    {% if messages%}
+      {% for message in messages %}
+        <div class="alert alert-{{ message.tags }}">
+          {{ message }}
+        </div>
+      {% endfor %}
+    {% endif %}
+    {% block body %}
+    {% endblock body %}
+    </main>
+    {% include 'home/scripts.html' %}
+    {% block scripts %}
+    {% endblock %}
+  </body>
+</html>
