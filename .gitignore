@@ -1,6 +1,6 @@
-riskywally/__pycache__
+django-template/__pycache__
 .DS_Store
-risckywally/migrations
+django-template/migrations
 accounts/migrations
 home/migrations
 dss/migrations
