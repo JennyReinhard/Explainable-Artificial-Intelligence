@@ -5,6 +5,6 @@ from . import views
 # Renders the homepage
 def home(request):
     context = {
-        'title': 'Risky Wally Homepage'
+        'title': 'Homepage'
     }
     return render(request, 'home/index.html', context)

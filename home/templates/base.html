@@ -9,8 +9,10 @@
     <link rel="stylesheet" href="{% static 'home/css/bootstrap.min.css'%}">
     <title>Risky Wally</title>
   </head>
+  <body>
+  {% include 'home/header.html' %}
   <main role="main" class="container">
-    <h1 class="mt-5">Risky Wally</h1>
+    <h1 class="mt-5">Website Title</h1>
     <hr>
     {% if messages%}
       {% for message in messages %}

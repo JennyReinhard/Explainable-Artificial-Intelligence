@@ -33,6 +33,9 @@ ALLOWED_HOSTS = [
 # Application definition
 
 INSTALLED_APPS = [
+    'crispy_forms',
+    'active_link',
+    'accounts.apps.AccountsConfig',
     'home.apps.HomeConfig',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -128,7 +131,7 @@ STATIC_URL = '/static/'
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
-LOGIN_REDIRECT_URL = 'home:home'
+LOGIN_REDIRECT_URL = 'home:index'
 
 LOGIN_URL = 'login'
 
