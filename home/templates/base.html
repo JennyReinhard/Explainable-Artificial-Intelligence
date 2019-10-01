@@ -4,28 +4,25 @@
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- UIkit CSS -->
     {% load static %}
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="{% static 'home/css/bootstrap.min.css'%}">
-    <title>Django Template</title>
+    <link rel="stylesheet" href="{% static 'home/css/uikit.min.css'%}">
+    <title>Risky Wally</title>
   </head>
   <body>
-  {% include 'home/header.html' %}
-  <main role="main" class="container">
-    <h1 class="mt-5">Website Title</h1>
-    <hr>
-    {% if messages%}
-      {% for message in messages %}
-        <div class="alert alert-{{ message.tags }}">
-          {{ message }}
-        </div>
-      {% endfor %}
-    {% endif %}
-    {% block body %}
-    {% endblock body %}
-    </main>
-    {% include 'home/scripts.html' %}
-    {% block scripts %}
-    {% endblock %}
+      {% include 'home/header.html' %}
+      {% if messages%}
+        {% for message in messages %}
+          <div>
+            {{ message }}
+          </div>
+        {% endfor %}
+      {% endif %}
+      {% block body %}
+      {% endblock body %}
+      {% include 'home/scripts.html' %}
+      {% block scripts %}
+      {% endblock %}
+
   </body>
 </html>

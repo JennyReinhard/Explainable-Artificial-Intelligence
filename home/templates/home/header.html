@@ -1,28 +1,25 @@
-<nav class="navbar sticky-top navbar-expand-lg navbar-light bg-light">
-  <a class="navbar-brand" href="{% url 'home:index' %}">Website Title</a>
-  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-    <span class="navbar-toggler-icon"></span>
-  </button>
-  {% load active_link_tags %}
-  <div class="collapse navbar-collapse" id="navbarSupportedContent">
-    <ul class="navbar-nav mr-auto">
-      <li class="nav-item {% active_link 'home:index' %}">
-        <a class="nav-link" href="{% url 'home:index' %}">Home<span class="sr-only">(current)</span></a>
-      </li>
-    </ul>
-    <ul class="nav navbar-nav navbar-right">
-      {% if user.is_authenticated %}
-      <li class="nav-item">
-        <a class="nav-link  disabled" href="#">{{user}}</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="{% url 'logout' %}">Logout</a>
-      </li>
-        {% else %}
-      <li class="nav-item">
-        <a class="nav-link" href="{% url 'login' %}">Login</a>
-      </li>
-      {% endif %}
-    </ul>
-  </div>
+<nav class="uk-navbar uk-navbar-container">
+    <div class="uk-navbar-left">
+        <a class="uk-navbar-toggle" uk-navbar-toggle-icon uk-toggle="target: #offcanvas-usage" href="#"></a>
+        <a class="uk-navbar-item uk-logo" href="{% url 'home:index' %}">Risky Wally</a>
+    </div>
 </nav>
+
+<div id="offcanvas-usage" uk-offcanvas="overlay: true" uk-offcanvas>
+    <div class="uk-offcanvas-bar">
+      <button class="uk-offcanvas-close" type="button" uk-close></button>
+        <ul class="uk-nav uk-nav-default">
+          <li class="uk-nav-header">Risky Wally</li>
+            <li class="uk-nav-divider"></li>
+            <li class="uk-active"><a href="{% url 'home:index' %}">Home</a></li>
+            <li class="uk-nav-header">User Management</li>
+            <li class="uk-nav-divider"></li>
+            {% if user.is_authenticated %}
+            <li><a class="uk-disabled"href="#">{{user}}</a></li>
+            <li><a href="{% url 'logout' %}">Logout</a></li>
+            {% else %}
+            <li><a href="{% url 'login' %}">Login</a></li>
+            {% endif %}
+        </ul>
+    </div>
+</div>

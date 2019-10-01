@@ -1,20 +1,18 @@
 {% extends 'base.html' %}
 {% load crispy_forms_tags %}
 {% block body %}
-  <div class="form-container">
-    <form method="POST">
+  <div class="uk-container uk-margin-top">
+    <form class="uk-form-stacked" method="POST">
       {% csrf_token %}
-      <fieldset class=form-group>
-        <legend class="border-bottom mb-4">Sign Up</legend>
+      <fieldset class="uk-fieldset">
+        <legend class="uk-legend">Register</legend>
         {{ form|crispy }}
       </fieldset>
-      <div class="form-group">
-        <button class="btn btn-primary" type="submit" name="button">Register</button>
-      </div>
+      <p class="ukmargin">
+        <button class="uk-button uk-button-secondary" type="submit" name="button">Register</button>
+      </p>
     </form>
-    </div>
     <hr>
-    <div>
-      <p class="text-muted">Already have an account? <a href="{% url 'login'%}">Sign in</a></p>
+      <p class="uk-text-muted">Already have an account? <a href="{% url 'login'%}">Sign in</a></p>
     </div>
 {% endblock %}

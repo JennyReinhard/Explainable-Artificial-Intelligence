@@ -1,8 +1,10 @@
 {% extends 'base.html' %}
 {% block body %}
-    <h3>You have been logged out</h3>
-    <hr>
-    <div>
-      <p class="text-muted">Login in again? <a href="{% url 'login'%}">Login</a></p>
+    <div class="uk-container uk-margin-top">
+      <h3>You have been logged out</h3>
+      <hr>
+      <div>
+        <p class="uk-text-muted">Login in again? <a href="{% url 'login'%}">Login</a></p>
+      </div>
     </div>
 {% endblock %}

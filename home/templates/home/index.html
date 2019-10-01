@@ -1,5 +1,10 @@
 {% extends 'base.html' %}
 {% block body %}
 {% load static %}
-<h1>{{title}}</h1>
+<div class="uk-height-medium uk-flex uk-flex-center uk-flex-middle uk-background-cover" data-src="{% static 'home/img/robots-humans.png'%}" uk-img>
+  <p class="uk-margin">
+    <button class="uk-button uk-button-primary">Find out more</button>
+    <button class="uk-button uk-button-secondary">Play</button>
+  </p>
+</div>
 {% endblock %}
