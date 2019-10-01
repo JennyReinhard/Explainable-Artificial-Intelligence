@@ -1,6 +1,7 @@
-django-template/__pycache__
-.DS_Store
-django-template/migrations
+riskywally/__pycache__
+riskywally/migrations
 accounts/migrations
+accounts/__pycache__
 home/migrations
-dss/migrations
+home/__pycache__
+.DS_Store
