@@ -5,3 +5,4 @@ riskywally/migrations
 accounts/migrations
 home/migrations
 .DS_Store
+*.pyc
