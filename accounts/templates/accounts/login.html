@@ -1,12 +1,14 @@
 {% extends 'base.html' %}
 {% load crispy_forms_tags %}
 {% block body %}
+{% load widget_tweaks %}
 <div class="uk-container uk-margin-top">
   <form class="uk-form-stacked" method="post">
   {% csrf_token %}
     <fieldset class="uk-fieldset">
       <legend class="uk-legend">Login</legend>
-        {{ form|crispy }}
+        <p class="uk-margin-top">{{ form.username|add_class:"uk-input"|attr:"placeholder:Enter Username"}}</p>
+        <p class="uk-margin-top">{{ form.password|add_class:"uk-input"|attr:"placeholder:Enter Password" }}</p>
     </fieldset>
     <p class="ukmargin">
       <button class="uk-button uk-button-secondary" type="submit" name="button">Login</button>

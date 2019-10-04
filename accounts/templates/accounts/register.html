@@ -1,12 +1,21 @@
 {% extends 'base.html' %}
 {% load crispy_forms_tags %}
 {% block body %}
+{% load widget_tweaks %}
   <div class="uk-container uk-margin-top">
     <form class="uk-form-stacked" method="POST">
       {% csrf_token %}
       <fieldset class="uk-fieldset">
         <legend class="uk-legend">Register</legend>
-        {{ form|crispy }}
+        <p class="uk-margin-top">{{ form.username|add_class:"uk-input"|attr:"placeholder:Enter Username"}}
+          <span class="uk-text-middle">Required. 150 characters or fewer. Letters, digits and @/./+/-/_ only.</span>
+        </p>
+
+        <p class="uk-margin-top">{{ form.email|add_class:"uk-input"|attr:"placeholder:Enter Email Address"}}</p>
+        <p class="uk-margin-top">{{ form.password1|add_class:"uk-input"|attr:"placeholder:Password"}}
+          <span class="uk-text-middle">At least 8 characters</span>
+        </p>
+        <p class="uk-margin-top">{{ form.password2|add_class:"uk-input"|attr:"placeholder:Confirm Password"}}</p>
       </fieldset>
       <p class="ukmargin">
         <button class="uk-button uk-button-secondary" type="submit" name="button">Register</button>
