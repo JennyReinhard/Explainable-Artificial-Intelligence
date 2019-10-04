@@ -7,22 +7,29 @@
     <!-- UIkit CSS -->
     {% load static %}
     <link rel="stylesheet" href="{% static 'home/css/uikit.min.css'%}">
+    <script src="https://cdn.tiny.cloud/1/i1vbxjxnd2j24fnixr59plwpy46yh1s0e6le8d68brwjl4sa/tinymce/5/tinymce.min.js"></script>
+    <script>tinymce.init({selector:'textarea'});</script>
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
     <title>Risky Wally</title>
   </head>
   <body>
+      {% if user.is_authenticated %}
       {% include 'home/header.html' %}
-      {% if messages%}
-        {% for message in messages %}
-          <div>
-            {{ message }}
-          </div>
-        {% endfor %}
       {% endif %}
       {% block body %}
       {% endblock body %}
       {% include 'home/scripts.html' %}
       {% block scripts %}
+      {% if messages%}
+        {% for message in messages %}
+          <script>window.onload = UIkit.notification({
+            message: '{{message.message}}',
+            status: '{{message.tags}}',
+            pos: 'top-right',
+            timeout: 2500
+          });;</script>
+        {% endfor %}
+      {% endif %}
       {% endblock %}
-
   </body>
 </html>

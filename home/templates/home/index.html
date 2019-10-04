@@ -3,8 +3,16 @@
 {% load static %}
 <div class="uk-height-medium uk-flex uk-flex-center uk-flex-middle uk-background-cover" data-src="{% static 'home/img/robots-humans.png'%}" uk-img>
   <p class="uk-margin">
-    <button class="uk-button uk-button-primary">Primary</button>
-    <button class="uk-button uk-button-secondary">Secondary</button>
+    <button class="uk-button uk-button-primary">Play</button>
+    <button class="uk-button uk-button-secondary">Discover More</button>
   </p>
+</div>
+<div class="uk-container uk-margin-top">
+  <h1 class="uk-heading-small">{{homepage.title}}</h1>
+  {% if user.is_authenticated %}
+  <a class="uk-button uk-button-default" href="{% url 'home:edit-post' homepage.id %}">Edit text</a>
+  {% endif %}
+  {{homepage.content|safe}}
+  <a class="uk-button uk-button-primary uk-margin-large-bottom" href="#">Play now</a>
 </div>
 {% endblock %}

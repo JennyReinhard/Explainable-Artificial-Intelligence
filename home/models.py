@@ -1,9 +1,17 @@
 from django.db import models
+from tinymce.models import HTMLField
 
 # Create your models here.
 class Post(models.Model):
-    name = models.CharField(max_length=70)
-    content = models.TextField()
-    purpose = models.CharField(max_length=70)
+    POST_TYPES = [
+        ('HOMEPAGE', 'Homepage'),
+        ('POST', 'Post or Blogpost'),
+        ('PAGE', 'Page')
+    ]
+    title = models.CharField(max_length=70)
+    content = HTMLField()
     created = models.DateTimeField(auto_now=True)
-    
+    type = models.CharField(max_length=70, choices=POST_TYPES, default='PAGE')
+
+    def __str__(self):
+        return str(self.title)

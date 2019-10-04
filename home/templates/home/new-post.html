@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+{% block body %}
+{% load static %}
+{% load widget_tweaks %}
+<div class="uk-container uk-margin-top">
+  <form class="uk-form-stacked" method="post">
+  {% csrf_token %}
+    <fieldset class="uk-fieldset">
+      <legend class="uk-legend">Create new post</legend>
+      <div class="uk-margin">
+        <label class="uk-form-label" for="form-stacked-text">Text</label>
+        <div class="uk-form-controls">
+            {{ form.title|add_class:"uk-input"|attr:"placeholder:Post Title" }}
+        </div>
+      </div>
+      <div class="uk-margin">
+        <label class="uk-form-label" for="form-stacked-text">Content:</label>
+        <div class="uk-form-controls">
+            {{ form.content }}
+        </div>
+      </div>
+      <div class="uk-margin">
+        <label class="uk-form-label" for="form-stacked-text">Content:</label>
+        <div class="uk-form-controls">
+            {{ form.type|add_class:"uk-select" }}
+        </div>
+      </div>
+      <p class="uk-margin">
+        <button class="uk-button uk-button-secondary" type="submit" name="button">Edit post</button>
+      </p>
+  </form>
+</div>
+{% endblock %}

@@ -33,6 +33,8 @@ ALLOWED_HOSTS = [
 # Application definition
 
 INSTALLED_APPS = [
+    'widget_tweaks',
+    'tinymce',
     'crispy_forms',
     'active_link',
     'accounts.apps.AccountsConfig',
