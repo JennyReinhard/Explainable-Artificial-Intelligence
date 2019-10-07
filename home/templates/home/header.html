@@ -12,11 +12,13 @@
         <ul class="uk-nav uk-nav-default">
           <li class="uk-nav-header">Risky Wally</li>
             <li class="uk-nav-divider"></li>
-            <li class="uk-active"><a href="{% url 'home:index' %}">Home</a></li>
+            <li><a href="{% url 'home:index' %}">Home</a></li>
+            <li><a href="{% url 'surveys:surveys' %}">Surveys</a></li>
             <li class="uk-nav-header">User Management</li>
             <li class="uk-nav-divider"></li>
             {% if user.is_authenticated %}
             <li><a class="uk-disabled"href="#">{{user}}</a></li>
+            <li><a href="{% url 'admin:index' %}">Admin Space</a></li>
             <li><a href="{% url 'logout' %}">Logout</a></li>
             {% else %}
             <li><a href="{% url 'login' %}">Login</a></li>

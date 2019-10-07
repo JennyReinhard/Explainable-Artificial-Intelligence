@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     'tinymce',
     'crispy_forms',
     'active_link',
+    'surveys.apps.SurveysConfig',
     'accounts.apps.AccountsConfig',
     'home.apps.HomeConfig',
     'django.contrib.admin',

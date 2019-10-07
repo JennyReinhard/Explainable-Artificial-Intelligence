@@ -1,0 +1,28 @@
+{% extends 'base.html'%}
+{% block body%}
+<div class="uk-container uk-margin-top">
+  <h2 class="uk-heading-small uk-heading-dividert">{{survey.name}}</h2>
+  <ul class="uk-iconnav">
+    <li><a href="{% url 'surveys:update-survey' survey.id %}" uk-icon="icon: file-edit"></a></li>
+    <li><a href="#delete-modal" uk-icon="icon: trash" uk-toggle></a></li>
+</ul>
+  <h3 class"uk-heading-small">Description</h3>
+  <p>{{survey.description}}</p>
+  <hr class="uk-divider-small">
+  <p class="uk-text-meta"><time datetime="2016-04-01T19:00">{{survey.date_created}}</time></p>
+</div>
+<div id="delete-modal" class="uk-flex-top" uk-modal>
+    <div class="uk-modal-dialog uk-modal-body uk-margin-auto-vertical">
+
+        <button class="uk-modal-close-default" type="button" uk-close></button>
+        <form action="{% url 'surveys:delete-survey' survey.id %}" method="post">
+          {% csrf_token %}
+          <p>Are you sure that you want to delete that survey?</p>
+          <button class="uk-button uk-button-danger"type="submit">Delete survey</button>
+        </form>
+
+
+
+    </div>
+</div>
+{% endblock %}

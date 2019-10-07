@@ -13,6 +13,7 @@
             {{ form.title|add_class:"uk-input"|attr:"placeholder:Post Title" }}
         </div>
       </div>
+      <script>tinymce.init({selector:'textarea'});</script>
       <div class="uk-margin">
         <label class="uk-form-label" for="form-stacked-text">Content:</label>
         <div class="uk-form-controls">
@@ -26,7 +27,7 @@
         </div>
       </div>
       <p class="uk-margin">
-        <button class="uk-button uk-button-secondary" type="submit" name="button">Edit post</button>
+        <button class="uk-button uk-button-secondary" type="submit" name="button">Save</button>
       </p>
   </form>
 </div>

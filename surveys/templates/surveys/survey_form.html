@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+{% block body %}
+{% load static %}
+{% load widget_tweaks %}
+<div class="uk-container uk-margin-top">
+  <form class="uk-form-stacked" method="post">
+  {% csrf_token %}
+    <fieldset class="uk-fieldset">
+      {% if form.introduction %}
+      <legend class="uk-legend">Edit survey</legend>
+      {% else %}
+      <legend class="uk-legend">Create new survey</legend>
+      {% endif %}
+      <div class="uk-margin">
+        <label class="uk-form-label" for="form-stacked-text">Name</label>
+        <div class="uk-form-controls">
+            {{ form.name|add_class:"uk-input"|attr:"placeholder:Survey name" }}
+        </div>
+      </div>
+      <div class="uk-margin">
+        <label class="uk-form-label" for="form-stacked-text">Description</label>
+        <div class="uk-form-controls">
+            {{ form.description|add_class:"uk-textarea" }}
+        </div>
+      </div>
+      {% if form.introduction %}
+      <script>tinymce.init({selector:'textarea#introduction'});</script>
+      <div class="uk-margin">
+        <label class="uk-form-label" for="form-stacked-text">Introduction</label>
+        <div class="uk-form-controls">
+            {{ form.introduction|add_class:"uk-textarea"|attr:"id:introduction" }}
+        </div>
+      </div>
+      {% endif %}
+      <p class="uk-margin">
+        <button class="uk-button uk-button-secondary" type="submit" name="button">Save</button>
+      </p>
+  </form>
+</div>
+{% endblock %}

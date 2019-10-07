@@ -1,5 +1,6 @@
 from django.db import models
 from tinymce.models import HTMLField
+from django.urls import reverse
 
 # Create your models here.
 class Post(models.Model):
@@ -15,3 +16,6 @@ class Post(models.Model):
 
     def __str__(self):
         return str(self.title)
+
+    def get_absolute_url(self):
+        return reverse('home:index')

@@ -20,11 +20,13 @@ from django.contrib.auth import views as auth_views
 
 
 urlpatterns = [
-    path('admin/', admin.site.urls, name=admin),
-    path('', include('home.urls', namespace='home')),
+    path('admin/', admin.site.urls, name='admin'),
     path('register/', account_views.register, name='register'),
     path('login/', auth_views.LoginView.as_view(template_name='accounts/login.html'), name='login'),
     path('logout/', auth_views.LogoutView.as_view(template_name='accounts/logout.html'), name='logout'),
+
+    path('', include('home.urls', namespace='home')),
+    path('surveys/', include('surveys.urls', namespace='surveys')),
     # Installed apps
     path('tinymce/', include('tinymce.urls')),
 
