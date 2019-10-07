@@ -3,8 +3,8 @@
 <div class="uk-container uk-margin-top">
   <h2 class="uk-heading-small uk-heading-dividert">{{survey.name}}</h2>
   <ul class="uk-iconnav">
-    <li><a href="{% url 'surveys:update-survey' survey.id %}" uk-icon="icon: file-edit"></a></li>
-    <li><a href="#delete-modal" uk-icon="icon: trash" uk-toggle></a></li>
+    <li><a href="{% url 'surveys:update-survey' survey.id %}" uk-icon="icon: file-edit" uk-tooltip="Edit survey"></a></li>
+    <li><a href="#delete-modal" uk-icon="icon: trash" uk-tooltip="Delete survey" uk-toggle></a></li>
 </ul>
   <h3 class"uk-heading-small">Description</h3>
   <p>{{survey.description}}</p>
@@ -20,9 +20,6 @@
           <p>Are you sure that you want to delete that survey?</p>
           <button class="uk-button uk-button-danger"type="submit">Delete survey</button>
         </form>
-
-
-
     </div>
 </div>
 {% endblock %}

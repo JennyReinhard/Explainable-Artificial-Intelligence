@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+{% block body %}
+{% load static %}
+<div class="uk-container uk-margin-top">
+  <h2 class="uk-heading-small">Starting survey</h2>
+  <p>{{survey.introduction|safe}}</p>
+  {% if redirect is not None %}
+  <a class="uk-button uk-button-default" href="{{redirect.url}}">Start</a>
+  {% else %}
+  <a class="uk-button uk-button-default" href="#">Start</a>
+  {% endif %}
+</div>
+{% endblock %}

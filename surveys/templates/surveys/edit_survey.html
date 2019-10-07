@@ -2,10 +2,11 @@
 {% block body %}
 {% load static %}
 {% load widget_tweaks %}
+{% load crispy_forms_tags %}
 <div class="uk-container uk-margin-top">
   <form class="uk-form-stacked" method="post">
   {% csrf_token %}
-      <legend class="uk-legend">Create new survey</legend>
+      <legend class="uk-legend">Edit survey</legend>
       <div class="uk-margin">
         <label class="uk-form-label" for="form-stacked-text">Name</label>
         <div class="uk-form-controls">
@@ -15,9 +16,23 @@
       <div class="uk-margin">
         <label class="uk-form-label" for="form-stacked-text">Description</label>
         <div class="uk-form-controls">
-            {{ form.description|add_class:"uk-textarea" }}
+            {{ form.description|add_class:"uk-textarea"|attr:"placeholder:Survey description"}}
         </div>
       </div>
+      <script>tinymce.init({selector:'textarea#tinymce'});</script>
+      <div class="uk-margin">
+        <label class="uk-form-label" for="form-stacked-text">Introduction</label>
+        <div class="uk-form-controls">
+            {{ form.introduction|add_class:"uk-textfield"|attr:"placeholder:Survey description"|attr:"id:tinymce" }}
+        </div>
+      </div>
+      <div class="uk-margin">
+        <label class="uk-form-label" for="form-stacked-text">Name</label>
+        <div class="uk-form-controls">
+            {{formset|crispy}}
+        </div>
+      </div>
+
       <p class="uk-margin">
         <button class="uk-button uk-button-secondary" type="submit" name="button">Save</button>
       </p>
