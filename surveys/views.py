@@ -3,10 +3,11 @@ from .models import Survey, Session, Redirect
 from django.views import generic
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
-from .forms import SurveyUpdateForm
+from .forms import SurveyUpdateForm, SurveyCreateFrom
 from django.forms import inlineformset_factory
 from django.core.exceptions import ObjectDoesNotExist
 from django.http import HttpRequest
+from django.core.exceptions import PermissionDenied
 
 
 # Generic survey view displaying a list of all surveys
@@ -18,18 +19,30 @@ class SurveyDetailView(LoginRequiredMixin,generic.DetailView):
     model = Survey
 
 # Generic create view to create a new survey
-class SurveyCreateView(LoginRequiredMixin,generic.CreateView):
-    model = Survey
-    fields = [
-        'name',
-        'description',
-    ]
+def create_survey(request):
+    if request.method == 'POST':
+        form = SurveyCreateFrom(request.POST or None)
+        if form.is_valid():
+            instance = form.save(commit=False)
+            instance.user = request.user
+            instance.save()
+            messages.success(request, 'New survey successfully created.')
+            return redirect('surveys:survey', pk=instance.id )
+    else:
+        form = SurveyCreateFrom()
+        context = {
+            'form': form
+        }
+    return render(request, 'surveys/survey_form.html', context)
+
 
 # Generic update view to edit a survey
 def edit_survey(request, pk):
     survey = get_object_or_404(Survey, pk=pk)
     RedirectFormset = inlineformset_factory(Survey, Redirect, fields=('purpose', 'url'), extra=3, max_num=3)
 
+    if survey.user is not request.user:
+        raise PermissionDenied
     if request.method == 'POST':
         form = SurveyUpdateForm(request.POST or None, instance=survey)
         formset = RedirectFormset(request.POST or None, instance=survey)

@@ -1,7 +1,7 @@
 from django.db import models
 from tinymce.models import HTMLField
 from django.urls import reverse
-
+from django.conf import settings
 
 # Redirect constant
 REDIRECTS = (
@@ -24,6 +24,8 @@ class Survey(models.Model):
 
     date_created = models.DateTimeField(auto_now=True)
     introduction = HTMLField(blank=True)
+
+    user = models.ForeignKey(settings.AUTH_USER_MODEL,on_delete=models.SET_DEFAULT, default=1)
 
     # Returns name in the admin panel
     def __str__(self):

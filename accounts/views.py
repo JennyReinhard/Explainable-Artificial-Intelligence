@@ -15,7 +15,7 @@ def register(request):
             user = authenticate(username=username, password=password)
             login(request, user)
             messages.success(request, 'Your account has been successfully created and you are logged in with {}.'.format(username))
-            return redirect('home:home')
+            return redirect('home:index')
     else:
         form = UserRegisterForm()
     return render(request, 'accounts/register.html', {'form': form})
