@@ -33,10 +33,9 @@ ALLOWED_HOSTS = [
 # Application definition
 
 INSTALLED_APPS = [
+    'jet_django',
     'widget_tweaks',
     'tinymce',
-    'crispy_forms',
-    'active_link',
     'surveys.apps.SurveysConfig',
     'accounts.apps.AccountsConfig',
     'home.apps.HomeConfig',

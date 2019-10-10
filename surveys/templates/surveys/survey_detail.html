@@ -1,28 +1,60 @@
 {% extends 'base.html'%}
 {% block body%}
 <div class="uk-container uk-margin-top">
-  <a href="{% url 'surveys:surveys' %}"" uk-icon="icon: chevron-left"></a>
-  <h2 class="uk-heading-small uk-heading-dividert">{{survey.name}}</h2>
-  <p><span class="uk-label">{{survey.user}}</span></p>
-  <ul class="uk-iconnav">
+  <h2 class="uk-heading-small uk-heading-bullet">{{survey.name}}</h2>
+  <p class="uk-article-meta">Created by by <a href="#">{{survey.user}}</a> on {{survey.date_created}}.</p>
+  <ul uk-tab>
+    <li><a href="#">General Information</a></li>
+    <li><a href="#">Redirects</a></li>
+    <li><a href="#">Factors</a></li>
+    <li><a href="#">Sessions</a></li>
+  </ul>
+  <div class="uk-switcher">
+    <div class="uk-animation-slide-bottom-small">
 
-    <li><a {% if request.user != survey.user %}class="uk-disabled"{% endif %} href="{% url 'surveys:update-survey' survey.id %}" uk-icon="icon: file-edit" uk-tooltip="Edit survey"></a></li>
-    <li><a {% if request.user != survey.user %}class="uk-disabled"{% endif %} href="#delete-modal" uk-icon="icon: trash" uk-tooltip="Delete survey" uk-toggle></a></li>
-</ul>
-  <h3 class"uk-heading-small">Description</h3>
-  <p>{{survey.description}}</p>
-  <hr class="uk-divider-small">
-  <p class="uk-text-meta"><time datetime="2016-04-01T19:00">{{survey.date_created}}</time></p>
-</div>
-<div id="delete-modal" class="uk-flex-top" uk-modal>
-    <div class="uk-modal-dialog uk-modal-body uk-margin-auto-vertical">
-
-        <button class="uk-modal-close-default" type="button" uk-close></button>
-        <form action="{% url 'surveys:delete-survey' survey.id %}" method="post">
-          {% csrf_token %}
-          <p>Are you sure that you want to delete that survey?</p>
-          <button class="uk-button uk-button-danger"type="submit">Delete survey</button>
-        </form>
+      <h3>Description</h3>
+      <p>{{survey.description}}</p>
+      <h3>Tntroduction Text</h3>
+      <p>{{survey.introduction|safe}}</p>
     </div>
+    <div class="uk-animation-slide-bottom-small">
+      <h3>Redirects</h3>
+      {% for redirect in survey.redirect_set.all %}
+      <p>{{redirect.purpose}} <code>{{redirect.url}}</code></p>
+      {% endfor %}
+    </div>
+    <div class="uk-animation-slide-bottom-small">
+      {% for setfactor in survey.setfactor_set.all %}
+      <p class="uk-text-lead">{{setfactor}}</p>
+      <ul class="uk-list uk-list-striped">
+        {% for level in setfactor.setlevel_set.all %}
+        <li>{{level.name}} <span class="uk-label uk-align-right"> {{level.value}}</span></li>
+        {% endfor %}
+      </ul>
+      {% endfor %}
+    </div>
+    <div>
+      <table class="uk-table uk-table-divider">
+        <thead>
+            <tr>
+                <th class="uk-table-shrink">#</th>
+                <th class="uk-table-expand">Session ID</th>
+                <th class="uk-width-small">Trial</th>
+            </tr>
+        </thead>
+        <tbody>
+            {%for session in survey.session_set.all %}
+            <tr>
+                <td>{{forloop.counter}}</td>
+                <td>{{session.key}}</td>
+                <td><button class="uk-button uk-button-default" type="button">View</button></td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    </div>
+  </div>
+
+
 </div>
 {% endblock %}

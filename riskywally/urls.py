@@ -29,5 +29,6 @@ urlpatterns = [
     path('surveys/', include('surveys.urls', namespace='surveys')),
     # Installed apps
     path('tinymce/', include('tinymce.urls')),
+    path('jet_api/', include('jet_django.urls')),
 
 ]

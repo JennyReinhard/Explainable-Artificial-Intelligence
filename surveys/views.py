@@ -1,5 +1,5 @@
 from django.shortcuts import render, get_object_or_404, redirect
-from .models import Survey, Session, Redirect
+from .models import Survey, Session, Redirect, SetFactor, SetLevel
 from django.views import generic
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -15,7 +15,7 @@ class SurveysView(LoginRequiredMixin,generic.ListView):
     model = Survey
 
 # Generic detail View for a Surveys
-class SurveyDetailView(LoginRequiredMixin,generic.DetailView):
+class SurveyDetailView(LoginRequiredMixin, generic.DetailView):
     model = Survey
 
 # Generic create view to create a new survey
@@ -35,40 +35,13 @@ def create_survey(request):
         }
     return render(request, 'surveys/survey_form.html', context)
 
-
-# Generic update view to edit a survey
-def edit_survey(request, pk):
-    survey = get_object_or_404(Survey, pk=pk)
-    RedirectFormset = inlineformset_factory(Survey, Redirect, fields=('purpose', 'url'), extra=3, max_num=3)
-
-    if survey.user is not request.user:
-        raise PermissionDenied
-    if request.method == 'POST':
-        form = SurveyUpdateForm(request.POST or None, instance=survey)
-        formset = RedirectFormset(request.POST or None, instance=survey)
-        if form.is_valid() and formset.is_valid():
-            form.save()
-            formset.save()
-            messages.success(request, 'Survey was edited successfully')
-            return redirect('surveys:survey', pk=survey.id)
-        else:
-            messages.error(request, formset.errors)
-            return redirect('surveys:edit-survey', pk=survey.id)
-
-    else:
-        form = SurveyUpdateForm(instance=survey)
-        formset = RedirectFormset(instance=survey)
-        context = {
-            'form': form,
-            'formset': formset,
-            'survey': survey
-        }
-
-    return render(request, 'surveys/edit_survey.html', context)
-
 # View function that deletes a survey
 def delete_survey(request, pk):
     survey = get_object_or_404(Survey, pk=pk)
+
+    if survey.user != request.user or request.user != 'admin':
+        raise PermissionDenied
+
     if request.method == 'POST':
         survey.delete()
         messages.success(request, 'Survey successfully deleted')

@@ -62,3 +62,19 @@ class Redirect(models.Model):
 
     def __str__(self):
         return str(self.url)
+
+class SetFactor(models.Model):
+    survey = models.ForeignKey(Survey, on_delete=models.CASCADE)
+    name = models.CharField(max_length=255, verbose_name="Factor Name")
+    blockfactor = models.BooleanField(verbose_name="Block factor")
+
+    def __str__(self):
+        return str(self.name)
+
+class SetLevel(models.Model):
+    set_factor = models.ForeignKey(SetFactor, on_delete=models.CASCADE)
+    name = models.CharField(max_length=255, verbose_name="Factor Name")
+    value = models.CharField(max_length=255, verbose_name="Factor value")
+
+    def __str__(self):
+        return str(self.name + ' [' + self.value + ']')
