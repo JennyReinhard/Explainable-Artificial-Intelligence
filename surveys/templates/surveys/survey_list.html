@@ -19,19 +19,6 @@
           <a href="{% url 'surveys:start-survey' survey.id%}" class="uk-button uk-button-text">Start Survey</a>
       </div>
     </div>
-
-    <!-- <div class="uk-card uk-card-default uk-card-hover">
-      <div class="uk-card-header">
-          <h3 class="uk-card-title uk-margin-remove-bottom">{{ survey.name }}</h3>
-          <p class="uk-text-meta uk-margin-remove-top"><time datetime="2016-04-01T19:00">{{survey.date_created}}</time></p>
-      </div>
-      <div class="uk-card-body">
-          <p>{{survey.description}}</p>
-      </div>
-      <div class="uk-card-footer">
-          <a href="{% url 'surveys:survey' survey.id%}" class="uk-button uk-button-text">Details</a>
-      </div>
-    </div> -->
     {% endfor %}
   </div>
 

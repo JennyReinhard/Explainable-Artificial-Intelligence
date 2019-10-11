@@ -24,6 +24,7 @@ class Survey(models.Model):
 
     date_created = models.DateTimeField(auto_now=True)
     introduction = HTMLField(blank=True)
+    ready = HTMLField(blank=True)
 
     user = models.ForeignKey(settings.AUTH_USER_MODEL,on_delete=models.SET_DEFAULT, default=1)
 
@@ -65,16 +66,20 @@ class Redirect(models.Model):
 
 class SetFactor(models.Model):
     survey = models.ForeignKey(Survey, on_delete=models.CASCADE)
-    name = models.CharField(max_length=255, verbose_name="Factor Name")
+    name = models.CharField(max_length=255, verbose_name="Factor name")
     blockfactor = models.BooleanField(verbose_name="Block factor")
+    slug = models.SlugField(verbose_name='Factor slug')
 
     def __str__(self):
         return str(self.name)
 
 class SetLevel(models.Model):
     set_factor = models.ForeignKey(SetFactor, on_delete=models.CASCADE)
-    name = models.CharField(max_length=255, verbose_name="Factor Name")
-    value = models.CharField(max_length=255, verbose_name="Factor value")
+    name = models.CharField(max_length=255, verbose_name="factor Name")
+    value = models.CharField(max_length=255, verbose_name="factor value")
+    slug = models.SlugField(verbose_name='Level slug')
+
+
 
     def __str__(self):
         return str(self.name + ' [' + self.value + ']')

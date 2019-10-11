@@ -9,13 +9,8 @@ class Set:
                 block = Block(blockfactors, trialfactors_list)
                 self.blocks.append(block)
 
-
-        # for blockfactor in blockfactors:
-        #     blog = Blog(blockfactor, trialfactors)
-        #     self.blocks.append(block)
-
         random.shuffle(self.blocks)
-        print(self.size())
+
 
     def __repr__(self):
         return "One complete set"
@@ -41,3 +36,18 @@ class Set:
 
     def top(self):
         return self.blocks[-1]
+
+def showRandomSet(set):
+    TableCounter = 0
+    BlockCounter = 0
+    for i in range(set.size()):
+        print(set.blocks[i])
+        BlockCounter += 1
+        for j in range(set.blocks[i].size()):
+            print(set.blocks[i].trials[j])
+            TableCounter += 1
+
+    print(' \n\n')
+    print('Total number of block: {}'.format(BlockCounter))
+    print('Total number of table: {}'.format(TableCounter))
+    print(' \n\n')

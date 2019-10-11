@@ -5,7 +5,7 @@
 <div class="uk-container uk-margin-top">
   <form class="uk-form-stacked" method="post">
   {% csrf_token %}
-      <legend class="uk-legend">Create new survey</legend>
+      <legend class="uk-legend">Edit survey</legend>
       <div class="uk-margin">
         <label class="uk-form-label" for="form-stacked-text">Name</label>
         <div class="uk-form-controls">
@@ -16,6 +16,20 @@
         <label class="uk-form-label" for="form-stacked-text">Description</label>
         <div class="uk-form-controls">
             {{ form.description|add_class:"uk-textarea" }}
+        </div>
+      </div>
+      <script>tinymce.init({selector:'textarea#introduction', height: 600});</script>
+      <div class="uk-margin">
+        <label class="uk-form-label" for="form-stacked-text">Introduction</label>
+        <div class="uk-form-controls">
+            {{ form.introduction|attr:"id:introduction" }}
+        </div>
+      </div>
+      <script>tinymce.init({selector:'textarea#ready', height: 600});</script>
+      <div class="uk-margin">
+        <label class="uk-form-label" for="form-stacked-text">Ready text</label>
+        <div class="uk-form-controls">
+            {{ form.ready|attr:"id:ready" }}
         </div>
       </div>
       <p class="uk-margin">

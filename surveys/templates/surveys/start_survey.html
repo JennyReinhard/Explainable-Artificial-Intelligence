@@ -5,9 +5,9 @@
   <h2 class="uk-heading-small">Starting survey</h2>
   <p>{{survey.introduction|safe}}</p>
   {% if redirect is not None %}
-  <a class="uk-button uk-button-default" href="{{redirect.url}}">Start</a>
+  <a class="uk-button uk-button-default" href='{{redirect.url}}?sessionkey={{session.key}}'>Start</a>
   {% else %}
-  <a class="uk-button uk-button-default" href="#">Start</a>
+  <a class="uk-button uk-button-default" href="{% url 'surveys:survey-ready' survey.id session.key %}">Start</a>
   {% endif %}
   <p>{{set}}</p>
 </div>

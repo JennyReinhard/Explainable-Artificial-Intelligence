@@ -1,0 +1,9 @@
+{% extends 'base.html' %}
+{% block body %}
+{% load static %}
+<div class="uk-container uk-margin-top">
+  <h2 class="uk-heading-small">Starting survey</h2>
+  <p>{{survey.ready}}</p>
+  <a class="uk-button uk-button-default" href="#">Start trials</a>
+</div>
+{% endblock %}

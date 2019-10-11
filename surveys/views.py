@@ -7,7 +7,7 @@ from django.forms import inlineformset_factory
 from django.core.exceptions import ObjectDoesNotExist
 from django.http import HttpRequest
 from django.core.exceptions import PermissionDenied
-from .set import Set
+from .set import Set, showRandomSet
 
 
 # Generic survey view displaying a list of all surveys
@@ -17,6 +17,15 @@ class SurveysView(LoginRequiredMixin,generic.ListView):
 # Generic detail View for a Surveys
 class SurveyDetailView(LoginRequiredMixin, generic.DetailView):
     model = Survey
+
+class SurveyUptateView(LoginRequiredMixin, generic.UpdateView):
+    model = Survey
+    fields = [
+        'name',
+        'description',
+        'introduction',
+        'ready'
+    ]
 
 # Generic create view to create a new survey
 def create_survey(request):
@@ -47,8 +56,15 @@ def delete_survey(request, pk):
         messages.success(request, 'Survey successfully deleted')
         return redirect('surveys:surveys')
 
+def delete_sessions(request, pk):
+    survey = get_object_or_404(Survey, pk=pk)
+    Session.objects.filter(survey=survey).all().delete()
+    messages.success(request, 'Sessions deleted')
+    return redirect('surveys:survey', pk=pk)
+
 def start_survey(request, survey_id):
     survey = get_object_or_404(Survey, pk=survey_id)
+
     try:
         redirect = survey.redirect_set.get(purpose=0)
     except ObjectDoesNotExist:
@@ -63,7 +79,10 @@ def start_survey(request, survey_id):
     trialfactors_list =[]
     for trialfactor in trialfactors:
         trialfactors_list.append(list(SetLevel.objects.filter(set_factor=trialfactor)))
+
     set = Set(blockfactors_list, trialfactors_list)
+
+    showRandomSet(set)
 
     request.session.flush()
     request.session.create()
@@ -80,6 +99,19 @@ def start_survey(request, survey_id):
 
     return render(request, 'surveys/start_survey.html', context)
 
+def survey_ready(request, survey_id, session_key):
+    survey = get_object_or_404(Survey, pk=survey_id)
+    session = get_object_or_404(Session, key=session_key)
+
+    context = {
+        'survey': survey,
+        'session': session,
+        'error_message': 'Wrong session key'
+    }
+    if session.key != request.session.session_key:
+        return render(request, 'surveys/error.html', context)
+
+    return render(request, 'surveys/survey_ready.html', context )
 #404 handler
 def handler404(request, *args, **kwargs):
     return render(request, '404.html', status=404)
