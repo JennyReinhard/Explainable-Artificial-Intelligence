@@ -3,11 +3,11 @@ from .models import Survey, Session, Redirect, SetFactor, SetLevel
 from django.views import generic
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
-from .forms import SurveyUpdateForm, SurveyCreateFrom
 from django.forms import inlineformset_factory
 from django.core.exceptions import ObjectDoesNotExist
 from django.http import HttpRequest
 from django.core.exceptions import PermissionDenied
+from .set import Set
 
 
 # Generic survey view displaying a list of all surveys
@@ -54,6 +54,17 @@ def start_survey(request, survey_id):
     except ObjectDoesNotExist:
         redirect = None
 
+    blockfactors = SetFactor.objects.filter(survey=survey, blockfactor=True)
+    blockfactors_list = []
+    for blockfactor in blockfactors:
+        blockfactors_list.append(list(SetLevel.objects.filter(set_factor=blockfactor)))
+
+    trialfactors = SetFactor.objects.filter(survey=survey, blockfactor=False)
+    trialfactors_list =[]
+    for trialfactor in trialfactors:
+        trialfactors_list.append(list(SetLevel.objects.filter(set_factor=trialfactor)))
+    set = Set(blockfactors_list, trialfactors_list)
+
     request.session.flush()
     request.session.create()
     session_key = request.session.session_key
@@ -64,7 +75,7 @@ def start_survey(request, survey_id):
     context = {
         'survey': survey,
         'session': session,
-        'redirect': redirect
+        'redirect': redirect,
     }
 
     return render(request, 'surveys/start_survey.html', context)
