@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+{% block body %}
+{% load static %}
+<div>
+  <div class="uk-height-large uk-flex uk-flex-center uk-flex-middle uk-background-cover" data-src="{% static 'surveys/img/warehouse.svg'%}" uk-img>
+  </div>
+  <div class="uk-container">
+    <div class="uk-margin-large-left uk-margin-medium-top">
+      <div class="uk-grid-large uk-child-width-expand@s" uk-grid>
+        <div class="uk-clearfix">
+          <img class="uk-float-left" src="{% static 'surveys/img/forklift.png' %}" width="150" uk-svg>
+          <p class="uk-margin-large"><strong>Absolvierte Fahrten: </strong>{{attempts}}<br><strong>Fehler: </strong>{{errors}}</p>
+        </div>
+        <div>
+
+          <img class="uk-float-left uk-margin-right" src="{% static 'surveys/img/'|add:dss|add:'.png'%}" width=150 uk-svg>
+          <blockquote>
+            <p class="uk-text-light">"I think you should automate"</p>
+            <footer>{{dss_name}}</footer>
+          </blockquote>
+        </div>
+      </div>
+      <hr>
+      <div uk-grid>
+        <div class="uk-width-1-6">
+        </div>
+        <div class="uk-width-2-3 uk-text-center">
+          <button class="uk-button uk-button-primary uk-width-1-1" name="button">Automatisieren</button><br>
+          <strong>Gewinn:</strong><span class="uk-text-success"> 3000 &euro;</span><br>
+          <button class="uk-margin-top uk-button uk-button-primary uk-width-1-1" name="button">Manuell</button><br>
+          <strong>Gewinn:</strong><span class="uk-text-success"> 800 &euro;</span>
+        </div>
+        <div class="uk-width-1-6">
+        </div>
+      </div>
+    </div>
+  </div>
+  {% endblock %}

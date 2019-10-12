@@ -8,6 +8,8 @@ from django.core.exceptions import ObjectDoesNotExist
 from django.http import HttpRequest
 from django.core.exceptions import PermissionDenied
 from .set import Set, showRandomSet
+import pickle
+import pprint
 
 
 # Generic survey view displaying a list of all surveys
@@ -82,14 +84,15 @@ def start_survey(request, survey_id):
 
     set = Set(blockfactors_list, trialfactors_list)
 
-    showRandomSet(set)
-
     request.session.flush()
     request.session.create()
     session_key = request.session.session_key
-    client_ip = '127.0.0.1'
+    client_ip = get_ip(request)
     session = Session(survey=survey, key=session_key, ip_address=client_ip)
     session.save()
+
+    with open('sessions/set_'+session.key, 'wb') as f:
+        pickle.dump(set, f)
 
     context = {
         'survey': survey,
@@ -110,8 +113,53 @@ def survey_ready(request, survey_id, session_key):
     }
     if session.key != request.session.session_key:
         return render(request, 'surveys/error.html', context)
-
     return render(request, 'surveys/survey_ready.html', context )
+
+def trial(request, survey_id, session_key):
+    survey = get_object_or_404(Survey, pk=survey_id)
+    session = get_object_or_404(Session, key=session_key)
+
+    if session.key != request.session.session_key:
+        return render(request, 'surveys/error.html', context)
+
+    with open('sessions/set_'+session.key, 'rb') as f:
+        set = pickle.load(f)
+
+    trial = set.blocks[-1].trials[-1]
+    
+    context = {
+        'set':set,
+        'dss': trial.dss.slug,
+        'dss_name': trial.dss.name,
+        'errors': trial.errors,
+        'attempts': trial.attempts
+    }
+
+    return render(request, 'surveys/trial.html', context )
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 #404 handler
 def handler404(request, *args, **kwargs):
     return render(request, '404.html', status=404)
@@ -119,3 +167,14 @@ def handler404(request, *args, **kwargs):
 #500 handler
 def handler500(request, *args, **kwargs):
     return render(request, '500.html', status=500)
+
+def get_ip(request):
+    try:
+        x_forward = request.META.get('HTTP_X_FORWARDED_FOR')
+        if x_forward:
+            ip = x_forward.split(',')[0]
+        else:
+            ip = request.META.get('REMOTE_ADDR')
+    except:
+        ip = ''
+    return ip

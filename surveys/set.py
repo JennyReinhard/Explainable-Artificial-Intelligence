@@ -12,11 +12,7 @@ class Set:
         random.shuffle(self.blocks)
 
 
-    def __repr__(self):
-        return "One complete set"
 
-    def __repr__(self):
-        return "Block with block factor" + self.blockfactor
 
     def push(self, block):
         self.blocks.append(block)
