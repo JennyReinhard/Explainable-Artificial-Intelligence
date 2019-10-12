@@ -144,28 +144,7 @@ def trial(request, survey_id, session_key):
     }
 
     return render(request, 'surveys/trial.html', context )
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    
 #404 handler
 def handler404(request, *args, **kwargs):
     return render(request, '404.html', status=404)

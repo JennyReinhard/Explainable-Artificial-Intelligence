@@ -1,3 +1,15 @@
 .content{
   display: none;
 }
+
+.uid{
+  color: white;
+}
+
+#trial-header{
+  background-color: #707070;
+}
+
+.uid-padding{
+  padding: 15px 30px;
+}
