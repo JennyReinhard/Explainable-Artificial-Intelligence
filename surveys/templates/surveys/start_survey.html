@@ -9,20 +9,18 @@
 </div>
 <div class="uk-container uk-margin-top content">
   <h2 class="uk-heading-small">Starting survey</h2>
+  <div class="uk-hidden">
+    <input id="survey_id" name="survey-id" type="hidden" value="{{ survey.id }}">
+    <input id="redirect_url" name="redirect_url" type="hidden" value="{{ redirect.url }}">
+  </div>
   <p>{{survey.introduction|safe}}</p>
-  {% if redirect is not None %}
-  <a class="uk-button uk-button-default" href='{{redirect.url}}?sessionkey={{session.key}}'>Start</a>
-  {% else %}
-  <a class="uk-button uk-button-default" href="{% url 'surveys:survey-ready' survey.id session.key %}">Start</a>
-  {% endif %}
+  <a id="start-trial" class="uk-button uk-button-default" href="#">Start</a>
   <p>{{set}}</p>
 </div>
-<script>
-  $(function() {
-    $(".preload").fadeOut(2000, function() {
-      $('.content').fadeIn(1000);
-    });
-  });
-</script>
 
+{% endblock %}
+{% block scripts %}
+{% load static %}
+
+<script src="{% static 'surveys/js/load_set.js' %}"></script>
 {% endblock %}

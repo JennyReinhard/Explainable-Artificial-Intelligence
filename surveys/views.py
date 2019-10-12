@@ -1,4 +1,4 @@
-from django.shortcuts import render, get_object_or_404, redirect
+from django.shortcuts import render, get_object_or_404, redirect, HttpResponse
 from .models import Survey, Session, Redirect, SetFactor, SetLevel
 from django.views import generic
 from django.contrib import messages
@@ -9,7 +9,7 @@ from django.http import HttpRequest
 from django.core.exceptions import PermissionDenied
 from .set import Set, showRandomSet
 import pickle
-import pprint
+import json
 
 
 # Generic survey view displaying a list of all surveys
@@ -72,6 +72,16 @@ def start_survey(request, survey_id):
     except ObjectDoesNotExist:
         redirect = None
 
+    context = {
+        'survey': survey,
+        # 'session': session,
+        'redirect': redirect,
+    }
+
+    return render(request, 'surveys/start_survey.html', context)
+
+def load_set(request, survey_id):
+    survey = get_object_or_404(Survey, pk=survey_id)
     blockfactors = SetFactor.objects.filter(survey=survey, blockfactor=True)
     blockfactors_list = []
     for blockfactor in blockfactors:
@@ -94,13 +104,11 @@ def start_survey(request, survey_id):
     with open('sessions/set_'+session.key, 'wb') as f:
         pickle.dump(set, f)
 
-    context = {
-        'survey': survey,
-        'session': session,
-        'redirect': redirect,
-    }
+    data = {}
 
-    return render(request, 'surveys/start_survey.html', context)
+    data['session_key'] = session.key
+
+    return HttpResponse(json.dumps(data), content_type='application/json')
 
 def survey_ready(request, survey_id, session_key):
     survey = get_object_or_404(Survey, pk=survey_id)
@@ -126,7 +134,7 @@ def trial(request, survey_id, session_key):
         set = pickle.load(f)
 
     trial = set.blocks[-1].trials[-1]
-    
+
     context = {
         'set':set,
         'dss': trial.dss.slug,
@@ -136,8 +144,6 @@ def trial(request, survey_id, session_key):
     }
 
     return render(request, 'surveys/trial.html', context )
-
-
 
 
 
