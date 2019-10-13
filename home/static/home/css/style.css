@@ -13,3 +13,7 @@
 .uid-padding{
   padding: 15px 30px;
 }
+
+#result{
+  display: none;
+}

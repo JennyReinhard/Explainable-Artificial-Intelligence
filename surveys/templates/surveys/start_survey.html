@@ -15,12 +15,7 @@
   </div>
   <p>{{survey.introduction|safe}}</p>
   <a id="start-trial" class="uk-button uk-button-default" href="#">Start</a>
-  <p>{{set}}</p>
 </div>
-
-{% endblock %}
-{% block scripts %}
 {% load static %}
-
 <script src="{% static 'surveys/js/load_set.js' %}"></script>
 {% endblock %}

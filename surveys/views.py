@@ -3,13 +3,13 @@ from .models import Survey, Session, Redirect, SetFactor, SetLevel
 from django.views import generic
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.forms import inlineformset_factory
 from django.core.exceptions import ObjectDoesNotExist
 from django.http import HttpRequest
 from django.core.exceptions import PermissionDenied
-from .set import Set, showRandomSet
+from .set import Set
 import pickle
 import json
+import os
 
 
 # Generic survey view displaying a list of all surveys
@@ -49,8 +49,9 @@ def create_survey(request):
 # View function that deletes a survey
 def delete_survey(request, pk):
     survey = get_object_or_404(Survey, pk=pk)
+    superuser = User.objects.filter(pk=1)
 
-    if survey.user != request.user or request.user != 'admin':
+    if survey.user != request.user or request.user != superuser:
         raise PermissionDenied
 
     if request.method == 'POST':
@@ -60,6 +61,9 @@ def delete_survey(request, pk):
 
 def delete_sessions(request, pk):
     survey = get_object_or_404(Survey, pk=pk)
+
+    if survey.user != request.user:
+        raise PermissionDenied
     Session.objects.filter(survey=survey).all().delete()
     messages.success(request, 'Sessions deleted')
     return redirect('surveys:survey', pk=pk)
@@ -68,14 +72,13 @@ def start_survey(request, survey_id):
     survey = get_object_or_404(Survey, pk=survey_id)
 
     try:
-        redirect = survey.redirect_set.get(purpose=0)
+        redirect_obj = survey.redirect_set.get(purpose=0)
     except ObjectDoesNotExist:
-        redirect = None
+        redirect_obj = None
 
     context = {
         'survey': survey,
-        # 'session': session,
-        'redirect': redirect,
+        'redirect': redirect_obj
     }
 
     return render(request, 'surveys/start_survey.html', context)
@@ -92,7 +95,8 @@ def load_set(request, survey_id):
     for trialfactor in trialfactors:
         trialfactors_list.append(list(SetLevel.objects.filter(set_factor=trialfactor)))
 
-    set = Set(blockfactors_list, trialfactors_list)
+    if trialfactors:
+        set = Set(blockfactors_list, trialfactors_list)
 
     request.session.flush()
     request.session.create()
@@ -119,8 +123,10 @@ def survey_ready(request, survey_id, session_key):
         'session': session,
         'error_message': 'Wrong session key'
     }
+
     if session.key != request.session.session_key:
         return render(request, 'surveys/error.html', context)
+
     return render(request, 'surveys/survey_ready.html', context )
 
 def trial(request, survey_id, session_key):
@@ -128,23 +134,74 @@ def trial(request, survey_id, session_key):
     session = get_object_or_404(Session, key=session_key)
 
     if session.key != request.session.session_key:
-        return render(request, 'surveys/error.html', context)
+        error_message = "Wrong session key"
+        return render(request, 'surveys/error.html', {'error_message': error_message, 'session':session, 'survey':survey})
 
     with open('sessions/set_'+session.key, 'rb') as f:
         set = pickle.load(f)
 
-    trial = set.blocks[-1].trials[-1]
+    if not set:
+        error_message = "No current set available to work with, try and start a new survey"
+        return render(request, 'surveys/error.html', {'error_message': error_message, 'session':session, 'survey':survey})
+
+    #While there are tables on the stack, fetch them
+    if not set.isEmpty() and set.blocks[-1].size() >= 1:
+        trial = set.blocks[-1].trials[-1]
+
+    #if no more tables on the stack, pop block, increment blockcounter and redirect
+    elif not set.isEmpty() and set.blocks[-1].isEmpty():
+        set.pop()
+        with open('sessions/set_'+session.key, 'wb') as f:
+            pickle.dump(set, f)
+
+        try:
+            redirect_obj = survey.redirect_set.get(purpose=1)
+            return redirect(redirect_obj.url)
+        except ObjectDoesNotExist:
+            return redirect('surveys:trial', survey_id = survey_id, session_key=session_key)
+
+    #if set is totally empty redirect to
+    elif set.isEmpty():
+        os.remove('sessions/set_'+session.key)
+        os.remove('pickle/training_set_'+session.key)
+
+        try:
+            redirect_obj = survey.redirect_set.get(purpose=2)
+            return redirect(redirect_obj.url+"?sessionkey="+session.key)
+
+        except ObjectDoesNotExist:
+            return redirect('home:home')
+
+    size = set.blocks[-1].size()
+    progress = 12 - size
 
     context = {
         'set':set,
         'dss': trial.dss.slug,
         'dss_name': trial.dss.name,
         'errors': trial.errors,
-        'attempts': trial.attempts
+        'attempts': trial.attempts,
+        'reliability': trial.reliability,
+        'size': size,
+        'progress': progress,
+        'session': session,
+        'survey': survey,
     }
 
     return render(request, 'surveys/trial.html', context )
-    
+
+def save_trial(request):
+    if request.method == 'POST':
+        with open('sessions/set_'+request.session.session_key, 'rb') as f:
+            set = pickle.load(f)
+
+        if not set.blocks[-1].isEmpty():
+            set.blocks[-1].pop()
+            with open('sessions/set_'+request.session.session_key, 'wb') as f:
+                pickle.dump(set, f)
+
+    return HttpResponse('success')
+
 #404 handler
 def handler404(request, *args, **kwargs):
     return render(request, '404.html', status=404)
