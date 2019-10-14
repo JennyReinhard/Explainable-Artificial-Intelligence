@@ -9,6 +9,7 @@ REDIRECTS = (
 (1, 'Intermediate'),
 (2, 'Post')
 )
+
 # Survey model
 class Survey(models.Model):
     name = models.CharField(
@@ -52,6 +53,7 @@ class Session(models.Model):
         unpack_ipv4=True
     )
 
+    # Returns name in the admin panel
     def __str__(self):
         return str(self.key)
 
@@ -61,25 +63,28 @@ class Redirect(models.Model):
     url = models.URLField(verbose_name='Redirect URL', max_length=255)
     purpose = models.IntegerField(verbose_name="Purpose", choices=REDIRECTS)
 
+    # Returns name in the admin panel
     def __str__(self):
         return str(self.url)
 
+# Model for a specific factor set
 class SetFactor(models.Model):
     survey = models.ForeignKey(Survey, on_delete=models.CASCADE)
     name = models.CharField(max_length=255, verbose_name="Factor name")
     blockfactor = models.BooleanField(verbose_name="Block factor")
     slug = models.SlugField(verbose_name='Factor slug')
 
+    # Returns name in the admin panel
     def __str__(self):
         return str(self.name)
 
+# Model for level of a factor set
 class SetLevel(models.Model):
     set_factor = models.ForeignKey(SetFactor, on_delete=models.CASCADE)
     name = models.CharField(max_length=255, verbose_name="factor Name")
     value = models.CharField(max_length=255, verbose_name="factor value")
     slug = models.SlugField(verbose_name='Level slug')
 
-
-
+    # Returns name in the admin panel
     def __str__(self):
         return str(self.name + ' [' + self.value + ']')

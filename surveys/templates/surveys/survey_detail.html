@@ -14,7 +14,22 @@
     <div class="uk-animation-slide-bottom-small">
       <ul class="uk-iconnav">
         <li><a href="{% url 'surveys:edit-survey' survey.id %}" uk-tooltip="Edit general information" uk-icon="icon: file-edit"></a></li>
+        <li><a href="#delete-modal" uk-tooltip="Delete survey" uk-icon="icon: trash" uk-toggle></a></li>
       </ul>
+      <div id="delete-modal" class="uk-flex-top" uk-modal>
+        <div class="uk-modal-dialog uk-modal-body uk-margin-auto-vertical">
+          <form action="{% url 'surveys:delete-survey' survey.id%}" method="post">
+          {% csrf_token %}
+            <h2 class="uk-modal-title">Delete survey</h2>
+            <p>Do you really want to delete the survey?</p>
+            <button class="uk-modal-close-default" type="button" uk-close></button>
+            <p class="uk-text-right">
+              <button class="uk-button uk-button-default uk-modal-close" type="button">Cancel</button>
+              <button class="uk-button uk-button-danger" type="submit">Delete</button>
+            </p>
+          </form>
+          </div>
+      </div>
       <h3>Description</h3>
       <p>{{survey.description}}</p>
       <h3>Introduction</h3>
@@ -29,51 +44,53 @@
       {% endfor %}
     </div>
     <div class="uk-animation-slide-bottom-small">
+      <h3>Factors</h3>
       {% for setfactor in survey.setfactor_set.all %}
       <p class="uk-text-lead">{{setfactor}}</p>
       <ul class="uk-list uk-list-striped">
         {% for level in setfactor.setlevel_set.all %}
-        <li>{{level.name}}  <code>{{level.slug}}</code> <span class="uk-label uk-align-right"> {{level.value}}</span></li>
+        <li>{{level.name}} <code>{{level.slug}}</code> <span class="uk-label uk-align-right"> {{level.value}}</span></li>
         {% endfor %}
       </ul>
       {% endfor %}
     </div>
     <div>
+      <h3>Sessions</h3>
       {% if survey.session_set.all %}
       <a class="uk-button uk-button-danger" href="#" uk-toggle="target: #delete-modal">Delete all</a>
       {% endif %}
       <div id="delete-modal" uk-modal>
-          <div class="uk-modal-dialog uk-modal-body">
-            <form action="{% url 'surveys:delete-sessions' survey.id%}" method="post">
-              {% csrf_token %}
-              <h2 class="uk-modal-title">Delete s essions</h2>
-              <p>Are you sure that you want to delete all the sessions?</p>
-              <p class="uk-text-right">
-                  <button class="uk-button uk-button-default uk-modal-close" type="button">Cancel</button>
-                  <button class="uk-button uk-button-danger" type="submit">Delete</button>
-              </p>
-            </form>
-          </div>
+        <div class="uk-modal-dialog uk-modal-body">
+          <form action="{% url 'surveys:delete-sessions' survey.id%}" method="post">
+            {% csrf_token %}
+            <h2 class="uk-modal-title">Delete s essions</h2>
+            <p>Are you sure that you want to delete all the sessions?</p>
+            <p class="uk-text-right">
+              <button class="uk-button uk-button-default uk-modal-close" type="button">Cancel</button>
+              <button class="uk-button uk-button-danger" type="submit">Delete</button>
+            </p>
+          </form>
+        </div>
 
       </div>
       <table class="uk-table uk-table-divider">
         <thead>
-            <tr>
-                <th class="uk-table-shrink">#</th>
-                <th class="uk-table-expand">Session ID</th>
-                <th class="uk-width-small">Trial</th>
-            </tr>
+          <tr>
+            <th class="uk-table-shrink">#</th>
+            <th class="uk-table-expand">Session ID</th>
+            <th class="uk-width-small">Trial</th>
+          </tr>
         </thead>
         <tbody>
-            {%for session in survey.session_set.all %}
-            <tr>
-                <td>{{forloop.counter}}</td>
-                <td>{{session.key}}</td>
-                <td><button class="uk-button uk-button-default" type="button">View</button></td>
-            </tr>
-            {% endfor %}
+          {%for session in survey.session_set.all %}
+          <tr>
+            <td>{{forloop.counter}}</td>
+            <td>{{session.key}}</td>
+            <td><button class="uk-button uk-button-default" type="button">View</button></td>
+          </tr>
+          {% endfor %}
         </tbody>
-    </table>
+      </table>
     </div>
   </div>
 </div>

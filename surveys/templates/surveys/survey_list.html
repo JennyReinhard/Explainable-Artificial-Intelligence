@@ -9,14 +9,14 @@
     {% for survey in survey_list %}
     <div class="uk-card uk-card-default uk-card-hover uk-margin-left">
       <div class="uk-card-header">
-          <h3 class="uk-card-title">{{ survey.name }}</h3>
+        <h3 class="uk-card-title">{{ survey.name }}</h3>
       </div>
       <div class="uk-card-body">
         <p>{{survey.description}}</p>
       </div>
       <div class="uk-card-footer">
-          <a href="{% url 'surveys:survey' survey.id%}" class="uk-button uk-button-text">Details</a> |
-          <a href="{% url 'surveys:start-survey' survey.id%}" class="uk-button uk-button-text">Start Survey</a>
+        <a href="{% url 'surveys:survey' survey.id%}" class="uk-button uk-button-text">Details</a> |
+        <a href="{% url 'surveys:start-survey' survey.id%}" class="uk-button uk-button-text">Start Survey</a>
       </div>
     </div>
     {% endfor %}

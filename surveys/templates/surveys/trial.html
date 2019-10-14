@@ -28,8 +28,7 @@
         <p class="uk-margin "><strong>Absolvierte Fahrten: </strong>{{attempts}}<br><strong>Fehler: </strong>{{errors}}</p>
       </div>
       <div class="uk-width-1-3">
-
-        <img class="uk-float-left uk-margin-medium-right" src="{% static 'surveys/img/'|add:dss|add:'.png'%}" width="100" uk-svg>
+        <img class="uk-float-left uk-margin-medium-right" src="{% static 'surveys/img/'|add:dss_slug|add:'.png'%}" width="100" uk-svg>
         <blockquote>
           <p class="uk-text-light">"I think you should automate"</p>
           <footer>{{dss_name}}</footer>
@@ -73,7 +72,7 @@
             Person ist bei der Lieferung verletzt
             worden. Die reale Verlässligkeit lag bei
             {{reliability.value}}%.</p>
-            <a id="next-trial" href="{% url 'surveys:trial' survey.id session.key %}" class="uk-button uk-button-secondary">Nächste Aufgabe</a>
+          <a id="next-trial" href="{% url 'surveys:trial' survey.id session.key %}" class="uk-button uk-button-secondary">Nächste Aufgabe</a>
         </div>
         <div class="uk-width-1-6">
         </div>

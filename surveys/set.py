@@ -13,27 +13,33 @@ class Set:
 
 
 
-
+    # Pushes element onto the stack
     def push(self, block):
         self.blocks.append(block)
 
+    # Removes element from the top
     def pop(self):
         return self.blocks.pop()
 
+    # Returns size of stack
     def size(self):
         return len(self.blocks)
 
+    # Prints stack in stack order
     def printSet(self):
         for block in reversed(self.blocks):
             print(block)
 
+    # Checks if stack is empty
     def isEmpty(self):
         return self.blocks == []
 
+    # returns the top of the stack
     def top(self):
         return self.blocks[-1]
 
-def showRandomSet(set):
+# Prints a complete set
+def showSet(set):
     TableCounter = 0
     BlockCounter = 0
     for i in range(set.size()):

@@ -4,37 +4,47 @@
 {% load widget_tweaks %}
 <div class="uk-container uk-margin-top">
   <form class="uk-form-stacked" method="post">
-  {% csrf_token %}
-      <legend class="uk-legend">Edit survey</legend>
-      <div class="uk-margin">
-        <label class="uk-form-label" for="form-stacked-text">Name</label>
-        <div class="uk-form-controls">
-            {{ form.name|add_class:"uk-input"|attr:"placeholder:Survey name" }}
-        </div>
+    {% csrf_token %}
+    <legend class="uk-legend">Edit survey</legend>
+    <div class="uk-margin">
+      <label class="uk-form-label" for="form-stacked-text">Name</label>
+      <div class="uk-form-controls">
+        {{ form.name|add_class:"uk-input"|attr:"placeholder:Survey name" }}
       </div>
-      <div class="uk-margin">
-        <label class="uk-form-label" for="form-stacked-text">Description</label>
-        <div class="uk-form-controls">
-            {{ form.description|add_class:"uk-textarea" }}
-        </div>
+    </div>
+    <div class="uk-margin">
+      <label class="uk-form-label" for="form-stacked-text">Description</label>
+      <div class="uk-form-controls">
+        {{ form.description|add_class:"uk-textarea" }}
       </div>
-      <script>tinymce.init({selector:'textarea#introduction', height: 600});</script>
-      <div class="uk-margin">
-        <label class="uk-form-label" for="form-stacked-text">Introduction</label>
-        <div class="uk-form-controls">
-            {{ form.introduction|attr:"id:introduction" }}
-        </div>
+    </div>
+    <script>
+      tinymce.init({
+        selector: 'textarea#introduction',
+        height: 600
+      });
+    </script>
+    <div class="uk-margin">
+      <label class="uk-form-label" for="form-stacked-text">Introduction</label>
+      <div class="uk-form-controls">
+        {{ form.introduction|attr:"id:introduction" }}
       </div>
-      <script>tinymce.init({selector:'textarea#ready', height: 600});</script>
-      <div class="uk-margin">
-        <label class="uk-form-label" for="form-stacked-text">Ready text</label>
-        <div class="uk-form-controls">
-            {{ form.ready|attr:"id:ready" }}
-        </div>
+    </div>
+    <script>
+      tinymce.init({
+        selector: 'textarea#ready',
+        height: 600
+      });
+    </script>
+    <div class="uk-margin">
+      <label class="uk-form-label" for="form-stacked-text">Ready text</label>
+      <div class="uk-form-controls">
+        {{ form.ready|attr:"id:ready" }}
       </div>
-      <p class="uk-margin">
-        <button class="uk-button uk-button-secondary" type="submit" name="button">Save</button>
-      </p>
+    </div>
+    <p class="uk-margin">
+      <button class="uk-button uk-button-secondary" type="submit" name="button">Save</button>
+    </p>
   </form>
 </div>
 {% endblock %}
