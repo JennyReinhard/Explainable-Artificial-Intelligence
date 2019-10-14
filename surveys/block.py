@@ -13,10 +13,12 @@ class Block:
         # Creates trials by taking the product of the trialfactors in trialfactors_list
         for trialfactor in product(* trialfactors_list):
             trial = Trial(blockfactor, trialfactor)
+            trial = Trial(blockfactor, trialfactor)
             # Appends each trial to the trials stack
             self.trials.append(trial)
 
         random.shuffle(self.trials)
+
 
     def __repr__(self):
         return " \n\nBlock with scenario " + self.scenario.value + " and decision support system " + self.dss.value + ". \n ---------------------------------------------------------"

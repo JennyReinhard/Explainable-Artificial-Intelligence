@@ -3,7 +3,7 @@
 {% load static %}
 <div class="uk-container uk-margin-top">
   <h2 class="uk-heading-small">Starting survey</h2>
-  <p>{{survey.ready}}</p>
+  <p>{{survey.ready|safe}}</p>
   <a class="uk-button uk-button-default" href="{% url 'surveys:trial' survey.id session.key%}">Start trials</a>
 </div>
 {% endblock %}

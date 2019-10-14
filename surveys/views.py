@@ -6,7 +6,7 @@ from django.core.exceptions import ObjectDoesNotExist
 from django.http import HttpRequest
 from django.core.exceptions import PermissionDenied
 
-from .set import Set
+from .set import Set, showSuccessTrials
 from .models import Survey, Session, Redirect, SetFactor, SetLevel
 from .forms import SurveyCreateFrom
 
@@ -109,6 +109,7 @@ def load_set(request, survey_id):
     # if there are any trial factors, create set
     if trialfactors:
         set = Set(blockfactors_list, trialfactors_list)
+        showSuccessTrials(set)
     else:
         error_message = "No trial factors found for the current survey"
         return render(request, 'surveys/error.html', {'error_message': error_message, 'session':session, 'survey':survey})
@@ -205,11 +206,15 @@ def trial(request, survey_id, session_key):
 
     context = {
         'set':set,
-        'dss_slug': trial.dss.slug,
-        'dss_name': trial.dss.name,
+        'dss': trial.dss,
         'errors': trial.errors,
         'attempts': trial.attempts,
         'reliability': trial.reliability,
+        'scenario': trial.scenario,
+        'package': trial.package,
+        'manual': trial.manual,
+        'suggestion': trial.suggestion,
+        'success': trial.success,
         'size': size,
         'progress': progress,
         'session': session,
