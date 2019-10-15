@@ -209,7 +209,7 @@ def trial(request, survey_id, session_key):
             return redirect('home:home')
 
     size = set.top().size()
-    progress = 12 - size
+    progress = 24 - size
 
     db_trial = Trial(sessionkey=session)
     db_trial.save()
@@ -270,9 +270,8 @@ def save_trial(request, trial_id):
         trial.save()
 
         # Loads saved session set
-        with open('sessions/set_'+request.session.session_key, 'rb') as f:
+        with open('sessions/set_'+sessionkey, 'rb') as f:
             set = pickle.load(f)
-
         if not set.blocks[-1].isEmpty():
             # Pops the highest block
             set.top().pop()
@@ -280,7 +279,7 @@ def save_trial(request, trial_id):
             injuries = int(request.POST.get('injuries'))
             set.top().balance = set.top().balance + profit
             set.top().injuries = set.top().injuries + injuries
-            with open('sessions/set_'+request.session.session_key, 'wb') as f:
+            with open('sessions/set_'+sessionkey, 'wb') as f:
                 pickle.dump(set, f)
 
 

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-10-15 17:13+0200\n"
+"POT-Creation-Date: 2019-10-15 22:31+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -22,6 +22,10 @@ msgstr ""
 msgid "Balance"
 msgstr "Kontostand"
 
+#: surveys/templates/surveys/trial.html:16
+msgid "Injuries"
+msgstr "Verletzte"
+
 #: surveys/templates/surveys/trial.html:50
 msgid "Attempts"
 msgstr "Versuche"
@@ -29,3 +33,48 @@ msgstr "Versuche"
 #: surveys/templates/surveys/trial.html:50
 msgid "Errors"
 msgstr "Fehler"
+
+#: surveys/templates/surveys/trial.html:56
+msgid "I think you should automate"
+msgstr "Meiner Meinung nach solltest du automatisieren!"
+
+#: surveys/templates/surveys/trial.html:58
+msgid "I think you should choose the manual way"
+msgstr "Ich denke du solltest den manuellen weg gehen."
+
+#: surveys/templates/surveys/trial.html:60
+msgid "Sorry, I have no idea what to tell you."
+msgstr "Keine Ahnung, ich weiß nicht was ich dir sagen soll."
+
+#: surveys/templates/surveys/trial.html:73
+msgid "Automate"
+msgstr "Automatisieren"
+
+#: surveys/templates/surveys/trial.html:74
+#: surveys/templates/surveys/trial.html:76
+msgid "Profit"
+msgstr "Gewinn"
+
+#: surveys/templates/surveys/trial.html:75
+msgid "Manual"
+msgstr "Manuel"
+
+#: surveys/templates/surveys/trial.html:85
+msgid "Result"
+msgstr "Ergebnis"
+
+#: surveys/templates/surveys/trial.html:93
+msgid "$"
+msgstr "€"
+
+#: surveys/templates/surveys/trial.html:94
+msgid "injured"
+msgstr "verletzt"
+
+#: surveys/templates/surveys/trial.html:100
+msgid "Next trial"
+msgstr "Nächste Aufgabe"
+
+#: surveys/templates/surveys/trial.html:111
+msgid "Progress"
+msgstr "Fortschritt"
