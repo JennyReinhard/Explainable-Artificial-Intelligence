@@ -16,5 +16,5 @@ urlpatterns = [
     path('<int:survey_id>/<slug:session_key>/ready/', views.survey_ready, name='survey-ready'),
     path('<int:survey_id>/<slug:session_key>/trial/', views.trial, name='trial'),
     path('<int:survey_id>/load/', views.load_set, name='load-survey'),
-    path('trial/save/', views.save_trial, name='save-trial')
+    path('trial/save/<int:trial_id>/', views.save_trial, name='save-trial')
 ]

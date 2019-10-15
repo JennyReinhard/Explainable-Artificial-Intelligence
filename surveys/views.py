@@ -5,9 +5,9 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.exceptions import ObjectDoesNotExist
 from django.http import HttpRequest
 from django.core.exceptions import PermissionDenied
-
-from .set import Set, showSuccessTrials
-from .models import Survey, Session, Redirect, SetFactor, SetLevel
+from django.utils.translation import get_language
+from .set import Set, showFailTrials, showSet
+from .models import Survey, Session, Redirect, SetFactor, SetLevel, Trial
 from .forms import SurveyCreateFrom
 
 import pickle
@@ -94,6 +94,7 @@ def start_survey(request, survey_id):
 def load_set(request, survey_id):
     survey = get_object_or_404(Survey, pk=survey_id)
 
+    ntrials = survey.ntrials
     # Get blockfactors for survey and store them in a list
     blockfactors = SetFactor.objects.filter(survey=survey, blockfactor=True)
     blockfactors_list = []
@@ -108,11 +109,14 @@ def load_set(request, survey_id):
 
     # if there are any trial factors, create set
     if trialfactors:
-        set = Set(blockfactors_list, trialfactors_list)
-        showSuccessTrials(set)
+        set = Set(blockfactors_list, trialfactors_list, ntrials)
+        showSet(set)
+        showFailTrials(set)
+
+
     else:
         error_message = "No trial factors found for the current survey"
-        return render(request, 'surveys/error.html', {'error_message': error_message, 'session':session, 'survey':survey})
+        return render(request, 'surveys/error.html', {'error_message': error_message, 'survey':survey})
 
     # Flushes session and create new one
     request.session.flush()
@@ -153,6 +157,8 @@ def survey_ready(request, survey_id, session_key):
 def trial(request, survey_id, session_key):
     survey = get_object_or_404(Survey, pk=survey_id)
     session = get_object_or_404(Session, key=session_key)
+    language = get_language()
+    print(language)
 
     # If session key is not current users session key, raise error
     if session.key != request.session.session_key:
@@ -172,6 +178,7 @@ def trial(request, survey_id, session_key):
     if not set.isEmpty() and set.top().size() >= 1:
         #returns first trial of first block
         trial = set.top().top()
+        block = set.top()
 
     #if no more tables on the stack, pop block and redirect
     elif not set.isEmpty() and set.top().isEmpty():
@@ -204,9 +211,13 @@ def trial(request, survey_id, session_key):
     size = set.top().size()
     progress = 12 - size
 
+    db_trial = Trial(sessionkey=session)
+    db_trial.save()
+
     context = {
         'set':set,
         'dss': trial.dss,
+        'risk': trial.risk,
         'errors': trial.errors,
         'attempts': trial.attempts,
         'reliability': trial.reliability,
@@ -214,18 +225,50 @@ def trial(request, survey_id, session_key):
         'package': trial.package,
         'manual': trial.manual,
         'suggestion': trial.suggestion,
+        'best_choice': trial.best_choice,
         'success': trial.success,
+        'balance': block.balance,
+        'injuries': block.injuries,
         'size': size,
         'progress': progress,
         'session': session,
         'survey': survey,
+        'blockcounter': block.blockcounter,
+        'trial': db_trial,
+        'language': language
     }
+
+
 
     return render(request, 'surveys/trial.html', context )
 
 # Saves trial
-def save_trial(request):
+def save_trial(request, trial_id):
     if request.method == 'POST':
+
+        sessionkey = request.POST.get('sessionkey', False)
+        session = get_object_or_404(Session, key=sessionkey)
+        trial = Trial.objects.get(id=trial_id)
+        trial.reliability = int(request.POST.get('reliability', False))
+        trial.dss = request.POST.get('dss', False)
+        trial.risk = request.POST.get('risk', False)
+        trial.scenario = request.POST.get('scenario', False)
+        trial.package_value = int(request.POST.get('package_value', False))
+        trial.attempts = int(request.POST.get('attempts', False))
+        trial.errors = int(request.POST.get('errors', False))
+        if request.POST.get('success') == 'True':
+            trial.success = True
+        elif request.POST.get('success') == 'False':
+            trial.success = False
+        else:
+            trial.success = None
+
+        trial.suggestion = request.POST.get('suggestion', False)
+        trial.best_choice = request.POST.get('best_choice', False)
+        trial.blockcounter = int(request.POST.get('blockcounter', False))
+        trial.decision = request.POST.get('decision', False)
+        trial.save()
+
         # Loads saved session set
         with open('sessions/set_'+request.session.session_key, 'rb') as f:
             set = pickle.load(f)
@@ -233,8 +276,14 @@ def save_trial(request):
         if not set.blocks[-1].isEmpty():
             # Pops the highest block
             set.top().pop()
+            profit = int(request.POST.get('profit', False))
+            injuries = int(request.POST.get('injuries'))
+            set.top().balance = set.top().balance + profit
+            set.top().injuries = set.top().injuries + injuries
             with open('sessions/set_'+request.session.session_key, 'wb') as f:
                 pickle.dump(set, f)
+
+
 
     return HttpResponse('success')
 

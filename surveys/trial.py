@@ -1,19 +1,15 @@
 from .fraction import reliatbilityFraction
-
 import random
+import numpy as np
 from itertools import cycle
 
-packages = []
-package = 2000
+#Creates a list of package prices
+packages = np.arange(2000, 5000, 200).tolist()
 
-while package < 5000:
-    packages.append(package)
-    package = package + 200
-
+#Alternator for manual and automatic decisions
 alternator = cycle(range(2))
 
 class Trial:
-
 
     def __init__(self, blockfactor, trialfactor):
 
@@ -30,11 +26,17 @@ class Trial:
 
         self.attempts = denominator
         self.errors = denominator - numerator
+        # Chooses a randomly selected package price
         self.package = random.choice(packages)
+        # Set base success to true
         self.success = True
 
+        # Calculate profit based on the expected value (reliability)
         if next(alternator) == 0:
-            self.manual = int((self.package * (int(self.reliability.value)/100)) * 1.1)
+            if self.reliability.value < 90:
+                self.manual = int((self.package * (int(self.reliability.value)/100)) * 1.1)
+            else:
+                self.manual = int((self.package * (int(self.reliability.value)/100)) * 0.9)
             self.suggestion = 'manual'
             self.best_choice = 'manual'
 
@@ -42,8 +44,6 @@ class Trial:
             self.manual = int((self.package * (int(self.reliability.value)/100)) * 0.9)
             self.suggestion = 'automate'
             self.best_choice = 'automate'
-
-        
 
 
     def __repr__(self):

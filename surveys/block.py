@@ -3,8 +3,12 @@ from .trial import Trial
 import random
 
 class Block:
-    def __init__(self, blockfactor, trialfactors_list):
+    def __init__(self, blockfactor, trialfactors_list, ntrials):
         self.trials = []
+        #Game stats
+        self.injuries = 0
+        self.balance = 0
+        self.blockcounter = 0
 
         # Gets blockfactors and sets attributes
         for level in blockfactor:
@@ -12,16 +16,19 @@ class Block:
 
         # Creates trials by taking the product of the trialfactors in trialfactors_list
         for trialfactor in product(* trialfactors_list):
-            trial = Trial(blockfactor, trialfactor)
-            trial = Trial(blockfactor, trialfactor)
-            # Appends each trial to the trials stack
-            self.trials.append(trial)
+            for i in range(ntrials):
+                trial = Trial(blockfactor, trialfactor)
+                # Appends each trial to the trials stack
+                self.trials.append(trial)
 
+        # Shuffles trials in a block
         random.shuffle(self.trials)
 
 
+
+
     def __repr__(self):
-        return " \n\nBlock with scenario " + self.scenario.value + " and decision support system " + self.dss.value + ". \n ---------------------------------------------------------"
+        return " \n\nBlock with scenario " + self.scenario.name + " and decision support system " + self.dss.name + ". \n ---------------------------------------------------------"
 
     # Pushes element onto the stack
     def push(self, trial):

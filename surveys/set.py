@@ -2,11 +2,11 @@ import random
 from .block import Block
 from itertools import product
 class Set:
-    def __init__(self, blockfactor_list, trialfactors_list):
+    def __init__(self, blockfactor_list, trialfactors_list, ntrials):
         self.blocks = []
 
         for blockfactors in product(* blockfactor_list):
-                block = Block(blockfactors, trialfactors_list)
+                block = Block(blockfactors, trialfactors_list, ntrials)
                 self.blocks.append(block)
 
 
@@ -15,19 +15,22 @@ class Set:
             flag_low_reliability = 0
             flag_medium_reliability = 0
             for trial in block.trials:
-                if trial.reliability.value == '60' and flag_low_reliability < 3:
+                if trial.reliability.value == 60 and flag_low_reliability < 3:
                     trial.success = False
                     flag_low_reliability = flag_low_reliability +1
 
 
-                if trial.reliability.value == '80' and flag_medium_reliability < 2:
+                if trial.reliability.value == 80 and flag_medium_reliability < 2:
                     trial.success = False
                     flag_medium_reliability = flag_medium_reliability +1
-                    
+
 
             random.shuffle(block.trials)
 
         random.shuffle(self.blocks)
+
+        for index, block in enumerate(self.blocks):
+            block.blockcounter = len(self.blocks) - index
 
 
     # Pushes element onto the stack
@@ -67,6 +70,7 @@ def showSet(set):
     BlockCounter = 0
     for i in range(set.size()):
         print(set.blocks[i])
+        print(" | Blockcounter: {}".format(set.blocks[i].blockcounter))
         BlockCounter += 1
         for j in range(set.blocks[i].size()):
             print(set.blocks[i].trials[j])
@@ -77,16 +81,16 @@ def showSet(set):
     print('Total number of table: {}'.format(TableCounter))
     print(' \n\n')
 
-def showSuccessTrials(set):
+def showFailTrials(set):
     low_reliability_fails = 0
     medium_reliability_fails = 0
     for i in range(set.size()):
         for j in range(set.blocks[i].size()):
             trial = set.blocks[i].trials[j]
-            if trial.reliability.value == '60' and trial.success == False:
+            if trial.reliability.value == 60 and trial.success == False:
                 low_reliability_fails = low_reliability_fails + 1
 
-            if trial.reliability.value == '80' and trial.success == False:
+            if trial.reliability.value == 80 and trial.success == False:
                 medium_reliability_fails = medium_reliability_fails + 1
 
 

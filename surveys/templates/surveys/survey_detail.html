@@ -35,7 +35,7 @@
       <h3>Introduction</h3>
       <p>{{survey.introduction|safe}}</p>
       <h3>Ready text</h3>
-      <p>{{survey.reade|safe}}</p>
+      <p>{{survey.ready|safe}}</p>
     </div>
     <div class="uk-animation-slide-bottom-small">
       <h3>Redirects</h3>
@@ -57,13 +57,13 @@
     <div>
       <h3>Sessions</h3>
       {% if survey.session_set.all %}
-      <a class="uk-button uk-button-danger" href="#" uk-toggle="target: #delete-modal">Delete all</a>
+      <a class="uk-button uk-button-danger" href="#" uk-toggle="target: #delete-session-modal">Delete all</a>
       {% endif %}
-      <div id="delete-modal" uk-modal>
+      <div id="delete-session-modal" uk-modal>
         <div class="uk-modal-dialog uk-modal-body">
           <form action="{% url 'surveys:delete-sessions' survey.id%}" method="post">
             {% csrf_token %}
-            <h2 class="uk-modal-title">Delete s essions</h2>
+            <h2 class="uk-modal-title">Delete sessions</h2>
             <p>Are you sure that you want to delete all the sessions?</p>
             <p class="uk-text-right">
               <button class="uk-button uk-button-default uk-modal-close" type="button">Cancel</button>

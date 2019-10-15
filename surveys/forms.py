@@ -8,5 +8,5 @@ class SurveyCreateFrom(forms.ModelForm):
             'name',
             'description',
             'introduction',
-            'ready'
+            'ready',
         ]

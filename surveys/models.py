@@ -26,7 +26,7 @@ class Survey(models.Model):
     date_created = models.DateTimeField(auto_now=True)
     introduction = HTMLField(blank=True)
     ready = HTMLField(blank=True)
-
+    ntrials = models.IntegerField(default=1, verbose_name='Trial multiplicator')
     user = models.ForeignKey(settings.AUTH_USER_MODEL,on_delete=models.SET_DEFAULT, default=1)
 
     # Returns name in the admin panel
@@ -57,6 +57,29 @@ class Session(models.Model):
     def __str__(self):
         return str(self.key)
 
+# Trial model
+class Trial(models.Model):
+    sessionkey = models.ForeignKey(Session, on_delete=models.CASCADE)
+    reliability = models.IntegerField(null=True)
+    dss = models.CharField(max_length=255, null=True)
+    risk = models.CharField(max_length=255, null=True)
+    scenario = models.CharField(max_length=255, null=True)
+    package_value = models.IntegerField(null=True)
+    attempts = models.IntegerField(null=True)
+    errors = models.IntegerField(null=True)
+    success = models.BooleanField(null=True)
+    suggestion = models.CharField(max_length=255, null=True)
+    best_choice = models.CharField(max_length=255, null=True)
+    save_date = models.DateTimeField(auto_now=True, null=True)
+    blockcounter = models.IntegerField(null=True)
+    trialDuration = models.IntegerField(null=True)
+    feedbackDuration = models.IntegerField(null=True)
+    decision = models.CharField(max_length=255, null=True)
+    defectiveness = models.BooleanField(null=True)
+
+    def __str__(self):
+        return str(self.id)
+
 #Redirect model
 class Redirect(models.Model):
     survey = models.ForeignKey(Survey, on_delete=models.CASCADE)
@@ -81,10 +104,10 @@ class SetFactor(models.Model):
 # Model for level of a factor set
 class SetLevel(models.Model):
     set_factor = models.ForeignKey(SetFactor, on_delete=models.CASCADE)
-    name = models.CharField(max_length=255, verbose_name="factor Name")
-    value = models.CharField(max_length=255, verbose_name="factor value")
+    name = models.CharField(max_length=255, verbose_name="Factor Name")
+    value = models.IntegerField(verbose_name="Factor value")
     slug = models.SlugField(verbose_name='Level slug')
 
     # Returns name in the admin panel
     def __str__(self):
-        return str(self.name + ' [' + self.value + ']')
+        return str(self.name + ' [' + str(self.value) + ']')

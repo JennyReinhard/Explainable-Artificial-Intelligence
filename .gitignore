@@ -8,3 +8,4 @@ home/migrations
 *.pyc
 sessions/
 static/
+surveys/migrations
