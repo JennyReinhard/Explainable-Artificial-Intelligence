@@ -1,4 +1,4 @@
-from django.shortcuts import render, get_object_or_404, redirect, HttpResponse
+from django.shortcuts import render, get_object_or_404, redirect, HttpResponse, reverse
 from django.views import generic
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -158,7 +158,6 @@ def trial(request, survey_id, session_key):
     survey = get_object_or_404(Survey, pk=survey_id)
     session = get_object_or_404(Session, key=session_key)
     language = get_language()
-    print(language)
 
     # If session key is not current users session key, raise error
     if session.key != request.session.session_key:
@@ -166,8 +165,11 @@ def trial(request, survey_id, session_key):
         return render(request, 'surveys/error.html', {'error_message': error_message, 'session':session, 'survey':survey})
 
     # Open set through pockle
-    with open('sessions/set_'+session.key, 'rb') as f:
-        set = pickle.load(f)
+    try:
+        with open('sessions/set_'+session.key, 'rb') as f:
+            set = pickle.load(f)
+    except:
+        return render(request, 'surveys/error.html', {'error_message':'Session not found, sorry', 'survey': survey})
 
     # If there is no current set, render error message
     if not set:
@@ -183,22 +185,34 @@ def trial(request, survey_id, session_key):
     #if no more tables on the stack, pop block and redirect
     elif not set.isEmpty() and set.top().isEmpty():
         #pops the set and saves it to pickle
+        block = set.top()
+        try:
+            redirect = survey.redirect_set.get(purpose=1)
+            return redirect(redirect_obj.url)
+
+        except ObjectDoesNotExist:
+            redirect = reverse('surveys:trial', kwargs={'survey_id': survey.id, 'session_key': session.key})
+
+        context = {
+            'sesssion':session,
+            'survey':survey,
+            'dss': block.dss.name,
+            'scenario': block.scenario.name,
+            'balance': block.balance,
+            'injuries': block.injuries,
+            'redirect': redirect
+        }
+
         set.pop()
         with open('sessions/set_'+session.key, 'wb') as f:
             pickle.dump(set, f)
 
-        # If they are redirects, redirect, otherwise go to next block
-        try:
-            redirect_obj = survey.redirect_set.get(purpose=1)
-            return redirect(redirect_obj.url)
-        except ObjectDoesNotExist:
-            return redirect('surveys:trial', survey_id = survey_id, session_key=session_key)
+        return render(request, 'surveys/result.html', context)
 
     #if set is totally empty redirect to
     elif set.isEmpty():
         # Remove saved session files
         os.remove('sessions/set_'+session.key)
-        os.remove('pickle/training_set_'+session.key)
 
         #if there is a redirect, redirect, otherwise go to home
         try:
@@ -245,7 +259,7 @@ def trial(request, survey_id, session_key):
 # Saves trial
 def save_trial(request, trial_id):
     if request.method == 'POST':
-
+        print('gothere')
         sessionkey = request.POST.get('sessionkey', False)
         session = get_object_or_404(Session, key=sessionkey)
         trial = Trial.objects.get(id=trial_id)
@@ -262,30 +276,37 @@ def save_trial(request, trial_id):
             trial.success = False
         else:
             trial.success = None
-
         trial.suggestion = request.POST.get('suggestion', False)
         trial.best_choice = request.POST.get('best_choice', False)
         trial.blockcounter = int(request.POST.get('blockcounter', False))
         trial.decision = request.POST.get('decision', False)
+        trial.trialDuration = int(request.POST.get('trialDuration', False))
         trial.save()
 
         # Loads saved session set
-        with open('sessions/set_'+sessionkey, 'rb') as f:
+        with open('sessions/set_'+ sessionkey, 'rb') as f:
             set = pickle.load(f)
+
         if not set.blocks[-1].isEmpty():
             # Pops the highest block
-            set.top().pop()
             profit = int(request.POST.get('profit', False))
             injuries = int(request.POST.get('injuries'))
             set.top().balance = set.top().balance + profit
             set.top().injuries = set.top().injuries + injuries
+            set.top().pop()
             with open('sessions/set_'+sessionkey, 'wb') as f:
                 pickle.dump(set, f)
 
-
-
     return HttpResponse('success')
 
+def save_feedback(request, trial_id):
+    if request.method == 'POST':
+        trial = Trial.objects.get(id=trial_id)
+        trial.feedbackDuration = int(request.POST.get('feedbackDuration', False))
+        trial.save()
+        return HttpResponse('success')
+
+    return HttpResponse('fail')
 #404 handler
 def handler404(request, *args, **kwargs):
     return render(request, '404.html', status=404)

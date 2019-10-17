@@ -10,7 +10,7 @@
 </div>
 <div class="content">
   <div id="trial-header" class="uk-height-large uk-flex uk-flex-center uk-flex-middle">
-    <img class="" src="{% static 'surveys/img/'|add:scenario.slug|add:'.png'%}" width="800" alt="">
+    <img class="" src="{% static 'surveys/img/'|add:scenario.slug|add:'_'|add:risk.slug|add:'.png'%}" width="800" alt="">
     <p class="uid uk-position-top-right uk-position-medium uk-visible@l">
       <span>{% trans "Balance" %}: <span class="uk-badge uid-padding"><span class="uk-margin-small-right" uk-icon="credit-card"></span>{{balance}}</span></span>
       <span class="uk-margin-left">{% trans "Injuries" %}: <span class="uk-badge uid-padding"><span class="uk-margin-small-right" uk-icon="heart"></span>{{injuries}}</span></span>
@@ -46,7 +46,13 @@
       <div class="uk-width-1-6">
       </div>
       <div class="uk-clearfix uk-width-1-3">
+        {% if scenario.slug == "warehouse"%}
         <img class="uk-float-left uk-margin-small-right" src="{% static 'surveys/img/forklift.png' %}" width="100" uk-svg>
+        {% elif scenario.slug == "medical"%}
+        <img class="uk-float-left uk-margin-small-right" src="{% static 'surveys/img/robot.png' %}" width="100" uk-svg>
+        {% elif scenario.slug == "urban"%}
+        <img class="uk-float-left uk-margin-small-right" src="{% static 'surveys/img/car.png' %}" width="100" uk-svg>
+        {% endif %}
         <p class="uk-margin "><strong>{% trans "Attempts" %}: </strong>{{attempts}}<br><strong>{% trans "Errors" %}: </strong>{{errors}}</p>
       </div>
       <div class="uk-width-1-3">
@@ -131,6 +137,7 @@
               <p>Suggestion <span class="uk-badge">{{suggestion}}</span></p>
               <p>Best Choice: <span class="uk-badge">{{best_choice}}</span></p>
               <p>Blocknumber: <span class="uk-badge">{{blockcounter}}</span></p>
+              <p>Blocksize: <span class="uk-badge">{{size}}</span></p>
 
           </div>
         </div>
@@ -153,6 +160,7 @@
   <input id="blockcounter" name="blockcounter" type="hidden" value="{{ blockcounter }}">
   <input id="trial-id" name="trial-id" type="hidden" value="{{ trial.id }}">
   <input id="language-code" name="language-code" type="hidden" value="{{language}}">
+  <input id="feedback-url" name="feedback-url" type="hidden" value="{% url 'surveys:save-feedback' trial.id %}">
 </div>
 {% load static %}
 <script src="{% static 'surveys/js/save_trial.js' %}"></script>
