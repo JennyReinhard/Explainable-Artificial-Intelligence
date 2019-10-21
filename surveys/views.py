@@ -289,10 +289,14 @@ def save_trial(request, trial_id):
 
         if not set.blocks[-1].isEmpty():
             # Pops the highest block
-            profit = int(request.POST.get('profit', False))
-            injuries = int(request.POST.get('injuries'))
-            package_value = int(request.POST.get('package_value'))
-            set.top().max = set.top().max + package_value
+            profit = int(request.POST.get('profit', None))
+            injuries = int(request.POST.get('injuries', None))
+            package_value = int(request.POST.get('package_value', None))
+            manual_labour = int(request.POST.get('manual_labour', None))
+            if trial.success == True:
+                set.top().max = set.top().max + package_value
+            else:
+                set.top().max = set.top().max + manual_labour
             set.top().balance = set.top().balance + profit
             set.top().injuries = set.top().injuries + injuries
             set.top().pop()
@@ -304,7 +308,9 @@ def save_trial(request, trial_id):
 def save_feedback(request, trial_id):
     if request.method == 'POST':
         trial = Trial.objects.get(id=trial_id)
+        print(trial)
         trial.feedbackDuration = int(request.POST.get('feedbackDuration', False))
+        print(trial.feedbackDuration)
         trial.save()
         return HttpResponse('success')
 
