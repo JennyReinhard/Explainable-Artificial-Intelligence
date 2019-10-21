@@ -67,7 +67,7 @@ class Trial(models.Model):
     package_value = models.IntegerField(null=True)
     attempts = models.IntegerField(null=True)
     errors = models.IntegerField(null=True)
-    success = models.BooleanField(null=True)
+    success = models.BooleanField(null=True, default=None)
     suggestion = models.CharField(max_length=255, null=True)
     best_choice = models.CharField(max_length=255, null=True)
     save_date = models.DateTimeField(auto_now=True, null=True)

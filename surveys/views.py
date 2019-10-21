@@ -79,13 +79,14 @@ def start_survey(request, survey_id):
 
     # if there is a redirect, redirect
     try:
-        redirect_obj = survey.redirect_set.get(purpose=0)
+        redirect_url = survey.redirect_set.get(purpose=0).url
+
     except ObjectDoesNotExist:
-        redirect_obj = None
+        redirect_url = reverse('surveys:survey-ready', kwargs={'survey_id': survey.id, 'session_key': session.key})
 
     context = {
         'survey': survey,
-        'redirect': redirect_obj
+        'redirect': redirect_url
     }
 
     return render(request, 'surveys/start_survey.html', context)
@@ -150,7 +151,7 @@ def survey_ready(request, survey_id, session_key):
 
     # If session key is not current users session key, raise error
     if session.key != request.session.session_key:
-        return render(request, 'surveys/error.html', {'error_message': error_message, 'session':session, 'survey':survey})
+        return render(request, 'surveys/error.html', {'error_message': 'Wrong session key', 'session':session, 'survey':survey})
 
     return render(request, 'surveys/survey_ready.html', context )
 
@@ -187,11 +188,10 @@ def trial(request, survey_id, session_key):
         #pops the set and saves it to pickle
         block = set.top()
         try:
-            redirect = survey.redirect_set.get(purpose=1)
-            return redirect(redirect_obj.url)
+            redirect_url = survey.redirect_set.get(purpose=1).url
 
         except ObjectDoesNotExist:
-            redirect = reverse('surveys:trial', kwargs={'survey_id': survey.id, 'session_key': session.key})
+            redirect_url = reverse('surveys:trial', kwargs={'survey_id': survey.id, 'session_key': session.key})
 
         context = {
             'sesssion':session,
@@ -200,7 +200,8 @@ def trial(request, survey_id, session_key):
             'scenario': block.scenario.name,
             'balance': block.balance,
             'injuries': block.injuries,
-            'redirect': redirect
+            'max': block.max,
+            'redirect': redirect_url
         }
 
         set.pop()
@@ -259,7 +260,6 @@ def trial(request, survey_id, session_key):
 # Saves trial
 def save_trial(request, trial_id):
     if request.method == 'POST':
-        print('gothere')
         sessionkey = request.POST.get('sessionkey', False)
         session = get_object_or_404(Session, key=sessionkey)
         trial = Trial.objects.get(id=trial_id)
@@ -291,6 +291,8 @@ def save_trial(request, trial_id):
             # Pops the highest block
             profit = int(request.POST.get('profit', False))
             injuries = int(request.POST.get('injuries'))
+            package_value = int(request.POST.get('package_value'))
+            set.top().max = set.top().max + package_value
             set.top().balance = set.top().balance + profit
             set.top().injuries = set.top().injuries + injuries
             set.top().pop()

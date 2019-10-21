@@ -9,6 +9,7 @@ class Block:
         self.injuries = 0
         self.balance = 0
         self.blockcounter = 0
+        self.max = 0
 
         # Gets blockfactors and sets attributes
         for level in blockfactor:

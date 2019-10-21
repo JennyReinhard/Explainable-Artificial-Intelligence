@@ -4,6 +4,302 @@
 <div class="uk-container uk-margin-top">
   <h2 class="uk-heading-small">Starting survey</h2>
   <p>{{survey.ready|safe}}</p>
-  <a class="uk-button uk-button-default" href="{% url 'surveys:trial' survey.id session.key%}">Start trials</a>
+  <a class="uk-button uk-button-default uk-margin-bottom" href="#wizard-page-1" uk-toggle>Start wizard</a>
+  <img class="uk-float-right uk-visible@m" src="{% static 'surveys/img/process.png'%}">
+</div>
+<!-- Wizard - Page 1 -->
+<div id="wizard-page-1" class="uk-modal-container" uk-modal>
+  <div class="uk-modal-dialog uk-margin-auto-vertical" uk-overflow-auto>
+    <button class="uk-modal-close-default" type="button" uk-close></button>
+    <div class="uk-modal-header">
+      <h2 class="uk-modal-title">Your goal</h2>
+    </div>
+    <div class="uk-modal-body">
+      <p>
+        During the course of one block you will be presented with a series
+        of situations. In each situation you will have to either retrieve
+        a package or to deliver some goods to a given destination. In order
+        to achieve this, you have 2 options:
+        <dl>
+          <dt>1. <code>Automate</code></dt>
+          <dd>The vehicle will fetch the package automatically using its
+            self-driving capability relying on artificial intelligence and
+            machine learning in order to navigate to the package safely and
+            efficiently. This option has the benefit of making more profit
+            from the delivery of the package, since personal costs that arise
+            form using a human operator can be deducted from the package price.
+            However, this first option comes with a drawback. Since automated
+            processes are not yet perfect, the delivery could go wrong and the
+            profit gained from the delivery of the package could be lost. Accidents
+            during the delivery will have the following consequences: <br>
+            <ol>
+              <li>Damage goods or objects that are on the vehicles path.
+                This will result in a profit reduction.</li>
+              <li>Endanger the safety of people that are on the vehicle's path. Results
+                in injuries or even death of a person.</li>
+              <li>Damage objects and compromise the safety of a person. Results in
+                both profit loss and injured or dead people.</li>
+            </ol>
+          </dd>
+          <br>
+          <dt>2. <code>Manual</code></dt>
+          <dd>The second available option is the manual delivery of the package.
+            This option will give you the possibility to assign the task to
+            a human operator. This method will give you the advantage of a
+            safe delivery. However the personal cost will be deducted from
+            the profit made from the delivery of the package.
+          </dd>
+        </dl>
+        Your final goal is in each given situation to choose the right option
+        in order to <strong>maximize</strong> the profit from the delivery
+        of the package while <strong>ensuring</strong> the safety of the people that are on
+        the path of the vehicle.
+      </p>
+      <div class="uk-modal-footer uk-text-right">
+        <a href="#wizard-page-2" class="uk-button uk-button-primary" uk-toggle>Next</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Wizard - Page 2 -->
+<div id="wizard-page-2" class="uk-modal-container" uk-modal>
+  <div class="uk-modal-dialog uk-margin-auto-vertical" uk-overflow-auto>
+    <button class="uk-modal-close-default" type="button" uk-close></button>
+    <div class="uk-modal-header">
+      <h2 class="uk-modal-title">Game Statistics</h2>
+    </div>
+    <div class="uk-modal-body">
+      <p>
+        Your progress will be saved in the upper right corner of the screen. Your
+        balance will be represented by the following icon: <span class="uk-badge"><span uk-icon="icon: credit-card"></span></span>.
+        <br>Keep in mind that your balance can also turn negative if you make to many
+        unfortunate decsions.
+      </p>
+      <p>
+        The number of lives you have put to risk will also be displaued in the upper
+        right corner and represented by the <span class="uk-badge"><span uk-icon="icon: heart"></span></span> icon.
+      </p>
+      <p>
+        The balance and the injury count will be saved per block, meaning that after
+        the completion of every block you will be able to start from scratch. Your results
+        will however be displayed at the end of the block.
+      </p>
+      <div class="uk-modal-footer uk-text-right">
+        <a href="#wizard-page-1" class="uk-button uk-button-default" uk-toggle>Previous</a>
+        <a href="#wizard-page-3" class="uk-button uk-button-primary" uk-toggle>Next</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Wizard - Page 3 -->
+<div id="wizard-page-3" class="uk-modal-container" uk-modal>
+  <div class="uk-modal-dialog uk-margin-auto-vertical" uk-overflow-auto>
+    <button class="uk-modal-close-default" type="button" uk-close></button>
+    <div class="uk-modal-header">
+      <h2 class="uk-modal-title">Scenarios</h2>
+    </div>
+    <div class="uk-modal-body">
+      <p>
+        Over the course of the gaming you will be presented with 3 different scenarios:
+      </p>
+      <p><strong>Medical:</strong> This scenario takes place in a hospital. One of the
+        patients of the hospital is suffering from liver failure and is in desperate
+        need of a new liver. It is your job to decide whether the delivery is to
+        caried out manually or automatically, and thus increase the hospitals profit,
+        potentially minimizing health care costs.
+      </p>
+      <p><strong>Urban:</strong> The local delivery service is trying out its new
+        self-drining delivery fleat. The task is to complete a food delivery on
+        the other side of town. What will you do, automate or go for the old school
+        manual method?
+      </p>
+      <p><strong>Warehouse:</strong> You are working as a supervisor in a warehouse.
+        You have just received a new automated forlift. A decision has to be taken whether
+        to automate the pick up of a package and increase the profit of the company, or
+        play it the safe way and choose the manual way.
+      </p>
+      <div class="uk-modal-footer uk-text-right">
+        <a href="#wizard-page-2" class="uk-button uk-button-default" uk-toggle>Previous</a>
+        <a href="#wizard-page-4" class="uk-button uk-button-primary" uk-toggle>Next</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Wizard - Page 4 -->
+<div id="wizard-page-4" class="uk-modal-container" uk-modal>
+  <div class="uk-modal-dialog uk-margin-auto-vertical" uk-overflow-auto>
+    <button class="uk-modal-close-default" type="button" uk-close></button>
+    <div class="uk-modal-header">
+      <h2 class="uk-modal-title">Scenarios <span class="uk-text-lead">Medical</span></h2>
+    </div>
+    <div class="uk-modal-body">
+      <p>The medical scenario is represented as follows:</p>
+      <div class="uk-flex uk-flex-center">
+        <div>
+          <img data-src="{% static 'surveys/img/medical_property_and_personal_risk.png' %}" width="900" height="1200" alt="" uk-img>
+        </div>
+      </div>
+      <p>
+        On the right you can see the automated robot carrying the liver. The task of the robot is to navigate through the floors
+        of the hospital, without hitting any other patient or dangerous medical goods in order to reach the room on the other side marked with
+        the emergency symbol.
+      </p>
+      <div class="uk-modal-footer uk-text-right">
+        <a href="#wizard-page-3" class="uk-button uk-button-default" uk-toggle>Previous</a>
+        <a href="#wizard-page-5" class="uk-button uk-button-primary" uk-toggle>Next</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Wizard - Page 5 -->
+<div id="wizard-page-5" class="uk-modal-container" uk-modal>
+  <div class="uk-modal-dialog uk-margin-auto-vertical" uk-overflow-auto>
+    <button class="uk-modal-close-default" type="button" uk-close></button>
+    <div class="uk-modal-header">
+      <h2 class="uk-modal-title">Scenarios <span class="uk-text-lead">Urban</span></h2>
+    </div>
+    <div class="uk-modal-body">
+      <p>The medical scenario is represented as follows:</p>
+      <div class="uk-flex uk-flex-center">
+        <div>
+          <img data-src="{% static 'surveys/img/urban_property_and_personal_risk.png' %}" width="900" height="1200" alt="" uk-img>
+        </div>
+      </div>
+      <p>
+        In this scenario, the self-driving delivery vehicle is charged with a delivery
+        on the other side of town. In order to be successful it has to drive to the given
+        delivery point marked by the yellow flag without hitting any of the surrounding vehicles
+        or pedestrians.
+      </p>
+      <div class="uk-modal-footer uk-text-right">
+        <a href="#wizard-page-4" class="uk-button uk-button-default" uk-toggle>Previous</a>
+        <a href="#wizard-page-6" class="uk-button uk-button-primary" uk-toggle>Next</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Wizard - Page 6 -->
+<div id="wizard-page-6" class="uk-modal-container" uk-modal>
+  <div class="uk-modal-dialog uk-margin-auto-vertical" uk-overflow-auto>
+    <button class="uk-modal-close-default" type="button" uk-close></button>
+    <div class="uk-modal-header">
+      <h2 class="uk-modal-title">Scenarios <span class="uk-text-lead">Urban</span></h2>
+    </div>
+    <div class="uk-modal-body">
+      <p>The medical scenario is represented as follows:</p>
+      <div class="uk-flex uk-flex-center">
+        <div>
+          <img data-src="{% static 'surveys/img/warehouse_property_and_personal_risk.png' %}" width="900" height="1200" alt="" uk-img>
+        </div>
+      </div>
+      <p>
+        In the last scenario, you act as a supervisor of a warehouse. Your task is to
+        decide if you are willing to trust the remote controled automated forklift to
+        drive through the warehouse's corridors without damaging any of the valuabale goods while
+        at the same time ensuring the safety of your co-workers.
+      </p>
+      <div class="uk-modal-footer uk-text-right">
+        <a href="#wizard-page-5" class="uk-button uk-button-default" uk-toggle>Previous</a>
+        <a href="#wizard-page-7" class="uk-button uk-button-primary" uk-toggle>Next</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Wizard - Page 7 -->
+<div id="wizard-page-7" class="uk-modal-container" uk-modal>
+  <div class="uk-modal-dialog uk-margin-auto-vertical" uk-overflow-auto>
+    <button class="uk-modal-close-default" type="button" uk-close></button>
+    <div class="uk-modal-header">
+      <h2 class="uk-modal-title">Decision aids</h2>
+    </div>
+    <div class="uk-modal-body">
+      <h3>The vehicle's previous experience</h3>
+      <p>
+        In order to take an informed decision you will be given additional information. First of all you will receive
+        detailed information about the experience that the automated vehicle has aquired. Not only will you be presented
+        with the <strong>number of rides </strong> the vehicle has already made, but also about the <strong>number of errors</strong> that the vehicle has made
+        during these rides. Details about the vehicle are shown on the left-hand side of the screen and will be displayed as follows:
+      </p>
+      <div class="uk-flex uk-flex-center">
+
+          <img data-src="{% static 'surveys/img/medical_reliability.png' %}" uk-img>
+
+          <img data-src="{% static 'surveys/img/urban_reliability.png' %}" uk-img>
+
+          <img data-src="{% static 'surveys/img/warehouse_reliability.png' %}" uk-img>
+
+      </div>
+      <h3>Decision support</h3>
+      <p>Furthermore you will be given a suggestion whether to automate or not. This suggestion comes
+      from 3 different instances:</p>
+      <div class="uk-grid-medium" uk-grid>
+        <div class="uk-width-1-3"><h4>The engineer</h4></div>
+        <div class="uk-width-1-3"><h4>The statistical analysis software</h4></div>
+        <div class="uk-width-1-3"><h4>The artificial intelligence</h4></div>
+      </div>
+      <div class="uk-grid-medium" uk-grid>
+        <div class="uk-width-1-6">
+          <img data-src="{% static 'surveys/img/engineer.png' %}"  width="100px" uk-img>
+        </div>
+        <div class="uk-width-1-6">
+          <p>The engineer will
+          give you a suggestion based on it's long experience with automated system.  </p>
+        </div>
+        <div class="uk-width-1-6">
+          <img data-src="{% static 'surveys/img/sas.png' %}"  width="100px" uk-img>
+        </div>
+        <div class="uk-width-1-6">
+          <p>The engineer will
+          give you a suggestion based on it's long experience with automated system.  </p>
+        </div>
+        <div class="uk-width-1-6">
+          <img data-src="{% static 'surveys/img/ai.png' %}"  width="100px" uk-img>
+        </div>
+        <div class="uk-width-1-6">
+          <p>The engineer will
+          give you a suggestion based on it's long experience with automated system.  </p>
+        </div>
+      </div>
+      <h3>Profit</h3>
+      <p>Last but not least you will be given an indication on how much profit you are could
+          potentially make, if the automation goes well. Similarly you will also be noticed about the potential
+        profit if you opt for the manual method. These pieces of information will be displayed close to the <code>automate</code> and
+      <code>manual</code> buttons.</p>
+      <div class="uk-modal-footer uk-text-right">
+        <a href="#wizard-page-6" class="uk-button uk-button-default" uk-toggle>Previous</a>
+        <a href="#wizard-page-8" class="uk-button uk-button-primary" uk-toggle>Next</a>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Wizard - Page 6 -->
+<div id="wizard-page-8" class="uk-modal-container" uk-modal>
+  <div class="uk-modal-dialog uk-margin-auto-vertical" uk-overflow-auto>
+    <button class="uk-modal-close-default" type="button" uk-close></button>
+    <div class="uk-modal-header">
+      <h2 class="uk-modal-title">Ready to start the game</h2>
+    </div>
+    <div class="uk-modal-body">
+      <h3>Congratulations</h3>
+      <p>
+        You are now ready to start the game. If you are not sure about any of the discussed
+        topics, feel free to come back by hitting the previous button.
+      </p>
+      <p>In order to start the game, check the tickmark and hit the <code>Start game!</code> button</p>
+      <form class="uk-margin-medium-bottom">
+        <label><input class="uk-checkbox" type="checkbox"> I have read the instruction and am commited to play the game!</label>
+      </form>
+      <div class="uk-modal-footer uk-text-right">
+        <a href="#wizard-page-7" class="uk-button uk-button-default" uk-toggle>Previous</a>
+        <a href="{% url 'surveys:trial' survey.id session.key %}" class="uk-button uk-button-primary" uk-toggle>Start game!</a>
+      </div>
+    </div>
+  </div>
 </div>
 {% endblock %}
