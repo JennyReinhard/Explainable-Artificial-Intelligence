@@ -308,8 +308,9 @@ def save_trial(request, trial_id):
 def save_feedback(request, trial_id):
     if request.method == 'POST':
         trial = Trial.objects.get(id=trial_id)
-        print(trial)
         trial.feedbackDuration = int(request.POST.get('feedbackDuration', False))
+        trial.profit = int(request.POST.get('profit', 0))
+        print(trial.profit)
         print(trial.feedbackDuration)
         trial.save()
         return HttpResponse('success')
