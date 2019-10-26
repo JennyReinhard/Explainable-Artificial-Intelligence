@@ -119,6 +119,15 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en'
 
+gettext = lambda s: s
+LANGUAGES = (
+    ('en', gettext('English')),
+    ('de', gettext('German')),
+
+)
+
+MODELTRANSLATION_AUTO_POPULATE = True
+
 TIME_ZONE = 'UTC'
 
 USE_I18N = True
@@ -148,3 +157,5 @@ ACTIVE_LINK_STRICT = True
 MESSAGE_TAGS = {
     messages.ERROR: 'danger',
 }
+
+SESSION_EXPIRE_AT_BROWSER_CLOSE = True

@@ -1,9 +1,27 @@
 {% extends 'base.html' %}
 {% block body %}
 {% load static %}
+{% load i18n %}
+{% get_current_language as LANGUAGE_CODE %}
+<form class="uid uk-position-top-right uk-form-width-medium" action="{% url 'set_language' %}" method="post">
+  {% csrf_token %}
+  <input type="hidden" name="next" value="{% url 'home:index' %}">
+  <div class="uk-margin">
+    <div uk-form-custom="target: > * > span:first-child">
+      <select name="language" onchange="this.form.submit()">
+        <option value="en" {% if LANGUAGE_CODE == 'en'%} selected {% endif %}>English</option>
+        <option value="de" {% if LANGUAGE_CODE == 'de'%} selected {% endif %}>Deutsch</option>
+      </select>
+      <button class="uk-button uk-button-primary" type="button" tabindex="-1">
+        <span></span>
+        <span uk-icon="icon: chevron-down"></span>
+      </button>
+    </div>
+  </div>
+</form>
 <div class="uk-height-medium uk-flex uk-flex-center uk-flex-middle uk-background-cover" data-src="{% static 'home/img/robots-humans.png'%}" uk-img>
   <p class="uk-margin">
-    <a class="uk-button uk-button-secondary uk-button-large" href="{% url 'surveys:start-survey' 17 %}">Play</a>
+    <a class="uk-button uk-button-secondary uk-button-large" href="{% url 'surveys:start-survey' 17 %}">{% trans "Play" %}</a>
   </p>
 </div>
 <div class="uk-container uk-margin-top">
@@ -14,6 +32,6 @@
   </ul>
   {% endif %}
   {{homepage.content|safe}}
-  <a class="uk-button uk-button-primary uk-margin-large-bottom" href="{% url 'surveys:start-survey' 17 %}">Play now</a>
+  <a class="uk-button uk-button-primary uk-margin-large-bottom" href="{% url 'surveys:start-survey' 17 %}">{% trans "Play now" %}</a>
 </div>
 {% endblock %}

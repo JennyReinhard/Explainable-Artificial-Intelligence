@@ -14,7 +14,7 @@
     <div class="uk-animation-slide-bottom-small">
       <ul class="uk-iconnav">
         <li><a href="{% url 'surveys:edit-survey' survey.id %}" uk-tooltip="Edit general information" uk-icon="icon: file-edit"></a></li>
-        <li><a href="#delete-modal" uk-tooltip="Delete survey" uk-icon="icon: trash" uk-toggle></a></li>
+        <li><a href="#delete-modal" class="uk-disabled" uk-tooltip="Delete survey" uk-icon="icon: trash" uk-toggle></a></li>
       </ul>
       <div id="delete-modal" class="uk-flex-top" uk-modal>
         <div class="uk-modal-dialog uk-modal-body uk-margin-auto-vertical">
@@ -31,10 +31,13 @@
           </div>
       </div>
       <h3>Description</h3>
+      <hr>
       <p>{{survey.description}}</p>
       <h3>Introduction</h3>
+      <hr>
       <p>{{survey.introduction|safe}}</p>
       <h3>Ready text</h3>
+      <hr>
       <p>{{survey.ready|safe}}</p>
     </div>
     <div class="uk-animation-slide-bottom-small">

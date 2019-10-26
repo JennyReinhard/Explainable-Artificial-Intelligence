@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-10-15 22:31+0200\n"
+"POT-Creation-Date: 2019-10-23 21:50+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,6 +18,30 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
+#: home/templates/home/index.html:24
+msgid "Play"
+msgstr "Spielen"
+
+#: home/templates/home/index.html:35
+msgid "Play now"
+msgstr "Jetzt spielen"
+
+#: riskywally/settings.py:124
+msgid "English"
+msgstr "Englisch"
+
+#: riskywally/settings.py:125
+msgid "German"
+msgstr "Deutsch"
+
+#: surveys/templates/surveys/start_survey.html:17
+msgid "Start questionnaire"
+msgstr "Zum Fragebogen"
+
+#: surveys/templates/surveys/survey_ready.html:8
+msgid "Start wizard"
+msgstr "Assistenten öffnen"
+
 #: surveys/templates/surveys/trial.html:15
 msgid "Balance"
 msgstr "Kontostand"
@@ -26,55 +50,69 @@ msgstr "Kontostand"
 msgid "Injuries"
 msgstr "Verletzte"
 
-#: surveys/templates/surveys/trial.html:50
+#: surveys/templates/surveys/trial.html:49
+msgid "Previous vehicle performance"
+msgstr "Vorherige Fahrzeugleistung"
+
+#: surveys/templates/surveys/trial.html:57
 msgid "Attempts"
-msgstr "Versuche"
+msgstr "Fahrten"
 
-#: surveys/templates/surveys/trial.html:50
+#: surveys/templates/surveys/trial.html:57
 msgid "Errors"
-msgstr "Fehler"
+msgstr "Zwischenfälle"
 
-#: surveys/templates/surveys/trial.html:56
+#: surveys/templates/surveys/trial.html:60
+msgid "Decision aid"
+msgstr "Entscheidungshilfe"
+
+#: surveys/templates/surveys/trial.html:64
 msgid "I think you should automate"
 msgstr "Meiner Meinung nach solltest du automatisieren!"
 
-#: surveys/templates/surveys/trial.html:58
+#: surveys/templates/surveys/trial.html:66
 msgid "I think you should choose the manual way"
 msgstr "Ich denke du solltest den manuellen weg gehen."
 
-#: surveys/templates/surveys/trial.html:60
+#: surveys/templates/surveys/trial.html:68
 msgid "Sorry, I have no idea what to tell you."
 msgstr "Keine Ahnung, ich weiß nicht was ich dir sagen soll."
 
-#: surveys/templates/surveys/trial.html:73
+#: surveys/templates/surveys/trial.html:81
 msgid "Automate"
 msgstr "Automatisieren"
 
-#: surveys/templates/surveys/trial.html:74
-#: surveys/templates/surveys/trial.html:76
+#: surveys/templates/surveys/trial.html:82
+#: surveys/templates/surveys/trial.html:86
 msgid "Profit"
 msgstr "Gewinn"
 
-#: surveys/templates/surveys/trial.html:75
+#: surveys/templates/surveys/trial.html:85
 msgid "Manual"
 msgstr "Manuel"
 
-#: surveys/templates/surveys/trial.html:85
+#: surveys/templates/surveys/trial.html:95
 msgid "Result"
 msgstr "Ergebnis"
 
-#: surveys/templates/surveys/trial.html:93
+#: surveys/templates/surveys/trial.html:103
 msgid "$"
 msgstr "€"
 
-#: surveys/templates/surveys/trial.html:94
+#: surveys/templates/surveys/trial.html:104
 msgid "injured"
 msgstr "verletzt"
 
-#: surveys/templates/surveys/trial.html:100
+#: surveys/templates/surveys/trial.html:110
 msgid "Next trial"
 msgstr "Nächste Aufgabe"
 
-#: surveys/templates/surveys/trial.html:111
+#: surveys/templates/surveys/trial.html:121
 msgid "Progress"
 msgstr "Fortschritt"
+
+#~ msgid "Start game"
+#~ msgstr "Spiel beginnen"
+
+#~ msgid "Starting game"
+#~ msgstr "Spiel beginnen"

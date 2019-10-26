@@ -41,7 +41,7 @@ $(document).ready(function() {
       $('.preload').fadeOut(500, function(){
 
         $('.content').fadeIn(500);
-        if(redirect_url){
+        if(redirect_url != 'None'){
           $("#start-trial").attr("href", redirect_url+"?sessionkey="+json.session_key);
         }
         else{

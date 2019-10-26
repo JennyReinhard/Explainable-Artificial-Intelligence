@@ -1,12 +1,15 @@
 {% extends 'base.html' %}
 {% block body %}
 {% load static %}
-<div class="uk-container uk-margin-top">
-  <h2 class="uk-heading-small">Starting survey</h2>
+{% load i18n %}
+{% get_current_language as LANGUAGE_CODE %}
+<div class="uk-container uk-margin-top uk-animation-fade">
   <p>{{survey.ready|safe}}</p>
-  <a class="uk-button uk-button-default uk-margin-bottom" href="#wizard-page-1" uk-toggle>Start wizard</a>
+  <a class="uk-button uk-button-default uk-margin-bottom" href="#wizard-page-1" uk-toggle>{% trans "Start wizard" %}</a>
   <img class="uk-float-right uk-visible@m" src="{% static 'surveys/img/process.png'%}">
 </div>
+
+{% if LANGUAGE_CODE == 'en' %}
 <!-- Wizard - Page 1 -->
 <div id="wizard-page-1" class="uk-modal-container" uk-modal>
   <div class="uk-modal-dialog uk-margin-auto-vertical" uk-overflow-auto>
@@ -16,45 +19,42 @@
     </div>
     <div class="uk-modal-body">
       <p>
-        During the course of one block you will be presented with a series
-        of situations. In each situation, you will have to either retrieve
-        a package or to deliver some goods to a given destination. In order
-        to achieve this, you have 2 options:
-        <dl>
-          <dt>1. <code>Automate</code></dt>
-          <dd>The vehicle will fetch the package automatically using its
-            self-driving capability relying on artificial intelligence and
-            machine learning to navigate to the package safely and
-            efficiently. This option has the benefit of making more profit
-            from the delivery of the package, since personal costs that arise
-            from using a human operator can be deducted from the package price.
-            However, this first option comes with a drawback. Since automated
-            processes are not yet perfect, the delivery could go wrong and the
-            profit gained from the delivery of the package could be lost. Accidents
-            during the delivery will have the following consequences: <br>
-            <ol>
-              <li>Damage goods or objects that are on the vehicle's path.
-                This will result in a profit reduction.</li>
-              <li>Endanger the safety of people that are on the vehicle's path. Results
-                in injuries or even death of a person.</li>
-              <li>Damage objects and compromise the safety of a person. Results in
-                both profit loss and injured or dead people.</li>
-            </ol>
-          </dd>
-          <br>
-          <dt>2. <code>Manual</code></dt>
-          <dd>The second available option is the manual delivery of the package.
-            This option will give you the possibility to assign the task to
-            a human operator. This method will give you the advantage of a
-            safe delivery. However, the personal cost will be deducted from
-            the profit made from the delivery of the package.
-          </dd>
-        </dl>
-        Your final goal is in each given situation to choose the right option
-        to <strong>maximize</strong> the profit from the delivery
-        of the package while <strong>ensuring</strong> the safety of the people that are on
-        the path of the vehicle.
+        During the course of one block you will be presented with a series of differently shaped situations. In each situation, you will have to either retrieve a package or deliver some goods to/ from a given destination. In order to achieve this,
+        you have 2 options:
       </p>
+      <dl>
+        <dt>1. <code>Automate</code></dt>
+        <dd>The vehicle will fetch the package automatically using its
+          self-driving capability relying on artificial intelligence and
+          machine learning to navigate to the package safely and
+          efficiently. This option has the benefit of generating more profit
+          from the delivery of the package, since personal costs that arise
+          from using a human operator can be deducted from the package price.
+          However, this first option comes with a drawback. Since automated
+          processes are not yet perfect, the delivery could go wrong and the
+          profit gained from the delivery of the package could be lost. Accidents
+          during the delivery will have the following consequences: <br>
+          <ol>
+            <li><strong>Property damage:</strong> Fragile goods or objects that are on the vehicle's path are damaged.
+              This will result in a profit reduction.</li>
+            <li><strong>Personal damage:</strong> People crossing the path of the automated vehicle are injured or die. </li>
+            <li> <strong>Property & personal damage</strong> Objects are damaged and and the safety of people is compromised. Results in
+              both profit loss and injured or dead people.</li>
+          </ol>
+        </dd>
+        <br>
+        <dt>2. <code>Manual</code></dt>
+        <dd>The second available option is the manual delivery of the package.
+          This option will give you the possibility to assign the task to
+          a human operator. This method will give you the advantage of a
+          safe delivery. However, the personal cost will be deducted from
+          the profit made from the delivery of the package.
+        </dd>
+      </dl>
+      Your final goal is to choose the right option in order
+      to <strong>maximize</strong> the profit from the delivery
+      of the package while <strong>ensuring</strong> the safety of the people that are on
+      the path of the vehicle.
       <div class="uk-modal-footer uk-text-right">
         <a href="#wizard-page-2" class="uk-button uk-button-primary" uk-toggle>Next</a>
       </div>
@@ -71,10 +71,8 @@
     </div>
     <div class="uk-modal-body">
       <p>
-        Your progress will be saved in the upper right corner of the screen. Your
+        In order to give you an overview of your score, your progress will be displayed in the upper right corner of the screen. Your
         balance will be represented by the following icon: <span class="uk-badge"><span uk-icon="icon: credit-card"></span></span>.
-        <br>Keep in mind that your balance can also turn negative if you make to many
-        unfortunate decisions.
       </p>
       <p>
         The number of lives you have put to risk will also be displayed in the upper
@@ -227,50 +225,52 @@
         during these rides. Details about the vehicle are shown on the left-hand side of the screen and will be displayed as follows:
       </p>
       <div class="uk-flex uk-flex-center">
-
-          <img data-src="{% static 'surveys/img/medical_reliability.png' %}" uk-img>
-
-          <img data-src="{% static 'surveys/img/urban_reliability.png' %}" uk-img>
-
-          <img data-src="{% static 'surveys/img/warehouse_reliability.png' %}" uk-img>
-
+        <img data-src="{% static 'surveys/img/medical_reliability.png' %}" uk-img>
+        <img data-src="{% static 'surveys/img/urban_reliability.png' %}" uk-img>
+        <img data-src="{% static 'surveys/img/warehouse_reliability.png' %}" uk-img>
       </div>
       <h3>Decision support</h3>
       <p>Furthermore, you will be given a suggestion whether to automate or not. This suggestion comes
-      from 3 different instances:</p>
+        from 3 different instances:</p>
       <div class="uk-grid-medium" uk-grid>
-        <div class="uk-width-1-3"><h4>The engineer</h4></div>
-        <div class="uk-width-1-3"><h4>The statistical analysis software</h4></div>
-        <div class="uk-width-1-3"><h4>The artificial intelligence</h4></div>
+        <div class="uk-width-1-3">
+          <h4>The engineer</h4>
+        </div>
+        <div class="uk-width-1-3">
+          <h4>The statistical analysis software</h4>
+        </div>
+        <div class="uk-width-1-3">
+          <h4>The artificial intelligence</h4>
+        </div>
       </div>
       <div class="uk-grid-medium" uk-grid>
         <div class="uk-width-1-6">
-          <img data-src="{% static 'surveys/img/engineer.png' %}"  width="100px" uk-img>
+          <img data-src="{% static 'surveys/img/engineer.png' %}" width="100px" uk-img>
         </div>
         <div class="uk-width-1-6">
           <p>The engineer will
-          give you a suggestion based on its long experience with automated systems.  </p>
+            give you a suggestion based on its long experience with automated systems. </p>
         </div>
         <div class="uk-width-1-6">
-          <img data-src="{% static 'surveys/img/sas.png' %}"  width="100px" uk-img>
+          <img data-src="{% static 'surveys/img/sas.png' %}" width="100px" uk-img>
         </div>
         <div class="uk-width-1-6">
           <p>The statistical analysis software will make calculation based on the past
-          experiences of the automated vehicle. These calculation are based on standard statistical methods</p>
+            experiences of the automated vehicle. These calculation are based on standard statistical methods</p>
         </div>
         <div class="uk-width-1-6">
-          <img data-src="{% static 'surveys/img/ai.png' %}"  width="100px" uk-img>
+          <img data-src="{% static 'surveys/img/ai.png' %}" width="100px" uk-img>
         </div>
         <div class="uk-width-1-6">
           <p>The artificial intelligence uses neural networks, machine learning, and
-          deep learning to predict which of the 2 options (<code>Autamate</code> and <code>Manual</code>) is best suited.  </p>
+            deep learning to predict which of the 2 options (<code>Autamate</code> and <code>Manual</code>) is best suited. </p>
         </div>
       </div>
       <h3>Profit</h3>
       <p>Last but not least you will be given an indication of how much profit you could
-          potentially make if the automation goes well. Similarly, you will also be noticed about the potential
+        potentially make if the automation goes well. Similarly, you will also be noticed about the potential
         profit if you opt for the manual method. These pieces of information will be displayed close to the <code>automate</code> and
-      <code>manual</code> buttons.</p>
+        <code>manual</code> buttons.</p>
       <div class="uk-modal-footer uk-text-right">
         <a href="#wizard-page-6" class="uk-button uk-button-default" uk-toggle>Previous</a>
         <a href="#wizard-page-8" class="uk-button uk-button-primary" uk-toggle>Next</a>
@@ -302,4 +302,302 @@
     </div>
   </div>
 </div>
+
+{% elif LANGUAGE_CODE == 'de' %}
+<div id="wizard-page-1" class="uk-modal-container" uk-modal>
+  <div class="uk-modal-dialog uk-margin-auto-vertical" uk-overflow-auto>
+    <button class="uk-modal-close-default" type="button" uk-close></button>
+    <div class="uk-modal-header">
+      <h2 class="uk-modal-title">Ihr Ziel</h2>
+    </div>
+    <div class="uk-modal-body">
+      <p>
+        In jedem Block werden Sie einer Reihe von Situation ausgesetzt sein, in denen Sie
+        entweder ein Packet abholen oder eine Ware an einen bestimmten Ort liefern sollen. Zur Bewältigung
+        dieser Aufgaben steht ihn folgende 2 Möglichkeiten zur Verfügung
+        <dl>
+          <dt>1. <code>Automatisieren</code></dt>
+          <dd>Das Fahrzeug holt das Packet automatisiert ab, indem es
+            voll und ganz auf seine selbst-fahrenden Fähigkeiten zurückgreift. Dabei
+            bedient es sich Technologien wie <em>künstliche Intelligenz</em>, <em>
+              deep learning</em>, oder <em>neuronale Netzwerke</em> um das Packet sicher und zuverlässig
+            zu befördern. Diese Vorgehensweise hat den Vorteil, dass Personalkosten eingespart
+            werden können, welche bei einer herkömmlichen Lieferung erzeugt werden würden. Somit
+            können Sie den Gewinn steigern, den Sie durch die Lieferung des Packets erzeugen. Die automatisierte Methode hat jedoch einen Nachteil.
+            Da automatisierte Prozesse noch nicht zu 100% verlässlich sind, kann es während der Lieferung zu Unfällen kommen. Folgende Konsequenzen kann ein Unfall mit sich ziehen:<br>
+            <ol>
+              <li><strong>Sachschaden:</strong>
+                Gegenstände die sich auf dem Weg des Fahrzeuges befinden werden beschädigt und es kommt zu einer Gewinneinbuße.</li>
+              <li><strong>Personenschaden:</strong> Personen auf dem Weg werden verletzt oder sogar tödlich verletzt.</li>
+              <li><strong>Sachschaden & Personenschaden:</strong> Gegenstände werden beschädigt und Personen werden verletzt oder tödlich verletzt.</li>
+            </ol>
+          </dd>
+          <br>
+          <dt>2. <code>Manuel</code></dt>
+          <dd>Die zweite Möglichtkeit ist die Manuelle Zustellung/ Abholung des Packetes.
+            Diese Option ermöglicht es Ihnen die Aufgabe von einer menschlichen Arbeitskraft
+            ausführen zu lassen. Dabei können Sie sich darauf verlassen, dass das Packet
+            sicher an sein Ziel kommt, ohne Schaden anzurichten oder Personen in Gefahr zu bringen. Bei dieser
+            Methode werden jedoch die Personalkosten vom Gewinn der Zulieferung des Packetes abgezogen und es kommt
+            zu einer Gewinnminderung.
+          </dd>
+        </dl>
+        Ihr Ziel ist es, die Methode zu wählen, welche ihren Profit <strong>maximiert</strong>, dabei
+        aber die Sicherheit von Personen die sich auf dem Weg des Fahrzeugs befinden <strong>garantiert</strong>.
+      </p>
+      <div class="uk-modal-footer uk-text-right">
+        <a href="#wizard-page-2" class="uk-button uk-button-primary" uk-toggle>Weiter</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Wizard - Page 2 -->
+<div id="wizard-page-2" class="uk-modal-container" uk-modal>
+  <div class="uk-modal-dialog uk-margin-auto-vertical" uk-overflow-auto>
+    <button class="uk-modal-close-default" type="button" uk-close></button>
+    <div class="uk-modal-header">
+      <h2 class="uk-modal-title">Spielstand</h2>
+    </div>
+    <div class="uk-modal-body">
+      <p>
+        Um Ihnen einen Überblick zu verschaffen, wird Ihr Fortschritt in der oberen rechten Bildschirm angezeigt. Ihr Kontostand wird mit folgendem Symbol markiert: <span class="uk-badge"><span uk-icon="icon: credit-card"></span></span>.
+      </p>
+      <p>
+        Die Anzahl an Verletzten die durch die Folgen ihrer Entscheidungen behandelt werden mussten, werden Ihnen ebenfalls
+        im oberen rechten Bildschirmrand angezeigt und durch fogendes Symbol gekennzeichnet: <span class="uk-badge"><span uk-icon="icon: heart"></span></span> icon.
+      </p>
+      <p>
+        Ihr Kontostand und die Anzahl an Verletzen wird jeweils pro Block gespeichert. Dies bedeutet, dass sich
+        der Kontostand und die Verletztenzahl sich nach jedem Block zurücksetzt und Sie von neuem starten können.
+      </p>
+      <p>Ihre Ergebnisse werden am ende jedes Blocks angezeigt.</p>
+      <div class="uk-modal-footer uk-text-right">
+        <a href="#wizard-page-1" class="uk-button uk-button-default" uk-toggle>Zurück</a>
+        <a href="#wizard-page-3" class="uk-button uk-button-primary" uk-toggle>Weiter</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Wizard - Page 3 -->
+<div id="wizard-page-3" class="uk-modal-container" uk-modal>
+  <div class="uk-modal-dialog uk-margin-auto-vertical" uk-overflow-auto>
+    <button class="uk-modal-close-default" type="button" uk-close></button>
+    <div class="uk-modal-header">
+      <h2 class="uk-modal-title">Szenarios</h2>
+    </div>
+    <div class="uk-modal-body">
+      <p>
+        Im Laufe des Spiels werden Sie auf 3 verschiedene Szenarien stoßen:
+      </p>
+      <p><strong>Medizin:</strong> Diese Szenario findet im Krankenhaus statt. Einer der Patienten
+        leidet an akutem Leberversagen und sucht verzweifelt nach einer neuen Leber. Die Spenderleber soll so schnell wie möglich zum Operationssaal gebracht werden. Es ist ihre Aufgabe zu entscheiden ob die Lieferung manuell oder automatische durchgeführt werden soll.
+        Wählen Sie die automatisierte Methode und verläuft diese reibungslos, könnte so der Gewinn des Krankenhaus maximiert werden, und laufende Kosten inherhalb
+        des Gesundheitssystems auf lange dauer minimieren werden.
+      </p>
+      <p><strong>Urban:</strong> Der lokale Lieferservice testet seine neue
+        selbstfahrende Lieferflotte. Ihre Aufgabe ist es eine Essenslieferung auf die andere Seite der
+        Stadt zu bringen. Sie müsssen entscheiden, ob sie diese Lieferung automatisieren oder manuel steuern. Beachten Sie dabei, dass sich
+        Fußgänger und andere Autos auf dem Weg des Fahrzeugs befinden können.
+      </p>
+      <p><strong>Lager:</strong> Sie arbeiten als Logistikmanager in einem Lager und haben seid einigen
+        Monaten einen automatisierten Gabelstappler im Einsatz. Sie müssen für jedes Packet entscheiden, ob sie den
+        automatisierten Gabelstappler nutzen und somit den Gewinn ihrer Firma steigern, oder ob sie auf Nummer sicher gehen und
+        die manuelle Variante wählen. Achten sie dabei, ob sich Personen oder Wertvolle Gegenstände im Lager befinden.
+      </p>
+      <div class="uk-modal-footer uk-text-right">
+        <a href="#wizard-page-2" class="uk-button uk-button-default" uk-toggle>Zurück</a>
+        <a href="#wizard-page-4" class="uk-button uk-button-primary" uk-toggle>Weiter</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Wizard - Page 4 -->
+<div id="wizard-page-4" class="uk-modal-container" uk-modal>
+  <div class="uk-modal-dialog uk-margin-auto-vertical" uk-overflow-auto>
+    <button class="uk-modal-close-default" type="button" uk-close></button>
+    <div class="uk-modal-header">
+      <h2 class="uk-modal-title">Szenarios <span class="uk-text-lead">Medizin</span></h2>
+    </div>
+    <div class="uk-modal-body">
+      <p>Das <strong>Medizin</strong>-Szenario wird wie folgt dargestellt:</p>
+      <div class="uk-flex uk-flex-center">
+        <div>
+          <img data-src="{% static 'surveys/img/medical_property_and_personal_risk.png' %}" width="900" height="1200" alt="" uk-img>
+        </div>
+      </div>
+      <p>
+        Auf der rechten Seite wird ein Krankenhausroboter dargestellt, der die zuvor erwähnte Leber befördern soll. Der Roboter, hat die
+        Aufgabe die Leber so schnell wie möglich in den OP-Saal zu bringen. Bei ihrer Entscheidung sollten Sie darauf achten, ob sich
+        andere Patienten oder medizinische Geräte auf dem Weg des Roboters befinden.
+        <div class="uk-modal-footer uk-text-right">
+          <a href="#wizard-page-3" class="uk-button uk-button-default" uk-toggle>Zurück</a>
+          <a href="#wizard-page-5" class="uk-button uk-button-primary" uk-toggle>Weiter</a>
+        </div>
+    </div>
+  </div>
+</div>
+
+<!-- Wizard - Page 5 -->
+<div id="wizard-page-5" class="uk-modal-container" uk-modal>
+  <div class="uk-modal-dialog uk-margin-auto-vertical" uk-overflow-auto>
+    <button class="uk-modal-close-default" type="button" uk-close></button>
+    <div class="uk-modal-header">
+      <h2 class="uk-modal-title">Szenarios <span class="uk-text-lead">Urban</span></h2>
+    </div>
+    <div class="uk-modal-body">
+      <p>Das<strong> Urban</strong>-Szcenario wird wie folgt dargestellt:</p>
+      <div class="uk-flex uk-flex-center">
+        <div>
+          <img data-src="{% static 'surveys/img/urban_property_and_personal_risk.png' %}" width="900" height="1200" alt="" uk-img>
+        </div>
+      </div>
+      <p>
+        In diesem Szenario wird das selbstfahrende Fahrzeug mit einer Essenslieferung beauftragt. Der Ausgangspunkt befindet sich
+        auf der rechten Seite der Stadt und das Ziel ist durch eine gelbe Flage markiert. Achten sie bei ihrer Entscheidung auf die sich
+        in der Stadt befindenden Fußgänger und auf die herumfahrenden Autos.
+      </p>
+      <div class="uk-modal-footer uk-text-right">
+        <a href="#wizard-page-4" class="uk-button uk-button-default" uk-toggle>Zurück</a>
+        <a href="#wizard-page-6" class="uk-button uk-button-primary" uk-toggle>Weiter</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Wizard - Page 6 -->
+<div id="wizard-page-6" class="uk-modal-container" uk-modal>
+  <div class="uk-modal-dialog uk-margin-auto-vertical" uk-overflow-auto>
+    <button class="uk-modal-close-default" type="button" uk-close></button>
+    <div class="uk-modal-header">
+      <h2 class="uk-modal-title">Scenarios <span class="uk-text-lead">Urban</span></h2>
+    </div>
+    <div class="uk-modal-body">
+      <p>Das<strong> Lager</strong>-Szenario wird wie folgt dargestellt:</p>
+      <div class="uk-flex uk-flex-center">
+        <div>
+          <img data-src="{% static 'surveys/img/warehouse_property_and_personal_risk.png' %}" width="900" height="1200" alt="" uk-img>
+        </div>
+      </div>
+      <p>
+        Im letztmöglichen Szenario soll der Gabelstappler das Lager von rechts nach links durchqueren, um das Packet für die Lieferung abzuholen. Dabei
+        ist zu berücksichtigen, dass sich noch andere Arbeiter im Warenhaus befinden können und das an manchen Stellen wertvolle Ware in den Gängen stehen kann, die darauf
+        wartet in die Regale eingeräumt zu werden.
+      </p>
+      <div class="uk-modal-footer uk-text-right">
+        <a href="#wizard-page-5" class="uk-button uk-button-default" uk-toggle>Zurück</a>
+        <a href="#wizard-page-7" class="uk-button uk-button-primary" uk-toggle>Weiter</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Wizard - Page 7 -->
+<div id="wizard-page-7" class="uk-modal-container" uk-modal>
+  <div class="uk-modal-dialog uk-margin-auto-vertical" uk-overflow-auto>
+    <button class="uk-modal-close-default" type="button" uk-close></button>
+    <div class="uk-modal-header">
+      <h2 class="uk-modal-title">Entscheidungshilfen</h2>
+    </div>
+    <div class="uk-modal-body">
+      <p>Um Ihre Entscheidung leichter zu machen, stehen ihnen verschiedene Entscheidungshilfen zu Verfügung.</p>
+      <h3>Bisherige Erfahrung des Fahrzeuges</h3>
+      <p>
+        Um eine fundierte Entscheidung zu treffen, erhalten sie Informationen über die bisherige Erfahrung des automatisierten Fahrzeuges.
+        Auf der rechten Bildschirmhälfte erhalten sie Informationen zur Anzahl absolvierter Fahrten, sowie zur Anzahl an Zwischenfällen, die während
+        dieser Fahrten aufgetreten sind. Die Erfahrung des Fahrzeuges kann wie folgt dargestellt werden:
+      </p>
+      <div class="uk-flex uk-flex-center">
+        <div class="uk-margin-large-right uk-clearfix">
+          <img class="uk-float-left uk-margin-small-right" src="{% static 'surveys/img/forklift.png' %}" width="100" uk-svg>
+          <p class="uk-margin "><strong>{% trans "Attempts" %}: </strong>50<br><strong>{% trans "Errors" %}: </strong>10</p>
+        </div>
+        <div class="uk-margin-large-right uk-clearfix">
+          <img class="uk-float-left uk-margin-small-right" src="{% static 'surveys/img/robot.png' %}" width="100" uk-svg>
+          <p class="uk-margin "><strong>{% trans "Attempts" %}: </strong>50<br><strong>{% trans "Errors" %}: </strong>10</p>
+        </div class="uk-margin-large-right uk-clearfix">
+        <div>
+          <img class="uk-float-left uk-margin-small-right" src="{% static 'surveys/img/car.png' %}" width="100" uk-svg>
+          <p class="uk-margin "><strong>{% trans "Attempts" %}: </strong>50<br><strong>{% trans "Errors" %}: </strong>10</p>
+        </div>
+      </div>
+      <h3>Assistenz</h3>
+      <p>Außerdem wird Ihnen einen Vorschlag präsentiert, der Ihnen sagt ob Sie automatisieren sollten oder nicht. Dieser Vorschlag kann von 3
+        verschiedenen Instanzen kommen
+      </p>
+      <div class="uk-grid-medium" uk-grid>
+        <div class="uk-width-1-3">
+          <h4>Der Ingenieur</h4>
+        </div>
+        <div class="uk-width-1-3">
+          <h4>Die statischtische Analysesoftware</h4>
+        </div>
+        <div class="uk-width-1-3">
+          <h4>Die künstliche Intelligenz</h4>
+        </div>
+      </div>
+      <div class="uk-grid-medium" uk-grid>
+        <div class="uk-width-1-6">
+          <img data-src="{% static 'surveys/img/engineer.png' %}" width="100px" uk-img>
+        </div>
+        <div class="uk-width-1-6">
+          <p>Der Ingenieur gibt Ihnen einen Vorschlag basierend auf seiner langjährigen Erfahrung mit automatisierten Systemen. </p>
+        </div>
+        <div class="uk-width-1-6">
+          <img data-src="{% static 'surveys/img/sas.png' %}" width="100px" uk-img>
+        </div>
+        <div class="uk-width-1-6">
+          <p>Die statistische Analysesoftware, berechnet Voraussagen, basieren auf den vorherigen Fahrten und statischtischer Standartmethoden.</p>
+        </div>
+        <div class="uk-width-1-6">
+          <img data-src="{% static 'surveys/img/ai.png' %}" width="100px" uk-img>
+        </div>
+        <div class="uk-width-1-6">
+          <p>Die künstliche Intelligenz nutzt neuronale Netzwerke, machine learning, and
+            deep learning um Vorherzusagen welcher der beiden Optionen) am besten geeignet ist. </p>
+        </div>
+      </div>
+      <h3>Profit</h3>
+      <p>Schließlich wird Ihnen noch angezeigt wieviel Gewinn durch die Nutzung der beiden Verfahren erzielt werden kann.
+        <div class="uk-modal-footer uk-text-right">
+          <a href="#wizard-page-6" class="uk-button uk-button-default" uk-toggle>Zurück</a>
+          <a href="#wizard-page-8" class="uk-button uk-button-primary" uk-toggle>Weiter</a>
+        </div>
+    </div>
+  </div>
+</div>
+<!-- Wizard - Page 6 -->
+<div id="wizard-page-8" class="uk-modal-container" uk-modal>
+  <div class="uk-modal-dialog uk-margin-auto-vertical" uk-overflow-auto>
+    <button class="uk-modal-close-default" type="button" uk-close></button>
+    <div class="uk-modal-header">
+      <h2 class="uk-modal-title">Bereit zu beginnen?</h2>
+    </div>
+    <div class="uk-modal-body">
+      <h3>Herzlichen Glückwunsch!</h3>
+      <p>
+        Geschafft! Sie sind jetzt bereit das Spiel zu starten. Wenn sie sich nicht sicher sind ob sie alles verstanden haben,
+        können sie gerne noch einmal zurück gehen um Unklarheiten aus dem Weg zu räumen.
+      </p>
+      <form class="uk-margin-medium-bottom">
+        <label><input class="uk-checkbox" type="checkbox"> &nbsp;&nbsp; Ich habe die Anleitung gelesen und bin verpflichte mich das Spiel gewissenhaft zu spielen! </label>
+      </form>
+      <div class="uk-modal-footer uk-text-right">
+        <a href="#wizard-page-7" class="uk-button uk-button-default" uk-toggle>Zurück</a>
+        <a href="{% url 'surveys:trial' survey.id session.key %}" class="uk-button uk-button-primary" uk-toggle>Spiel starten!</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% else %}
+<div class="uk-alert-danger" uk-alert>
+  <a class="uk-alert-close" uk-close></a>
+  <p>Language not translated</p>
+</div>
+
+{% endif %}
+
 {% endblock %}

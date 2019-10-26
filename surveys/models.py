@@ -112,3 +112,4 @@ class SetLevel(models.Model):
     # Returns name in the admin panel
     def __str__(self):
         return str(self.name + ' [' + str(self.value) + ']')
+   

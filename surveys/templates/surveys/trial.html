@@ -22,11 +22,10 @@
         <div class="uk-margin">
           <div uk-form-custom="target: > * > span:first-child">
               <select name="language" onchange="this.form.submit()">
-                  <option value="en-gb" {% if language == 'en'%} selected {% endif %}>English</option>
+                  <option value="en" {% if language == 'en'%} selected {% endif %}>English</option>
                   <option value="de" {% if language == 'de'%} selected {% endif %}>Deutsch</option>
               </select>
               <button class="uk-button uk-button-primary" type="button" tabindex="-1">
-
                   <span></span>
                   <span uk-icon="icon: chevron-down"></span>
               </button>
@@ -46,7 +45,7 @@
       <div class="uk-width-1-6">
       </div>
       <div class="uk-clearfix uk-width-1-3">
-        <h3>Previous vehicle performance</h3>
+        <h3>{% trans "Previous vehicle performance" %}</h3>
         {% if scenario.slug == "warehouse"%}
         <img class="uk-float-left uk-margin-small-right" src="{% static 'surveys/img/forklift.png' %}" width="100" uk-svg>
         {% elif scenario.slug == "medical"%}
@@ -57,7 +56,7 @@
         <p class="uk-margin "><strong>{% trans "Attempts" %}: </strong>{{attempts}}<br><strong>{% trans "Errors" %}: </strong>{{errors}}</p>
       </div>
       <div class="uk-width-1-3">
-        <h3>Decision aid</h3>
+        <h3>{% trans "Decision aid" %}</h3>
         <img class="uk-float-left uk-margin-medium-right" src="{% static 'surveys/img/'|add:dss.slug|add:'.png'%}" width="100" uk-svg>
         <blockquote>
           {% if suggestion == 'automate' %}

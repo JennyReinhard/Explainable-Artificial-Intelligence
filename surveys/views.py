@@ -82,7 +82,7 @@ def start_survey(request, survey_id):
         redirect_url = survey.redirect_set.get(purpose=0).url
 
     except ObjectDoesNotExist:
-        redirect_url = reverse('surveys:survey-ready', kwargs={'survey_id': survey.id, 'session_key': session.key})
+        redirect_url = None
 
     context = {
         'survey': survey,
