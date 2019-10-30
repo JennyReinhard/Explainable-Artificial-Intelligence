@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-10-30 16:45+0100\n"
+"POT-Creation-Date: 2019-10-31 00:44+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -23,8 +23,8 @@ msgid "Play"
 msgstr "Spielen"
 
 #: home/templates/home/index.html:35
-msgid "Play now"
-msgstr "Jetzt spielen"
+msgid "Start experiment"
+msgstr "Experiment starten"
 
 #: riskywally/settings.py:124
 msgid "English"
@@ -34,22 +34,22 @@ msgstr "Englisch"
 msgid "German"
 msgstr "Deutsch"
 
-#: surveys/templates/surveys/result.html:6
+#: surveys/templates/surveys/result.html:7
 msgid ""
 "Congratulations! You have finished the first block. Here are your results:"
-msgstr "Yipiie! Sie haben die erste Reihe an Situationen erfolgreich hinter sich gebracht, hier sind ihre Ergenbisse!"
+msgstr ""
+"Herzlichen Glückwunsch! Sie haben die erste Runde gemeistert. Hier sind Ihre "
+"Ergebnisse:"
 
-#: surveys/templates/surveys/result.html:14
+#: surveys/templates/surveys/result.html:15
 msgid "The maximal possible profit was"
-msgstr "Der maximal mögliche gewinn beträgt"
+msgstr "Der maximal mögliche Gewinn beträgt"
 
-#: surveys/templates/surveys/result.html:19
+#: surveys/templates/surveys/result.html:20
 msgid "Congratulations! You have reached the maximum profit!"
 msgstr "Herzlichen Glückwunsch! Sie haben maximalen Gewinn erziehlt!"
 
-#: surveys/templates/surveys/result.html:22
-#, fuzzy
-#| msgid "Start questionnaire"
+#: surveys/templates/surveys/result.html:23
 msgid "To the questionnaire"
 msgstr "Zum Fragebogen"
 
@@ -94,12 +94,12 @@ msgid "$"
 msgstr "€"
 
 #: surveys/templates/surveys/trial.html:20
-msgid "Property will be damage and package will not be delivered"
+msgid "Property could be damaged and package will not be delivered"
 msgstr "Sachschaden könnte entstehen und das Packet wird nicht zugestellt"
 
 #: surveys/templates/surveys/trial.html:22
-msgid "People could be injured!"
-msgstr "Menschen könnten verletzt werden"
+msgid "People could be injured! Package wont be delivered"
+msgstr "Sachschaden könnte entstehen und das Packet wird nicht zugestellt"
 
 #: surveys/templates/surveys/trial.html:22
 #: surveys/templates/surveys/trial.html:24
@@ -107,8 +107,10 @@ msgid "injury"
 msgstr "verletzt"
 
 #: surveys/templates/surveys/trial.html:24
-msgid "People could be injured and property could be damaged"
-msgstr "Menschen könnten verletzt werden und Sachschaden könnnte enstehen"
+msgid ""
+"People could be injured and property could be damaged and package wont be "
+"delivered"
+msgstr "Sachschaden könnte entstehen und das Packet wird nicht zugestellt"
 
 #: surveys/templates/surveys/trial.html:30
 msgid "Balance"
@@ -167,8 +169,14 @@ msgstr "Nächste Aufgabe"
 msgid "Progress"
 msgstr "Fortschritt"
 
-#~ msgid "Start game"
-#~ msgstr "Spiel beginnen"
+#: surveys/templates/surveys/trial_ready.html:6
+msgid "Ready"
+msgstr "Bereit"
 
-#~ msgid "Starting game"
-#~ msgstr "Spiel beginnen"
+#: surveys/templates/surveys/trial_ready.html:7
+msgid "If you ready for the next set of situation click the Go-Button"
+msgstr "Falls Sie bereit sind für die nächste Runde klicken sie den Los-Knopf"
+
+#: surveys/templates/surveys/trial_ready.html:8
+msgid "Go"
+msgstr "Los"

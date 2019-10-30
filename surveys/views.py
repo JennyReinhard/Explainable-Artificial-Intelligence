@@ -9,6 +9,7 @@ from django.utils.translation import get_language
 from .set import Set, showFailTrials, showSet
 from .models import Survey, Session, Redirect, SetFactor, SetLevel, Trial
 from .forms import SurveyCreateFrom
+import urllib.parse
 
 import pickle
 import json
@@ -155,6 +156,23 @@ def survey_ready(request, survey_id, session_key):
 
     return render(request, 'surveys/survey_ready.html', context )
 
+def trial_ready(request, survey_id, session_key):
+    survey = get_object_or_404(Survey, pk=survey_id)
+    session = get_object_or_404(Session, key=session_key)
+
+    # If session key is not current users session key, raise error
+    if session.key != request.session.session_key:
+        error_message = "Wrong session key"
+        return render(request, 'surveys/error.html', {'error_message': error_message, 'session':session, 'survey':survey})
+
+    context = {
+        'survey': survey,
+        'session': session
+    }
+
+    return render(request, 'surveys/trial_ready.html', context)
+
+
 def trial(request, survey_id, session_key):
     survey = get_object_or_404(Survey, pk=survey_id)
     session = get_object_or_404(Session, key=session_key)
@@ -188,7 +206,8 @@ def trial(request, survey_id, session_key):
         #pops the set and saves it to pickle
         block = set.top()
         try:
-            redirect_url = survey.redirect_set.get(purpose=1).url
+            redirect_url = survey.redirect_set.get(purpose=1).url+'?sessionkey='+session.key+'&surveyid='+str(survey.id)+'&balance='+str(block.balance)+'&dss='+urllib.parse.quote(block.dss.name)+'&scenario='+urllib.parse.quote(block.scenario.name)+'&injuries='+str(block.injuries)+'&max='+str(block.max)
+
 
         except ObjectDoesNotExist:
             redirect_url = reverse('surveys:trial', kwargs={'survey_id': survey.id, 'session_key': session.key})

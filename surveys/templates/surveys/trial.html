@@ -17,11 +17,11 @@
           {% if risk.slug == "no_risk"%}
           <p><strong>{% trans "Possible damage:" %}</strong> {% trans "Damage to the vehicle" %} <span class="uk-text-danger"> (-{{package}}{% trans "$" %})</span></p>
           {% elif risk.slug == "property_risk" %}
-          <p><strong>{% trans "Possible damage:" %}</strong> {% trans "Property will be damage and package will not be delivered" %}<span class="uk-text-danger"> (-{{package}}{% trans "$" %})</span></p>
+          <p><strong>{% trans "Possible damage:" %}</strong> {% trans "Property could be damaged and package will not be delivered" %}<span class="uk-text-danger"> (-{{package}}{% trans "$" %})</span></p>
           {% elif risk.slug == "personal_risk" %}
-          <p><strong>{% trans "Possible damage:" %}</strong> {% trans "People could be injured!" %}<span class="uk-text-danger"> (1 {% trans "injury" %})</span></p>
+          <p><strong>{% trans "Possible damage:" %}</strong> {% trans "People could be injured! Package wont be delivered" %}<span class="uk-text-danger"> (1 {% trans "injury" %})</span></p>
           {% else %}
-          <p><strong>{% trans "Possible damage:" %}</strong> {% trans "People could be injured and property could be damaged" %}<span class="uk-text-danger"> (-{{package}}{% trans "$" %} & 1 {% trans "injury"%})</span></p>
+          <p><strong>{% trans "Possible damage:" %}</strong> {% trans "People could be injured and property could be damaged and package wont be delivered" %}<span class="uk-text-danger"> (-{{package}}{% trans "$" %} & 1 {% trans "injury"%})</span></p>
           {% endif %}
       </div>
     </div>

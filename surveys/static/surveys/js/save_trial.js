@@ -189,7 +189,7 @@ $(document).ready(function() {
         }
         if (decision == 'automate') {
           if (success == 'True') {
-            $('#result-text').html("Sie haben sich für <strong>Automatisieren</strong> entschieden! Alles ist gut verlaufen und sie haben einen Gewinn von <span class='uk-text-success'>+" + packageValue + "</span> € gemacht. Keiner wurde verletzt! Yipie!");
+            $('#result-text').html("Sie haben sich für <strong>Automatisieren</strong> entschieden! Alles ist gut verlaufen und Sie haben einen Gewinn von <span class='uk-text-success'>+" + packageValue + "</span> € gemacht. Keiner wurde verletzt!");
             $('#result-value').html(packageValue);
             $('#result-value').addClass('uk-text-success');
             $('#injuries').html("0");
@@ -197,13 +197,13 @@ $(document).ready(function() {
           }
           if (success == 'False') {
             if (risk == 'property_and_personal_risk') {
-              $('#result-text').html("Sie haben sich für <strong>Automatisieren</strong> entschieden! Irgendwas ist schief gelaufen und sie haben einen Verlust von <span class='uk-text-danger'>-" + packageValue + "</span> € gemacht. Eine Person wurde schwer <span class='uk-text-danger'>verletzt</span>. Yayks.");
+              $('#result-text').html("Sie haben sich für <strong>Automatisieren</strong> entschieden! Irgendwas ist schief gelaufen und Sie haben einen Verlust von <span class='uk-text-danger'>-" + packageValue + "</span> € gemacht. Eine Person wurde schwer <span class='uk-text-danger'>verletzt</span>!");
               $('#result-value').html("0");
               $('#result-value').addClass('uk-text-danger');
               $('#injuries').html("1");
               $('#injuries').addClass('uk-text-danger');
             } else if (risk == 'property_risk') {
-              $('#result-text').html("Sie haben sich für <strong>Automatisieren</strong> entschieden! Irgendwas ist schief gelaufen und sie haben einen Verlust von <span class='uk-text-danger'>-" + packageValue + "</span> € gemacht. Yayks.");
+              $('#result-text').html("Sie haben sich für <strong>Automatisieren</strong> entschieden! Irgendwas ist schief gelaufen und Sie haben einen Verlust von <span class='uk-text-danger'>-" + packageValue + "</span> € gemacht!");
               $('#result-value').html("0");
               $('#result-value').addClass('uk-text-danger');
               $('#injuries').html("0");
@@ -214,7 +214,7 @@ $(document).ready(function() {
               $('#injuries').html("1");
               $('#injuries').addClass('uk-text-danger');
             } else {
-              $('#result-text').html("Sie haben sich für <strong>Automatisieren</strong> entschieden! Es gab ein Problem mit dem Fahrzeug. Sie haben <span class='uk-text-danger'>" + packageValue + " $</span> verloren. Yayks.");
+              $('#result-text').html("Sie haben sich für <strong>Automatisieren</strong> entschieden! Es gab ein Problem mit dem Fahrzeug. Sie haben <span class='uk-text-danger'>" + packageValue + " $</span> verloren!");
               $('#result-value').html("0");
               $('#result-value').addClass('uk-text-danger');
               $('#injuries').html("0");
@@ -224,7 +224,6 @@ $(document).ready(function() {
       }
     });
   }
-
   function saveFeedbackTime() {
     var profit = $('#result-value').html();
     var data = {

@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+{% block body %}
+{% load static %}
+{% load i18n %}
+<div class="uk-container uk-margin-top">
+  <h2 class="uk-heading-small">{% trans "Ready" %}</h2>
+  <p>{% trans "If you ready for the next set of situation click the Go-Button" %}</p>
+  <a class="uk-button uk-button-default" href="{% url 'surveys:trial' survey.id session.key %}">{% trans "Go" %}</a>
+    <img class="uk-float-right uk-visible@m" src="{% static 'surveys/img/results.png'%}">
+</div>
+
+{% endblock %}
