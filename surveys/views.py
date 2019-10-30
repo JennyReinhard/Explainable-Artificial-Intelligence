@@ -224,7 +224,7 @@ def trial(request, survey_id, session_key):
             return redirect('home:home')
 
     size = set.top().size()
-    progress = 24 - size
+    progress = 12 - size
 
     db_trial = Trial(sessionkey=session)
     db_trial.save()
@@ -250,7 +250,8 @@ def trial(request, survey_id, session_key):
         'survey': survey,
         'blockcounter': block.blockcounter,
         'trial': db_trial,
-        'language': language
+        'language': language,
+        'max': block.max
     }
 
 
@@ -293,10 +294,6 @@ def save_trial(request, trial_id):
             injuries = int(request.POST.get('injuries', None))
             package_value = int(request.POST.get('package_value', None))
             manual_labour = int(request.POST.get('manual_labour', None))
-            if trial.success == True:
-                set.top().max = set.top().max + package_value
-            else:
-                set.top().max = set.top().max + manual_labour
             set.top().balance = set.top().balance + profit
             set.top().injuries = set.top().injuries + injuries
             set.top().pop()

@@ -26,6 +26,15 @@ class Block:
         random.shuffle(self.trials)
 
 
+        for trial in self.trials:
+            if trial.success == True:
+                self.max = self.max + trial.package
+            elif trial.success == False:
+                self.max = self.max + trial.manual
+
+        print(self.max)
+
+
 
 
     def __repr__(self):

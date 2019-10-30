@@ -15,12 +15,11 @@ class Set:
             flag_low_reliability = 0
             flag_medium_reliability = 0
             for trial in block.trials:
-                if trial.reliability.value == 60 and flag_low_reliability < 3 and trial.risk.value != 0:
+                if trial.reliability.value == 60 and flag_low_reliability < 2 and trial.risk.value != 0:
                     trial.success = False
                     flag_low_reliability = flag_low_reliability +1
 
-
-                if trial.reliability.value == 80 and flag_medium_reliability < 2 and trial.risk.value != 0:
+                if trial.reliability.value == 80 and flag_medium_reliability < 1 and trial.risk.value != 0:
                     trial.success = False
                     flag_medium_reliability = flag_medium_reliability +1
 
@@ -57,12 +56,6 @@ class Set:
     # returns the top of the stack
     def top(self):
         return self.blocks[-1]
-
-
-
-
-
-
 
 # Prints a complete set
 def showSet(set):

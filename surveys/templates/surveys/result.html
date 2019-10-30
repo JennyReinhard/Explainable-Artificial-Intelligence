@@ -1,9 +1,10 @@
 {% extends 'base.html' %}
 {% block body %}
 {% load static %}
+{% load i18n %}
 <div class="uk-container uk-margin-top">
   <h2 class="uk-heading-small">Results</h2>
-  <p>Congratulations! You have finished the first block. Here are your results:</p>
+  <p>{% trans "Congratulations! You have finished the first block. Here are your results:" %}</p>
   <ul class="uk-list">
     <li><span class="uk-badge uid-padding"><span class="uk-margin-small-right" uk-icon="credit-card"></span>{{balance}}</span></li>
     <li><span class="uk-badge uid-padding"><span class="uk-margin-small-right" uk-icon="heart"></span>{{injuries}}</span></li>
@@ -11,15 +12,15 @@
 {% if balance < max %}
 <div class="uk-alert-danger" uk-alert>
     <a class="uk-alert-close" uk-close></a>
-    <p>The maximal possible profit was <strong>{{max}}</strong></p>
+    <p>{% trans "The maximal possible profit was" %} <strong>{{max}}</strong></p>
 </div>
 {% else %}
 <div class="uk-alert-success" uk-alert>
     <a class="uk-alert-close" uk-close></a>
-    <p>Congratulations! You have reached the maximum profit!</p>
+    <p>{% trans "Congratulations! You have reached the maximum profit!" %}</p>
 </div>
 {% endif %}
-  <a class="uk-button uk-button-default" href="{{redirect}}">Next block</a>
+  <a class="uk-button uk-button-default" href="{{redirect}}">{% trans "To the questionnaire" %}</a>
     <img class="uk-float-right uk-visible@m" src="{% static 'surveys/img/results.png'%}">
 </div>
 

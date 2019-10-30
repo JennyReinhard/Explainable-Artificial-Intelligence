@@ -10,13 +10,28 @@
 </div>
 <div class="content">
   <div id="trial-header" class="uk-height-large uk-flex uk-flex-center uk-flex-middle">
-    <img class="" src="{% static 'surveys/img/'|add:scenario.slug|add:'_'|add:risk.slug|add:'.png'%}" width="800" alt="">
+    <div>
+      <img class="uk-margin-top" src="{% static 'surveys/img/'|add:scenario.slug|add:'_'|add:risk.slug|add:'.png'%}" width="800" alt="">
+      <div class="uk-padding-small" uk-alert>
+          <a class="uk-alert-close" uk-close></a>
+          {% if risk.slug == "no_risk"%}
+          <p><strong>{% trans "Possible damage:" %}</strong> {% trans "Damage to the vehicle" %} <span class="uk-text-danger"> (-{{package}}{% trans "$" %})</span></p>
+          {% elif risk.slug == "property_risk" %}
+          <p><strong>{% trans "Possible damage:" %}</strong> {% trans "Property will be damage and package will not be delivered" %}<span class="uk-text-danger"> (-{{package}}{% trans "$" %})</span></p>
+          {% elif risk.slug == "personal_risk" %}
+          <p><strong>{% trans "Possible damage:" %}</strong> {% trans "People could be injured!" %}<span class="uk-text-danger"> (1 {% trans "injury" %})</span></p>
+          {% else %}
+          <p><strong>{% trans "Possible damage:" %}</strong> {% trans "People could be injured and property could be damaged" %}<span class="uk-text-danger"> (-{{package}}{% trans "$" %} & 1 {% trans "injury"%})</span></p>
+          {% endif %}
+      </div>
+    </div>
+
     <p class="uid uk-position-top-right uk-position-medium uk-visible@l">
       <span>{% trans "Balance" %}: <span class="uk-badge uid-padding"><span class="uk-margin-small-right" uk-icon="credit-card"></span>{{balance}}</span></span>
       <span class="uk-margin-left">{% trans "Injuries" %}: <span class="uk-badge uid-padding"><span class="uk-margin-small-right" uk-icon="heart"></span>{{injuries}}</span></span>
     </p>
     <p>
-      <form class="uid uk-position-top-left uk-position-small uk-form-width-medium" action="{% url 'set_language' %}" method="post">
+      <form class="uid uk-position-top-left uk-position-small uk-form-width-medium uk-visible@l" action="{% url 'set_language' %}" method="post">
         {% csrf_token %}
         <input type="hidden" name="next" value="{% url 'surveys:trial' survey.id session.key%}">
         <div class="uk-margin">
@@ -35,10 +50,11 @@
 
       </form>
     </p>
+
   </div>
   <div class="uk-container uk-animation-fade uk-padding-remove-top uk-margin-medium-top">
     <p class="uk-flex uk-flex-center uk-hidden@l">
-      <span class="uk-badge uid-padding"><span class="uk-margin-small-right" uk-icon="credit-card"></span>{{balance}}</span>
+      <span class="uk-badge uid-padding"><span class="uk-margin-small-right" uk-icon="credit-card"></span>{{balance}}</span>&nbsp;&nbsp;
       <span class="uk-badge uid-padding uk-margin-medium-right"><span class="uk-margin-small-right" uk-icon="heart"></span>{{injuries}}</span>
     </p>
     <div class="uk-grid-large" uk-grid>
@@ -120,7 +136,7 @@
         <p class="uk-text-light uk-margin-remove">{% trans "Progress" %}:</p>
       </div>
       <div class="uk-flex uk-flex-center">
-        <div class="uk-width-1-3 uk-margin-small-top"><progress id="js-progressbar" class="uk-progress" value="{{progress}}" max="24"></progress></div>
+        <div class="uk-width-1-3 uk-margin-small-top"><progress id="js-progressbar" class="uk-progress" value="{{progress}}" max="12"></progress></div>
       </div>
       <div class="uk-flex uk-flex-center">
         <div id="offcanvas-reveal" uk-offcanvas="mode: reveal; overlay: true">
