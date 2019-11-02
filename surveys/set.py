@@ -2,7 +2,7 @@ import random
 from .block import Block
 from itertools import product
 class Set:
-    def __init__(self, blockfactor_list, trialfactors_list, ntrials):
+    def __init__(self, blockfactor_list, trialfactors_list, ntrials, training_counter):
         self.blocks = []
 
         for blockfactors in product(* blockfactor_list):
@@ -31,6 +31,9 @@ class Set:
         for index, block in enumerate(self.blocks):
             block.blockcounter = len(self.blocks) - index
 
+        self.training_counter = training_counter
+        self.training_balance = 0
+        self.training_injuries = 0
 
     # Pushes element onto the stack
     def push(self, block):

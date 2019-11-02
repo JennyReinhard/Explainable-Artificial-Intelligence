@@ -32,13 +32,8 @@ class Block:
             elif trial.success == False:
                 self.max = self.max + trial.manual
 
-        print(self.max)
-
-
-
-
     def __repr__(self):
-        return " \n\nBlock with scenario " + self.scenario.name + " and decision support system " + self.dss.name + ". \n ---------------------------------------------------------"
+        return "Block with attributes: "+str(self.__dict__)
 
     # Pushes element onto the stack
     def push(self, trial):

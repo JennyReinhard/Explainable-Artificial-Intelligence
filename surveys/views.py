@@ -10,6 +10,8 @@ from .set import Set, showFailTrials, showSet
 from .models import Survey, Session, Redirect, SetFactor, SetLevel, Trial
 from .forms import SurveyCreateFrom
 import urllib.parse
+from itertools import islice
+import random
 
 import pickle
 import json
@@ -111,7 +113,7 @@ def load_set(request, survey_id):
 
     # if there are any trial factors, create set
     if trialfactors:
-        set = Set(blockfactors_list, trialfactors_list, ntrials)
+        set = Set(blockfactors_list, trialfactors_list, ntrials, 6)
         showSet(set)
         showFailTrials(set)
 
@@ -172,6 +174,61 @@ def trial_ready(request, survey_id, session_key):
 
     return render(request, 'surveys/trial_ready.html', context)
 
+def training(request, survey_id, session_key):
+    survey = get_object_or_404(Survey, pk=survey_id)
+    session = get_object_or_404(Session, key=session_key)
+    language = get_language()
+
+    # If session key is not current users session key, raise error
+    if session.key != request.session.session_key:
+        error_message = "Wrong session key"
+        return render(request, 'surveys/error.html', {'error_message': error_message, 'session':session, 'survey':survey})
+
+    # Open set through pockle
+    try:
+        with open('sessions/set_'+session.key, 'rb') as f:
+            set = pickle.load(f)
+    except:
+        return render(request, 'surveys/error.html', {'error_message':'Session not found, sorry', 'survey': survey})
+
+    # If there is no current set, render error message
+    if not set:
+        error_message = "No current set available to work with, try and start a new survey"
+        return render(request, 'surveys/error.html', {'error_message': error_message, 'session':session, 'survey':survey})
+
+    if set.training_counter > 0:
+        block = random.choice(set.blocks)
+        trial = random.choice(block.trials)
+
+    else:
+        return redirect('home:index')
+
+    context = {
+        'dss': trial.dss,
+        'risk': trial.risk,
+        'errors': trial.errors,
+        'attempts': trial.attempts,
+        'reliability': trial.reliability,
+        'scenario': trial.scenario,
+        'package': trial.package,
+        'manual': trial.manual,
+        'suggestion': trial.suggestion,
+        'best_choice': trial.best_choice,
+        'success': trial.success,
+        'balance': set.training_balance,
+        'injuries': set.training_injuries,
+        'session': session,
+        'survey': survey,
+        'language': language,
+    }
+
+    set.training_counter = set.training_counter - 1
+    with open('sessions/set_'+session.key, 'wb') as f:
+        pickle.dump(set, f)
+
+
+
+    return render(request, 'surveys/training.html', context)
 
 def trial(request, survey_id, session_key):
     survey = get_object_or_404(Survey, pk=survey_id)
@@ -332,6 +389,25 @@ def save_feedback(request, trial_id):
         return HttpResponse('success')
 
     return HttpResponse('fail')
+
+def save_training(request, survey_id, session_key):
+    if request.method == 'POST':
+        with open('sessions/set_'+ session_key, 'rb') as f:
+            set = pickle.load(f)
+
+        profit = int(request.POST.get('profit', None))
+        injuries = int(request.POST.get('injuries', None))
+        set.training_balance = set.training_balance + profit
+        set.training_injuries = set.training_injuries + injuries
+        print(set.training_balance)
+
+        with open('sessions/set_'+session_key, 'wb') as f:
+            pickle.dump(set, f)
+
+        return HttpResponse('success')
+
+    return HttpResponse('fail')
+
 #404 handler
 def handler404(request, *args, **kwargs):
     return render(request, '404.html', status=404)

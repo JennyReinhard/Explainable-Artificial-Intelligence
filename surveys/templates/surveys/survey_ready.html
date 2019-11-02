@@ -292,12 +292,16 @@
         topics, feel free to come back by hitting the previous button.
       </p>
       <p>To start the game, check the tickmark and hit the <code>Start game!</code> button</p>
-      <form class="uk-margin-medium-bottom">
-        <label><input class="uk-checkbox" type="checkbox"> I have read the instruction and am committed to play the game!</label>
+      <form class="uk-margin-medium-bottom" action="{% url 'surveys: check'}" method="post">
+        <label><input id="checked" class="uk-checkbox" type="checkbox"> &nbsp;&nbsp; Ich habe die Anleitung gelesen und bin verpflichte mich das Spiel gewissenhaft zu spielen! </label>
       </form>
+      <div id="alert" class="uk-alert-danger" uk-alert>
+          <a class="uk-alert-close" uk-close></a>
+          <p>Please check the tickmark!</p>
+      </div>
       <div class="uk-modal-footer uk-text-right">
-        <a href="#wizard-page-7" class="uk-button uk-button-default" uk-toggle>Previous</a>
-        <a href="{% url 'surveys:trial' survey.id session.key %}" class="uk-button uk-button-primary" uk-toggle>Start game!</a>
+        <a href="#wizard-page-7" class="uk-button uk-button-default" uk-toggle>Zurück</a>
+        <button id="to-trial" name="button"class="uk-button uk-button-default">Training starten</button>
       </div>
     </div>
   </div>
@@ -580,21 +584,29 @@
         Geschafft! Sie sind jetzt bereit das Experiment zu starten. Wenn sie sich nicht sicher sind, ob sie alles verstanden haben,
         können sie gerne noch einmal zurück gehen um Unklarheiten aus dem Weg zu räumen.
       </p>
-      <form class="uk-margin-medium-bottom">
-        <label><input class="uk-checkbox" type="checkbox"> &nbsp;&nbsp; Ich habe die Anleitung gelesen und bin verpflichte mich das Spiel gewissenhaft zu spielen! </label>
+      <form class="uk-margin-medium-bottom" action="{% url 'surveys: check'}" method="post">
+        <label><input id="checked" class="uk-checkbox" type="checkbox"> &nbsp;&nbsp; Ich habe die Anleitung gelesen und bin verpflichte mich das Spiel gewissenhaft zu spielen! </label>
       </form>
+      <div id="alert" class="uk-alert-danger" uk-alert>
+          <a class="uk-alert-close" uk-close></a>
+          <p>Bitte das Kästchen klicken!</p>
+      </div>
       <div class="uk-modal-footer uk-text-right">
         <a href="#wizard-page-7" class="uk-button uk-button-default" uk-toggle>Zurück</a>
-        <a href="{% url 'surveys:trial' survey.id session.key %}" class="uk-button uk-button-primary" uk-toggle>Spiel starten!</a>
+        <button id="to-trial"  name="button"class="uk-button uk-button-default">Training starten</button>
       </div>
     </div>
   </div>
 </div>
-
+<div class="hidden">
+  <input id="trial-redirect" name="trial-redirect" type="hidden" value="{% url 'surveys:training' survey.id session.key %}">
+</div>
 {% else %}
 <div class="uk-alert-danger" uk-alert>
   <a class="uk-alert-close" uk-close></a>
   <p>Language not translated</p>
 </div>
 {% endif %}
+{% load static %}
+<script src="{% static 'surveys/js/checkbox_validation.js' %}"></script>
 {% endblock %}
