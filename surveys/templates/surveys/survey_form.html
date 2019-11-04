@@ -43,6 +43,18 @@
         {{ form.ready|attr:"id:ready" }}
       </div>
     </div>
+    <script>
+      tinymce.init({
+        selector: 'textarea#end',
+        height: 600
+      });
+    </script>
+    <div class="uk-margin">
+      <label class="uk-form-label" for="form-stacked-text">End text</label>
+      <div class="uk-form-controls">
+        {{ form.end|attr:"id:end" }}
+      </div>
+    </div>
     <p class="uk-margin">
       <button class="uk-button uk-button-secondary" type="submit" name="button">Save</button>
     </p>

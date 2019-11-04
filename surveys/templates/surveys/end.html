@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+{% block body %}
+{% load static %}
+{% load i18n %}
+<div class="uk-container uk-margin-top">
+  <p>{{survey.end|safe}}</p>
+  <a class="uk-button uk-button-default" href="{% url 'home:index' %}">{% trans "Back to the start screen" %}</a>
+  <a class="uk-button uk-button-default" href="mailto:liehner@comm.rwth-aachen.de">{% trans "Contact us via mail" %}</a>
+    <img class="uk-float-right uk-visible@m" src="{% static 'surveys/img/success.png'%}">
+</div>
+{% endblock %}

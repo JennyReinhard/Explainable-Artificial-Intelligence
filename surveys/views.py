@@ -33,7 +33,8 @@ class SurveyUptateView(LoginRequiredMixin, generic.UpdateView):
         'name',
         'description',
         'introduction',
-        'ready'
+        'ready',
+        'end'
     ]
 
 # Generic create view to create a new survey
@@ -66,6 +67,7 @@ def delete_survey(request, pk):
         survey.delete()
         messages.success(request, 'Survey successfully deleted')
         return redirect('surveys:surveys')
+
 # Deletes all sessions in a survey
 def delete_sessions(request, pk):
     survey = get_object_or_404(Survey, pk=pk)
@@ -77,7 +79,7 @@ def delete_sessions(request, pk):
     return redirect('surveys:survey', pk=pk)
 
 # Returns survey start screen
-def start_survey(request, survey_id):
+def introduction(request, survey_id):
     survey = get_object_or_404(Survey, pk=survey_id)
 
     # if there is a redirect, redirect
@@ -89,16 +91,18 @@ def start_survey(request, survey_id):
 
     context = {
         'survey': survey,
-        'redirect': redirect_url
+        'redirect': redirect_url,
     }
 
-    return render(request, 'surveys/start_survey.html', context)
+    return render(request, 'surveys/introduction.html', context)
 
 # Loads sets through ajax call while start_survey.html is loading
 def load_set(request, survey_id):
     survey = get_object_or_404(Survey, pk=survey_id)
-
+    language = get_language()
+    #Gets trial multiplicator
     ntrials = survey.ntrials
+
     # Get blockfactors for survey and store them in a list
     blockfactors = SetFactor.objects.filter(survey=survey, blockfactor=True)
     blockfactors_list = []
@@ -113,10 +117,7 @@ def load_set(request, survey_id):
 
     # if there are any trial factors, create set
     if trialfactors:
-        set = Set(blockfactors_list, trialfactors_list, ntrials, 6)
-        showSet(set)
-        showFailTrials(set)
-
+        set = Set(blockfactors_list, trialfactors_list, ntrials, 3)
 
     else:
         error_message = "No trial factors found for the current survey"
@@ -139,11 +140,27 @@ def load_set(request, survey_id):
     # data that is returned to ajax call
     data = {}
     data['session_key'] = session.key
+    data['language'] = language
 
     return HttpResponse(json.dumps(data), content_type='application/json')
 
 # Renders screen before trials start.
-def survey_ready(request, survey_id, session_key):
+def instructions(request, survey_id, session_key):
+    survey = get_object_or_404(Survey, pk=survey_id)
+    session = get_object_or_404(Session, key=session_key)
+
+    # If session key is not current users session key, raise error
+    if session.key != request.session.session_key:
+        return render(request, 'surveys/error.html', {'error_message': 'Wrong session key', 'session':session, 'survey':survey})
+
+    context = {
+        'survey': survey,
+        'session': session,
+    }
+
+    return render(request, 'surveys/instructions.html', context )
+
+def block_ready(request, survey_id, session_key):
     survey = get_object_or_404(Survey, pk=survey_id)
     session = get_object_or_404(Session, key=session_key)
 
@@ -156,23 +173,32 @@ def survey_ready(request, survey_id, session_key):
     if session.key != request.session.session_key:
         return render(request, 'surveys/error.html', {'error_message': 'Wrong session key', 'session':session, 'survey':survey})
 
-    return render(request, 'surveys/survey_ready.html', context )
+    return render(request, 'surveys/block_ready.html', context )
 
-def trial_ready(request, survey_id, session_key):
+
+def survey_ready(request, survey_id, session_key):
     survey = get_object_or_404(Survey, pk=survey_id)
     session = get_object_or_404(Session, key=session_key)
 
-    # If session key is not current users session key, raise error
+    try:
+        with open('sessions/set_'+session.key, 'rb') as f:
+            set = pickle.load(f)
+    except:
+        return render(request, 'surveys/error.html', {'error_message':'Session not found, sorry', 'survey': survey})
+
+    #If session key is not current users session key, raise error
     if session.key != request.session.session_key:
         error_message = "Wrong session key"
         return render(request, 'surveys/error.html', {'error_message': error_message, 'session':session, 'survey':survey})
 
     context = {
         'survey': survey,
-        'session': session
+        'session': session,
+        'injuries': set.training_injuries,
+        'balance': set.training_balance
     }
 
-    return render(request, 'surveys/trial_ready.html', context)
+    return render(request, 'surveys/survey_ready.html', context)
 
 def training(request, survey_id, session_key):
     survey = get_object_or_404(Survey, pk=survey_id)
@@ -201,7 +227,7 @@ def training(request, survey_id, session_key):
         trial = random.choice(block.trials)
 
     else:
-        return redirect('home:index')
+        return redirect('surveys:survey-ready', survey_id=survey.id, session_key=session.key)
 
     context = {
         'dss': trial.dss,
@@ -265,7 +291,6 @@ def trial(request, survey_id, session_key):
         try:
             redirect_url = survey.redirect_set.get(purpose=1).url+'?sessionkey='+session.key+'&surveyid='+str(survey.id)+'&balance='+str(block.balance)+'&dss='+urllib.parse.quote(block.dss.name)+'&scenario='+urllib.parse.quote(block.scenario.name)+'&injuries='+str(block.injuries)+'&max='+str(block.max)
 
-
         except ObjectDoesNotExist:
             redirect_url = reverse('surveys:trial', kwargs={'survey_id': survey.id, 'session_key': session.key})
 
@@ -297,7 +322,7 @@ def trial(request, survey_id, session_key):
             return redirect(redirect_obj.url+"?sessionkey="+session.key)
 
         except ObjectDoesNotExist:
-            return redirect('home:home')
+            return redirect('surveys:end', survey_id=survey.id, session_key=session.key)
 
     size = set.top().size()
     progress = 12 - size
@@ -407,6 +432,22 @@ def save_training(request, survey_id, session_key):
         return HttpResponse('success')
 
     return HttpResponse('fail')
+
+def end(request, survey_id, session_key):
+    survey = get_object_or_404(Survey, pk=survey_id)
+    session = get_object_or_404(Session, key=session_key)
+
+
+    # If session key is not current users session key, raise error
+    if session.key != request.session.session_key:
+        error_message = "Wrong session key"
+        return render(request, 'surveys/error.html', {'error_message': error_message, 'session':session, 'survey':survey})
+
+    context = {
+        'session': session,
+        'survey': survey
+    }
+    return render(request,'surveys/end.html', context)
 
 #404 handler
 def handler404(request, *args, **kwargs):

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-10-31 00:44+0100\n"
+"POT-Creation-Date: 2019-11-04 12:24+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -34,6 +34,50 @@ msgstr "Englisch"
 msgid "German"
 msgstr "Deutsch"
 
+#: surveys/templates/surveys/block_ready.html:6
+msgid "Ready"
+msgstr "Bereit"
+
+#: surveys/templates/surveys/block_ready.html:7
+msgid "If you ready for the next set of situation click the Go-Button"
+msgstr "Falls Sie bereit sind für die nächste Runde klicken sie den Los-Knopf"
+
+#: surveys/templates/surveys/block_ready.html:8
+msgid "Go"
+msgstr "Los"
+
+#: surveys/templates/surveys/end.html:7
+msgid "Back to the start screen"
+msgstr "Zurück zur Homepage"
+
+#: surveys/templates/surveys/end.html:8
+msgid "Contact us via mail"
+msgstr "Schreiben Sie uns ein Mail"
+
+#: surveys/templates/surveys/instructions.html:8
+msgid "Start wizard"
+msgstr "Assistenten öffnen"
+
+#: surveys/templates/surveys/instructions.html:529
+#: surveys/templates/surveys/instructions.html:533
+#: surveys/templates/surveys/instructions.html:537
+#: surveys/templates/surveys/training.html:72
+#: surveys/templates/surveys/trial.html:72
+msgid "Attempts"
+msgstr "Fahrten"
+
+#: surveys/templates/surveys/instructions.html:529
+#: surveys/templates/surveys/instructions.html:533
+#: surveys/templates/surveys/instructions.html:537
+#: surveys/templates/surveys/training.html:72
+#: surveys/templates/surveys/trial.html:72
+msgid "Errors"
+msgstr "Zwischenfälle"
+
+#: surveys/templates/surveys/introduction.html:17
+msgid "Start questionnaire"
+msgstr "Zum Fragebogen"
+
 #: surveys/templates/surveys/result.html:7
 msgid ""
 "Congratulations! You have finished the first block. Here are your results:"
@@ -53,28 +97,25 @@ msgstr "Herzlichen Glückwunsch! Sie haben maximalen Gewinn erziehlt!"
 msgid "To the questionnaire"
 msgstr "Zum Fragebogen"
 
-#: surveys/templates/surveys/start_survey.html:17
-msgid "Start questionnaire"
-msgstr "Zum Fragebogen"
+#: surveys/templates/surveys/survey_ready.html:6
+msgid "Results"
+msgstr "Ergebnis"
 
-#: surveys/templates/surveys/survey_ready.html:8
-msgid "Start wizard"
-msgstr "Assistenten öffnen"
+#: surveys/templates/surveys/survey_ready.html:7
+msgid ""
+"Congratulations! You have finished the training round. Here are your results:"
+msgstr ""
+"Herzlichen Glückwunsch! Sie haben die Trainingsrunde gemeistert. Hier sind "
+"Ihre Ergebnisse:"
 
-#: surveys/templates/surveys/survey_ready.html:514
-#: surveys/templates/surveys/survey_ready.html:518
-#: surveys/templates/surveys/survey_ready.html:522
-#: surveys/templates/surveys/trial.html:72
-msgid "Attempts"
-msgstr "Fahrten"
+#: surveys/templates/surveys/survey_ready.html:12
+msgid "Start real rounds!"
+msgstr "Jetzt richtig starten"
 
-#: surveys/templates/surveys/survey_ready.html:514
-#: surveys/templates/surveys/survey_ready.html:518
-#: surveys/templates/surveys/survey_ready.html:522
-#: surveys/templates/surveys/trial.html:72
-msgid "Errors"
-msgstr "Zwischenfälle"
-
+#: surveys/templates/surveys/training.html:18
+#: surveys/templates/surveys/training.html:20
+#: surveys/templates/surveys/training.html:22
+#: surveys/templates/surveys/training.html:24
 #: surveys/templates/surveys/trial.html:18
 #: surveys/templates/surveys/trial.html:20
 #: surveys/templates/surveys/trial.html:22
@@ -82,101 +123,116 @@ msgstr "Zwischenfälle"
 msgid "Possible damage:"
 msgstr "Möglicher Schaden:"
 
+#: surveys/templates/surveys/training.html:18
 #: surveys/templates/surveys/trial.html:18
-msgid "Damage to the vehicle"
-msgstr "Fahrzeugschaden"
+msgid "Damage to the vehicle."
+msgstr "Fahrzeugschaden."
 
+#: surveys/templates/surveys/training.html:18
+#: surveys/templates/surveys/training.html:20
+#: surveys/templates/surveys/training.html:24
+#: surveys/templates/surveys/training.html:97
+#: surveys/templates/surveys/training.html:101
+#: surveys/templates/surveys/training.html:118
 #: surveys/templates/surveys/trial.html:18
 #: surveys/templates/surveys/trial.html:20
 #: surveys/templates/surveys/trial.html:24
+#: surveys/templates/surveys/trial.html:97
+#: surveys/templates/surveys/trial.html:101
 #: surveys/templates/surveys/trial.html:118
 msgid "$"
 msgstr "€"
 
+#: surveys/templates/surveys/training.html:20
 #: surveys/templates/surveys/trial.html:20
-msgid "Property could be damaged and package will not be delivered"
-msgstr "Sachschaden könnte entstehen und das Packet wird nicht zugestellt"
+msgid "Property could be damaged."
+msgstr "Sachschaden könnte entstehen."
 
+#: surveys/templates/surveys/training.html:22
 #: surveys/templates/surveys/trial.html:22
-msgid "People could be injured! Package wont be delivered"
-msgstr "Sachschaden könnte entstehen und das Packet wird nicht zugestellt"
+msgid "People could be (badly) injured!"
+msgstr "Menschen könnten (schwer) verletzt werden."
 
+#: surveys/templates/surveys/training.html:22
+#: surveys/templates/surveys/training.html:24
 #: surveys/templates/surveys/trial.html:22
 #: surveys/templates/surveys/trial.html:24
 msgid "injury"
 msgstr "verletzt"
 
+#: surveys/templates/surveys/training.html:24
 #: surveys/templates/surveys/trial.html:24
-msgid ""
-"People could be injured and property could be damaged and package wont be "
-"delivered"
-msgstr "Sachschaden könnte entstehen und das Packet wird nicht zugestellt"
+msgid "People could be (badly) injured and property could be damaged."
+msgstr ""
+"Menschen könnten (schwer) verletzt werden und Sachschaden könnte entstehen."
 
+#: surveys/templates/surveys/training.html:30
 #: surveys/templates/surveys/trial.html:30
 msgid "Balance"
 msgstr "Kontostand"
 
+#: surveys/templates/surveys/training.html:31
 #: surveys/templates/surveys/trial.html:31
 msgid "Injuries"
 msgstr "Verletzte"
 
+#: surveys/templates/surveys/training.html:64
 #: surveys/templates/surveys/trial.html:64
 msgid "Previous vehicle performance"
 msgstr "Vorherige Fahrzeugleistung"
 
+#: surveys/templates/surveys/training.html:75
 #: surveys/templates/surveys/trial.html:75
 msgid "Decision aid"
 msgstr "Entscheidungshilfe"
 
+#: surveys/templates/surveys/training.html:79
 #: surveys/templates/surveys/trial.html:79
 msgid "I think you should automate"
 msgstr "Meiner Meinung nach solltest du automatisieren!"
 
+#: surveys/templates/surveys/training.html:81
 #: surveys/templates/surveys/trial.html:81
 msgid "I think you should choose the manual way"
 msgstr "Ich denke du solltest den manuellen weg gehen."
 
+#: surveys/templates/surveys/training.html:83
 #: surveys/templates/surveys/trial.html:83
 msgid "Sorry, I have no idea what to tell you."
 msgstr "Keine Ahnung, ich weiß nicht was ich dir sagen soll."
 
+#: surveys/templates/surveys/training.html:96
 #: surveys/templates/surveys/trial.html:96
 msgid "Automate"
 msgstr "Automatisieren"
 
+#: surveys/templates/surveys/training.html:97
+#: surveys/templates/surveys/training.html:101
 #: surveys/templates/surveys/trial.html:97
 #: surveys/templates/surveys/trial.html:101
 msgid "Profit"
 msgstr "Gewinn"
 
+#: surveys/templates/surveys/training.html:100
 #: surveys/templates/surveys/trial.html:100
 msgid "Manual"
 msgstr "Manuel"
 
+#: surveys/templates/surveys/training.html:110
 #: surveys/templates/surveys/trial.html:110
 msgid "Result"
 msgstr "Ergebnis"
 
+#: surveys/templates/surveys/training.html:119
 #: surveys/templates/surveys/trial.html:119
 msgid "injured"
 msgstr "verletzt"
 
-#: surveys/templates/surveys/trial.html:125
+#: surveys/templates/surveys/training.html:124
+#: surveys/templates/surveys/trial.html:124
 msgid "Next trial"
 msgstr "Nächste Aufgabe"
 
-#: surveys/templates/surveys/trial.html:136
+#: surveys/templates/surveys/trial.html:135
 msgid "Progress"
 msgstr "Fortschritt"
-
-#: surveys/templates/surveys/trial_ready.html:6
-msgid "Ready"
-msgstr "Bereit"
-
-#: surveys/templates/surveys/trial_ready.html:7
-msgid "If you ready for the next set of situation click the Go-Button"
-msgstr "Falls Sie bereit sind für die nächste Runde klicken sie den Los-Knopf"
-
-#: surveys/templates/surveys/trial_ready.html:8
-msgid "Go"
-msgstr "Los"

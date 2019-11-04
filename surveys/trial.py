@@ -35,10 +35,16 @@ class Trial:
         if next(alternator) == 0:
             if self.reliability.value < 90:
                 self.manual = int((self.package * (int(self.reliability.value)/100)) * 1.1)
-            else:
+                self.suggestion = 'manual'
+                self.best_choice = 'manual'
+            elif self.reliability.value == 100:
                 self.manual = int((self.package * (int(self.reliability.value)/100)) * 0.9)
-            self.suggestion = 'manual'
-            self.best_choice = 'manual'
+                self.suggestion = 'automate'
+                self.best_choice = 'automate'
+            else:
+                self.suggestion = 'None'
+                self.best_choice = 'None'
+
 
         else:
             self.manual = int((self.package * (int(self.reliability.value)/100)) * 0.9)

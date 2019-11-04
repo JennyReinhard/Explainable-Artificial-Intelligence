@@ -23,10 +23,10 @@ $(document).ready(function() {
     });
   });
 
-  $('.end-trial').on('click', function() {
-    decision = $(this).data('decision');
-    loadResult();
-  });
+  // $('.end-trial').on('click', function() {
+  //   decision = $(this).data('decision');
+  //   loadResult();
+  // });
 
   $(document).keypress(function(e) {
     //Automate
@@ -44,7 +44,7 @@ $(document).ready(function() {
     }
 
     if (e.keyCode == 32 && result_panel_dispaly.css('display') == 'block') {
-      window.location.href = $('#next-trial').attr('href');
+      window.location.href = $('#next-training').val();
     }
 
     if (e.key == 'i') {
@@ -143,15 +143,15 @@ $(document).ready(function() {
             }
           }
         }
-      } else if (language_code == 'de') {
+      } else if (language_code == 'de') else if (language_code == 'de') {
         if (decision == 'manual') {
-          $('#result-text').html("Sie haben sich für <strong>Manuel</strong> entschieden! Sie haben ein Gewinn von " + manualLabour + " € gemacht. Keiner wurde verletzt.");
+          $('#result-text').html("Sie haben sich für <strong>Manuel</strong> entschieden! Sie haben ein Gewinn von " + manualLabour + " € gemacht.");
           $('#result-value').html(manualLabour);
           $('#injuries').html("0");
         }
         if (decision == 'automate') {
           if (success == 'True') {
-            $('#result-text').html("Sie haben sich für <strong>Automatisieren</strong> entschieden! Alles ist gut verlaufen und Sie haben einen Gewinn von <span class='uk-text-success'>+" + packageValue + "</span> € gemacht. Keiner wurde verletzt!");
+            $('#result-text').html("Sie haben sich für <strong>Automatisieren</strong> entschieden! Alles ist gut verlaufen und Sie haben einen Gewinn von <span class='uk-text-success'>+" + packageValue + "</span> € gemacht.");
             $('#result-value').html(packageValue);
             $('#result-value').addClass('uk-text-success');
             $('#injuries').html("0");
@@ -159,18 +159,18 @@ $(document).ready(function() {
           }
           if (success == 'False') {
             if (risk == 'property_and_personal_risk') {
-              $('#result-text').html("Sie haben sich für <strong>Automatisieren</strong> entschieden! Irgendwas ist schief gelaufen und Sie haben einen Verlust von <span class='uk-text-danger'>-" + packageValue + "</span> € gemacht. Eine Person wurde schwer <span class='uk-text-danger'>verletzt</span>!");
+              $('#result-text').html("Sie haben sich für <strong>Automatisieren</strong> entschieden! Leider gab es einen Unfall und Sie haben einen Verlust von <span class='uk-text-danger'>-" + packageValue + "</span> € gemacht. Eine Person wurde schwer <span class='uk-text-danger'>verletzt</span>!");
               $('#result-value').html("0");
               $('#result-value').addClass('uk-text-danger');
               $('#injuries').html("1");
               $('#injuries').addClass('uk-text-danger');
             } else if (risk == 'property_risk') {
-              $('#result-text').html("Sie haben sich für <strong>Automatisieren</strong> entschieden! Irgendwas ist schief gelaufen und Sie haben einen Verlust von <span class='uk-text-danger'>-" + packageValue + "</span> € gemacht!");
+              $('#result-text').html("Sie haben sich für <strong>Automatisieren</strong> entschieden! Leider gab es einen Unfall und Sie haben einen Verlust von <span class='uk-text-danger'>-" + packageValue + "</span> € gemacht!");
               $('#result-value').html("0");
               $('#result-value').addClass('uk-text-danger');
               $('#injuries').html("0");
             } else if (risk == 'personal_risk') {
-              $('#result-text').html("Sie haben sich für <strong>Automatisieren</strong> entschieden! Irgendwas ist schief gelaufen und eine Person wurde schwer <span class='uk-text-danger'>verletzt</span>. Yayks.");
+              $('#result-text').html("Sie haben sich für <strong>Automatisieren</strong> entschieden! Leider gab es einen Unfall und eine Person wurde schwer <span class='uk-text-danger'>verletzt</span>!");
               $('#result-value').html("0");
               $('#result-value').addClass('uk-text-danger');
               $('#injuries').html("1");

@@ -3,7 +3,7 @@ from .models import Survey, SetLevel
 
 @register(Survey)
 class SurveyTranslationOptions(TranslationOptions):
-    fields = ('name', 'introduction', 'ready')
+    fields = ('name', 'introduction', 'ready', 'end')
 
 @register(SetLevel)
 class SetLevelTranslationOptions(TranslationOptions):

@@ -26,6 +26,7 @@ class Survey(models.Model):
     date_created = models.DateTimeField(auto_now=True)
     introduction = HTMLField(blank=True)
     ready = HTMLField(blank=True)
+    end = HTMLField(blank=True)
     ntrials = models.IntegerField(default=1, verbose_name='Trial multiplicator')
     user = models.ForeignKey(settings.AUTH_USER_MODEL,on_delete=models.SET_DEFAULT, default=1)
 
@@ -52,7 +53,8 @@ class Session(models.Model):
         protocol = 'both',
         unpack_ipv4=True
     )
-
+    total_balance = models.IntegerField(default=0)
+    total_injuries = models.IntegerField(default=0)
     # Returns name in the admin panel
     def __str__(self):
         return str(self.key)
@@ -112,4 +114,3 @@ class SetLevel(models.Model):
     # Returns name in the admin panel
     def __str__(self):
         return str(self.name + ' [' + str(self.value) + ']')
-   
