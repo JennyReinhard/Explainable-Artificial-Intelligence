@@ -15,11 +15,11 @@ class Set:
             flag_low_reliability = 0
             flag_medium_reliability = 0
             for trial in block.trials:
-                if trial.reliability.value == 60 and flag_low_reliability < 2 and trial.risk.value != 0:
+                if trial.reliability.value == 60 and flag_low_reliability < 2:
                     trial.success = False
                     flag_low_reliability = flag_low_reliability +1
 
-                if trial.reliability.value == 80 and flag_medium_reliability < 1 and trial.risk.value != 0:
+                if trial.reliability.value == 80 and flag_medium_reliability < 1:
                     trial.success = False
                     flag_medium_reliability = flag_medium_reliability +1
 

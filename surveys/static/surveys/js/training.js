@@ -101,7 +101,7 @@ $(document).ready(function() {
 
   function loadResult() {
     $('#decision').fadeOut(200, function() {
-      $('#result').fadeIn(200);
+
       if (language_code == 'en') {
         if (decision == 'manual') {
           $('#result-text').html("You have chosen <strong>manual</strong>! You have made a profit of " + manualLabour + " $ No one has been injured.");
@@ -143,7 +143,8 @@ $(document).ready(function() {
             }
           }
         }
-      } else if (language_code == 'de') else if (language_code == 'de') {
+      }
+      else if (language_code == 'de') {
         if (decision == 'manual') {
           $('#result-text').html("Sie haben sich für <strong>Manuel</strong> entschieden! Sie haben ein Gewinn von " + manualLabour + " € gemacht.");
           $('#result-value').html(manualLabour);
@@ -184,6 +185,7 @@ $(document).ready(function() {
           }
         }
       }
+      $('#result').fadeIn(200);
     });
   }
 });

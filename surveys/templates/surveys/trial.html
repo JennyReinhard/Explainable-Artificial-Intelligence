@@ -31,7 +31,7 @@
       <span class="uk-margin-left">{% trans "Injuries" %}: <span class="uk-badge uid-padding"><span class="uk-margin-small-right" uk-icon="heart"></span>{{injuries}}</span></span>
     </p>
     <p>
-      <form class="uid uk-position-top-left uk-position-small uk-form-width-medium uk-visible@l" action="{% url 'set_language' %}" method="post">
+      <form class="uid uk-position-top-left uk-position-small uk-form-width-medium uk-visible@l uk-hidden" action="{% url 'set_language' %}" method="post">
         {% csrf_token %}
         <input type="hidden" name="next" value="{% url 'surveys:trial' survey.id session.key%}">
         <div class="uk-margin">
@@ -121,7 +121,7 @@
         <div class="uk-width-1-3">
           <p id="result-text">
           </p>
-          <button class="uk-button uk-button-secondary">{% trans "Next trial" %}</button>
+          <button class="uk-button uk-button-secondary">{% trans "Next trial" %} [Spacebar]</button>
         </div>
         <div class="uk-width-1-6">
         </div>

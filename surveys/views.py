@@ -163,6 +163,20 @@ def instructions(request, survey_id, session_key):
 def block_ready(request, survey_id, session_key):
     survey = get_object_or_404(Survey, pk=survey_id)
     session = get_object_or_404(Session, key=session_key)
+    language = get_language()
+
+
+
+    with open('sessions/set_'+session.key, 'rb') as f:
+        set = pickle.load(f)
+
+    if set.isEmpty():
+        try:
+            redirect_url = survey.redirect_set.get(purpose=2).url+"?sessionkey="+session.key+'&surveyid='+str(survey.id)+'&language='+language
+
+        except ObjectDoesNotExist:
+            redirect_url = reverse('surveys:end')
+        return redirect(redirect_url)
 
     context = {
         'survey': survey,
@@ -289,7 +303,7 @@ def trial(request, survey_id, session_key):
         #pops the set and saves it to pickle
         block = set.top()
         try:
-            redirect_url = survey.redirect_set.get(purpose=1).url+'?sessionkey='+session.key+'&surveyid='+str(survey.id)+'&balance='+str(block.balance)+'&dss='+urllib.parse.quote(block.dss.name)+'&scenario='+urllib.parse.quote(block.scenario.name)+'&injuries='+str(block.injuries)+'&max='+str(block.max)
+            redirect_url = survey.redirect_set.get(purpose=1).url+'?sessionkey='+session.key+'&surveyid='+str(survey.id)+'&balance='+str(block.balance)+'&language='+language+'&dss='+urllib.parse.quote(block.dss.name)+'&scenario='+urllib.parse.quote(block.scenario.name)+'&injuries='+str(block.injuries)+'&max='+str(block.max)
 
         except ObjectDoesNotExist:
             redirect_url = reverse('surveys:trial', kwargs={'survey_id': survey.id, 'session_key': session.key})
@@ -313,13 +327,12 @@ def trial(request, survey_id, session_key):
 
     #if set is totally empty redirect to
     elif set.isEmpty():
-        # Remove saved session files
-        os.remove('sessions/set_'+session.key)
+
 
         #if there is a redirect, redirect, otherwise go to home
         try:
             redirect_obj = survey.redirect_set.get(purpose=2)
-            return redirect(redirect_obj.url+"?sessionkey="+session.key)
+            return redirect(redirect_obj.url+"?sessionkey="+session.key+'&surveyid='+str(survey.id)+'&language='+language)
 
         except ObjectDoesNotExist:
             return redirect('surveys:end', survey_id=survey.id, session_key=session.key)
@@ -442,7 +455,8 @@ def end(request, survey_id, session_key):
     if session.key != request.session.session_key:
         error_message = "Wrong session key"
         return render(request, 'surveys/error.html', {'error_message': error_message, 'session':session, 'survey':survey})
-
+    # Remove saved session files
+    os.remove('sessions/set_'+session.key)
     context = {
         'session': session,
         'survey': survey

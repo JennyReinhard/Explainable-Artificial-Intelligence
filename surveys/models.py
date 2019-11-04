@@ -53,8 +53,7 @@ class Session(models.Model):
         protocol = 'both',
         unpack_ipv4=True
     )
-    total_balance = models.IntegerField(default=0)
-    total_injuries = models.IntegerField(default=0)
+
     # Returns name in the admin panel
     def __str__(self):
         return str(self.key)

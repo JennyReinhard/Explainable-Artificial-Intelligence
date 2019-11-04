@@ -139,7 +139,7 @@ $(document).ready(function() {
 
   function loadResult() {
     $('#decision').fadeOut(200, function() {
-      $('#result').fadeIn(200);
+
       if (language_code == 'en') {
         if (decision == 'manual') {
           $('#result-text').html("You have chosen <strong>manual</strong>! You have made a profit of " + manualLabour + " $ No one has been injured.");
@@ -222,6 +222,7 @@ $(document).ready(function() {
           }
         }
       }
+      $('#result').fadeIn(200);
     });
   }
   function saveFeedbackTime() {
