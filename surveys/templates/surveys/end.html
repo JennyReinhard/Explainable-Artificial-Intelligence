@@ -2,10 +2,27 @@
 {% block body %}
 {% load static %}
 {% load i18n %}
+{% load widget_tweaks %}
 <div class="uk-container uk-margin-top">
   <p>{{survey.end|safe}}</p>
-  <a class="uk-button uk-button-default" href="{% url 'home:index' %}">{% trans "Back to the start screen" %}</a>
   <a class="uk-button uk-button-default" href="mailto:liehner@comm.rwth-aachen.de">{% trans "Contact us via mail" %}</a>
+  <form class="uk-form-stacked uk-margin-medium-top" method="post">
+    {% csrf_token %}
+    <legend class="uk-legend">{% trans "Participant" %}</legend>
+    <div class="uk-margin">
+      <label class="uk-form-label" for="form-stacked-text">ID</label>
+      <div class="uk-form-controls">
+        {{ form.participantID|add_class:"uk-input" }}
+      </div>
+    </div>
+    <div class="uk-margin">
+      <label class="uk-form-label" for="form-stacked-text">{% trans "Comment" %}</label>
+      <div class="uk-form-controls">
+        {{ form.comment|add_class:"uk-textarea" }}
+      </div>
+    </div>
+    <button class="uk-button uk-button-secondary" type="submit" name="button">{% trans "Save & back to start screen" %}</button>
+  </form>
     <img class="uk-float-right uk-visible@m" src="{% static 'surveys/img/success.png'%}">
 </div>
 {% endblock %}

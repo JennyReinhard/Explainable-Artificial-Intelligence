@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-11-04 12:24+0100\n"
+"POT-Creation-Date: 2019-11-05 09:57+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -46,13 +46,21 @@ msgstr "Falls Sie bereit sind für die nächste Runde klicken sie den Los-Knopf"
 msgid "Go"
 msgstr "Los"
 
-#: surveys/templates/surveys/end.html:7
-msgid "Back to the start screen"
-msgstr "Zurück zur Homepage"
-
 #: surveys/templates/surveys/end.html:8
 msgid "Contact us via mail"
 msgstr "Schreiben Sie uns ein Mail"
+
+#: surveys/templates/surveys/end.html:11
+msgid "Participant"
+msgstr "Teilnehmer"
+
+#: surveys/templates/surveys/end.html:19
+msgid "Comment"
+msgstr "Kommentar"
+
+#: surveys/templates/surveys/end.html:24
+msgid "Save & back to start screen"
+msgstr "Speichern & zurück zur Homepage"
 
 #: surveys/templates/surveys/instructions.html:8
 msgid "Start wizard"

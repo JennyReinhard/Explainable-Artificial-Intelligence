@@ -1,5 +1,5 @@
 from django import forms
-from .models import Survey
+from .models import Survey, Session
 
 class SurveyCreateFrom(forms.ModelForm):
     class Meta:
@@ -9,4 +9,12 @@ class SurveyCreateFrom(forms.ModelForm):
             'description',
             'introduction',
             'ready',
+        ]
+
+class ParticipantIDForm(forms.ModelForm):
+    class Meta:
+        model = Session
+        fields = [
+            'participantID',
+            'comment'
         ]

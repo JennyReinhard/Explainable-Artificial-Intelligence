@@ -53,6 +53,8 @@ class Session(models.Model):
         protocol = 'both',
         unpack_ipv4=True
     )
+    participantID = models.IntegerField(null=True)
+    comment = models.TextField(null=True)
 
     # Returns name in the admin panel
     def __str__(self):

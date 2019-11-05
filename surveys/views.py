@@ -8,7 +8,7 @@ from django.core.exceptions import PermissionDenied
 from django.utils.translation import get_language
 from .set import Set, showFailTrials, showSet
 from .models import Survey, Session, Redirect, SetFactor, SetLevel, Trial
-from .forms import SurveyCreateFrom
+from .forms import SurveyCreateFrom, ParticipantIDForm
 import urllib.parse
 from itertools import islice
 import random
@@ -303,8 +303,8 @@ def trial(request, survey_id, session_key):
         #pops the set and saves it to pickle
         block = set.top()
         try:
-            redirect_url = survey.redirect_set.get(purpose=1).url+'?sessionkey='+session.key+'&surveyid='+str(survey.id)+'&balance='+str(block.balance)+'&language='+language+'&dss='+urllib.parse.quote(block.dss.name)+'&scenario='+urllib.parse.quote(block.scenario.name)+'&injuries='+str(block.injuries)+'&max='+str(block.max)
-
+            redirect_url = survey.redirect_set.get(purpose=1).url+'?sessionkey='+session.key+'&surveyid='+str(survey.id)+'&balance='+str(block.balance)+'&language='+str(language)+'&dss='+urllib.parse.quote(block.dss.name)+'&blockcounter='+str(block.blockcounter)
+            redirect_url = redirect_url+'&scenario='+urllib.parse.quote(block.scenario.name)+'&injuries='+str(block.injuries)+'&max='+str(block.max)
         except ObjectDoesNotExist:
             redirect_url = reverse('surveys:trial', kwargs={'survey_id': survey.id, 'session_key': session.key})
 
@@ -450,6 +450,22 @@ def end(request, survey_id, session_key):
     survey = get_object_or_404(Survey, pk=survey_id)
     session = get_object_or_404(Session, key=session_key)
 
+    if request.method == 'POST':
+        form = ParticipantIDForm(request.POST or None, instance=session)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Successfully finished and deleted session')
+            # os.remove('sessions/set_'+session.key)
+            return redirect('home:index')
+    else:
+        form = ParticipantIDForm(instance=session)
+        context = {
+            'session': session,
+            'survey': survey,
+            'form': form
+        }
+
+    return render(request, 'surveys/end.html', context)
 
     # If session key is not current users session key, raise error
     if session.key != request.session.session_key:
@@ -457,10 +473,7 @@ def end(request, survey_id, session_key):
         return render(request, 'surveys/error.html', {'error_message': error_message, 'session':session, 'survey':survey})
     # Remove saved session files
     os.remove('sessions/set_'+session.key)
-    context = {
-        'session': session,
-        'survey': survey
-    }
+
     return render(request,'surveys/end.html', context)
 
 #404 handler
