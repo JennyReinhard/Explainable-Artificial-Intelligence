@@ -36,6 +36,7 @@ ALLOWED_HOSTS = [
 # Application definition
 
 INSTALLED_APPS = [
+    'import_export',
     'modeltranslation',
     'jet_django',
     'widget_tweaks',
@@ -162,3 +163,5 @@ MESSAGE_TAGS = {
 }
 
 SESSION_EXPIRE_AT_BROWSER_CLOSE = True
+
+IMPORT_EXPORT_USE_TRANSACTIONS = True
