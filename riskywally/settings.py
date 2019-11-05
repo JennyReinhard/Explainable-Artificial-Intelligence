@@ -31,6 +31,7 @@ ALLOWED_HOSTS = [
     '127.0.0.1',
     '137.226.67.16',
     'iop-decisions.comm.rwth-aachen.de',
+    'risky-decisions.comm.rwth-aachen.de',
 ]
 # Application definition
 
