@@ -28,7 +28,10 @@ DEBUG = True
 
 ALLOWED_HOSTS = [
     'localhost',
-    '127.0.0.1'
+    '127.0.0.1',
+    '137.226.67.16',
+    'iop-decisions.comm.rwth-aachen.de',
+    'risky-decisions.comm.rwth-aachen.de',
 ]
 # Application definition
 
@@ -88,8 +91,8 @@ DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.postgresql_psycopg2",
         "NAME": "riskywally",
-        "USER": "postgres",
-        "PASSWORD": "",
+        "USER": "lliehner",
+        "PASSWORD": "luca",
         "HOST": "localhost",
         "PORT": "5432",
     }
