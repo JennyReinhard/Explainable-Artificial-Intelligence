@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Survey, Session, SetFactor, SetLevel, Trial
+from .models import Survey, Session, SetFactor, SetLevel, Trial, Redirect
 from import_export.admin import ImportExportModelAdmin
 
 # Register your models here.
@@ -14,9 +14,13 @@ class SurveyAdmin(ImportExportModelAdmin):
     pass
 
 @admin.register(SetFactor)
-class SurveySetFactor(ImportExportModelAdmin):
+class SetFactorAdmin(ImportExportModelAdmin):
     pass
 
 @admin.register(SetLevel)
-class SurveySetLevel(ImportExportModelAdmin):
+class SetLevelAdmin(ImportExportModelAdmin):
+    pass
+
+@admin.register(Redirect)
+class RedirectAdmin(ImportExportModelAdmin):
     pass
