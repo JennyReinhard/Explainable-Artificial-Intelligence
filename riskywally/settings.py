@@ -24,7 +24,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = '8_fn6njr#&)3rm#ralxrdrnbc2-d7q0)ev*ewgk6s3h)pocxzr'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = [
     'localhost',
@@ -149,6 +149,10 @@ LOCALE_PATHS = [
 # https://docs.djangoproject.com/en/2.1/howto/static-files/
 
 STATIC_URL = '/static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'static/')
+
+MEDIA_URL='/media/'
+MEDIA_ROOT=os.path.join(BASE_DIR, 'media/')
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
@@ -165,3 +169,6 @@ MESSAGE_TAGS = {
 SESSION_EXPIRE_AT_BROWSER_CLOSE = True
 
 IMPORT_EXPORT_USE_TRANSACTIONS = True
+
+JET_PROJECT = 'risky_wally_3'
+JET_TOKEN = '83ce1cae-2a3b-4ec5-b1bc-bc39dd059c8d'
