@@ -63,7 +63,7 @@
     <div>
       <h3>Sessions</h3>
       {% if survey.session_set.all %}
-      <a class="uk-button uk-button-danger" href="#" uk-toggle="target: #delete-session-modal">Delete all</a>
+      <button class="uk-button uk-button-danger" href="#" uk-toggle="target: #delete-session-modal" disabled>Delete all</button>
       {% endif %}
       <div id="delete-session-modal" uk-modal>
         <div class="uk-modal-dialog uk-modal-body">
@@ -92,7 +92,7 @@
           <tr>
             <td>{{forloop.counter}}</td>
             <td>{{session.key}}</td>
-            <td><button class="uk-button uk-button-default" type="button">View</button></td>
+            <td><button class="uk-button uk-button-default" href="#" uk-toggle="target: #trial-modal-{{session.key}}">View</button></td>
           </tr>
           {% endfor %}
         </tbody>
@@ -100,4 +100,47 @@
     </div>
   </div>
 </div>
+{%for session in survey.session_set.all %}
+<div id="trial-modal-{{session.key}}" uk-modal>
+    <div class="uk-modal-dialog">
+        <button class="uk-modal-close-default" type="button" uk-close></button>
+        <div class="uk-modal-header">
+            <h2 class="uk-modal-title">{{session.key}}</h2>
+        </div>
+        <div class="uk-modal-body">
+          <table class="uk-table uk-table-divider">
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Reliability</th>
+                <th>DSS</th>
+                <th>Risk</th>
+                <th>Scenario</th>
+                <th>Decision</th>
+                <th>Time</th>
+                <th>Feedback</th>
+              </tr>
+            </thead>
+            <tbody>
+              {%for trial in session.trial_set.all %}
+              <tr>
+                <td>{{trial.id}}</td>
+                <td>{{trial.reliability}}</td>
+                <td>{{trial.dss}}</td>
+                <td>{{trial.risk}}</td>
+                <td>{{trial.scenario}}</td>
+                <td>{{trial.decision}}</td>
+                <td>{{trial.trialDuration}}</td>
+                <td>{{trial.feedbackDuration}}</td>
+              </tr>
+            {% endfor %}
+            </tbody>
+          </table>
+        </div>
+        <div class="uk-modal-footer uk-text-right">
+            <button class="uk-button uk-button-default uk-modal-close" type="button">Save</button>
+        </div>
+    </div>
+</div>
+{% endfor %}
 {% endblock %}
