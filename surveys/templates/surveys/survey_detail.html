@@ -101,8 +101,8 @@
   </div>
 </div>
 {%for session in survey.session_set.all %}
-<div id="trial-modal-{{session.key}}" uk-modal>
-    <div class="uk-modal-dialog">
+<div id="trial-modal-{{session.key}}"  class="uk-modal-container" uk-modal>
+    <div class="uk-modal-dialog" uk-overflow-auto>
         <button class="uk-modal-close-default" type="button" uk-close></button>
         <div class="uk-modal-header">
             <h2 class="uk-modal-title">{{session.key}}</h2>
@@ -138,6 +138,7 @@
           </table>
         </div>
         <div class="uk-modal-footer uk-text-right">
+            <span class="uk-float-left"> Count: <span class="uk-badge">{{session.trial_set.count}}</span></p></span>
             <button class="uk-button uk-button-default uk-modal-close" type="button">Save</button>
         </div>
     </div>
