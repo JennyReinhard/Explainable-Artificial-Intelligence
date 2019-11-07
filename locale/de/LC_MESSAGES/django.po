@@ -48,7 +48,7 @@ msgstr "Los"
 
 #: surveys/templates/surveys/end.html:8
 msgid "Contact us via mail"
-msgstr "Schreiben Sie uns ein Mail"
+msgstr "Schreiben Sie uns eine E-Mail"
 
 #: surveys/templates/surveys/end.html:11
 msgid "Participant"
