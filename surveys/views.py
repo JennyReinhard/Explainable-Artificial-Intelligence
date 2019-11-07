@@ -316,7 +316,8 @@ def trial(request, survey_id, session_key):
             'balance': block.balance,
             'injuries': block.injuries,
             'max': block.max,
-            'redirect': redirect_url
+            'redirect': redirect_url,
+            'blockcounter': block.blockcounter
         }
 
         set.pop()

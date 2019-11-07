@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-11-05 09:57+0100\n"
+"POT-Creation-Date: 2019-11-07 12:16+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -26,11 +26,11 @@ msgstr "Spielen"
 msgid "Start experiment"
 msgstr "Experiment starten"
 
-#: riskywally/settings.py:124
+#: riskywally/settings.py:127
 msgid "English"
 msgstr "Englisch"
 
-#: riskywally/settings.py:125
+#: riskywally/settings.py:128
 msgid "German"
 msgstr "Deutsch"
 
@@ -87,21 +87,29 @@ msgid "Start questionnaire"
 msgstr "Zum Fragebogen"
 
 #: surveys/templates/surveys/result.html:7
-msgid ""
-"Congratulations! You have finished the first block. Here are your results:"
+msgid "Congratulations! You have finished the block. Here are your results:"
 msgstr ""
-"Herzlichen Glückwunsch! Sie haben die erste Runde gemeistert. Hier sind Ihre "
+"Herzlichen Glückwunsch! Sie haben die Runde gemeistert. Hier sind Ihre "
 "Ergebnisse:"
 
-#: surveys/templates/surveys/result.html:15
+#: surveys/templates/surveys/result.html:8
+#: surveys/templates/surveys/trial.html:135
+msgid "Progress"
+msgstr "Fortschritt"
+
+#: surveys/templates/surveys/result.html:8
+msgid "blocks"
+msgstr "Blöcke"
+
+#: surveys/templates/surveys/result.html:16
 msgid "The maximal possible profit was"
 msgstr "Der maximal mögliche Gewinn beträgt"
 
-#: surveys/templates/surveys/result.html:20
+#: surveys/templates/surveys/result.html:21
 msgid "Congratulations! You have reached the maximum profit!"
 msgstr "Herzlichen Glückwunsch! Sie haben maximalen Gewinn erziehlt!"
 
-#: surveys/templates/surveys/result.html:23
+#: surveys/templates/surveys/result.html:24
 msgid "To the questionnaire"
 msgstr "Zum Fragebogen"
 
@@ -240,7 +248,3 @@ msgstr "verletzt"
 #: surveys/templates/surveys/trial.html:124
 msgid "Next trial"
 msgstr "Nächste Aufgabe"
-
-#: surveys/templates/surveys/trial.html:135
-msgid "Progress"
-msgstr "Fortschritt"

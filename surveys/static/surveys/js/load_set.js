@@ -45,7 +45,7 @@ $(document).ready(function() {
           $("#start-trial").attr("href", redirect_url+"?sessionkey="+json.session_key+"&language="+json.language);
         }
         else{
-          $("#start-trial").attr("href", "/surveys/"+survey_id+"/"+json.session_key+"/ready/");
+          $("#start-trial").attr("href", "/surveys/"+survey_id+"/"+json.session_key+"/instructions/");
         }
 
       });
