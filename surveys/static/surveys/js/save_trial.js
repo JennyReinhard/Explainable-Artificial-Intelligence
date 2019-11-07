@@ -69,9 +69,9 @@ $(document).ready(function() {
 
     }
 
-    if (e.key == 'i') {
-      UIkit.offcanvas('#offcanvas-reveal').toggle();
-    }
+    // if (e.key == 'i') {
+    //   UIkit.offcanvas('#offcanvas-reveal').toggle();
+    // }
   });
 
   function getCookie(name) {
