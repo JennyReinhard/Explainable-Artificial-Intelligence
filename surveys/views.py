@@ -173,7 +173,7 @@ def block_ready(request, survey_id, session_key):
 
     if set.isEmpty():
         try:
-            redirect_url = survey.redirect_set.get(purpose=2).url+"?sessionkey="+session.key+'&surveyid='+str(survey.id)+'&language='+language
+            redirect_url = survey.redirect_set.get(purpose=2).url+"?sessionkey="+session.key+'&surveyid='+str(survey.id)+'&language='+language+'&Q_Language='+language.upper()
 
         except ObjectDoesNotExist:
             redirect_url = reverse('surveys:end')
@@ -305,7 +305,7 @@ def trial(request, survey_id, session_key):
         block = set.top()
         try:
             redirect_url = survey.redirect_set.get(purpose=1).url+'?sessionkey='+session.key+'&surveyid='+str(survey.id)+'&balance='+str(block.balance)+'&language='+str(language)+'&dss='+urllib.parse.quote(block.dss.name)+'&blockcounter='+str(block.blockcounter)
-            redirect_url = redirect_url+'&scenario='+urllib.parse.quote(block.scenario.name)+'&injuries='+str(block.injuries)+'&max='+str(block.max)
+            redirect_url = redirect_url+'&scenario='+urllib.parse.quote(block.scenario.name)+'&injuries='+str(block.injuries)+'&max='+str(block.max)+'&Q_Language='+language.upper()
         except ObjectDoesNotExist:
             redirect_url = reverse('surveys:trial', kwargs={'survey_id': survey.id, 'session_key': session.key})
 
@@ -334,7 +334,7 @@ def trial(request, survey_id, session_key):
         #if there is a redirect, redirect, otherwise go to home
         try:
             redirect_obj = survey.redirect_set.get(purpose=2)
-            return redirect(redirect_obj.url+"?sessionkey="+session.key+'&surveyid='+str(survey.id)+'&language='+language)
+            return redirect(redirect_obj.url+"?sessionkey="+session.key+'&surveyid='+str(survey.id)+'&language='+language+'&Q_Language='+language.upper())
 
         except ObjectDoesNotExist:
             return redirect('surveys:end', survey_id=survey.id, session_key=session.key)
