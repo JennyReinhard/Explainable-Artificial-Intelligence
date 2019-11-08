@@ -334,7 +334,7 @@ def trial(request, survey_id, session_key):
         #if there is a redirect, redirect, otherwise go to home
         try:
             redirect_obj = survey.redirect_set.get(purpose=2)
-            return redirect(redirect_obj.url+"?sessionkey="+session.key+'&surveyid='+str(survey.id)+'&language='+language
+            return redirect(redirect_obj.url+"?sessionkey="+session.key+'&surveyid='+str(survey.id)+'&language='+language)
 
         except ObjectDoesNotExist:
             return redirect('surveys:end', survey_id=survey.id, session_key=session.key)
