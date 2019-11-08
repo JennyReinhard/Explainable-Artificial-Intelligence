@@ -307,6 +307,9 @@
         <a href="#wizard-page-7" class="uk-button uk-button-default" uk-toggle>Previous</a>
         <button id="to-trial" name="button"class="uk-button uk-button-default">Start training</button>
       </div>
+      <div class="hidden">
+        <input id="trial-redirect" name="trial-redirect" type="hidden" value="{% url 'surveys:training' survey.id session.key %}">
+      </div>
     </div>
   </div>
 </div>
