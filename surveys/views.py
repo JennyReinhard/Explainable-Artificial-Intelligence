@@ -100,6 +100,7 @@ def introduction(request, survey_id):
 def load_set(request, survey_id):
     survey = get_object_or_404(Survey, pk=survey_id)
     language = get_language()
+    print(language)
     #Gets trial multiplicator
     ntrials = survey.ntrials
 
