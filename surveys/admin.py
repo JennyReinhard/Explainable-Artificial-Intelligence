@@ -2,13 +2,6 @@ from django.contrib import admin
 from .models import Survey, Session, SetFactor, SetLevel, Trial, Redirect
 from import_export.admin import ImportExportModelAdmin
 
-# Register your models here.
-# admin.site.register(Survey)
-admin.site.register(Session)
-# admin.site.register(SetLevel)
-# admin.site.register(SetFactor)
-admin.site.register(Trial)
-
 @admin.register(Survey)
 class SurveyAdmin(ImportExportModelAdmin):
     pass
@@ -23,4 +16,12 @@ class SetLevelAdmin(ImportExportModelAdmin):
 
 @admin.register(Redirect)
 class RedirectAdmin(ImportExportModelAdmin):
+    pass
+
+@admin.register(Session)
+class SessionAdmin(ImportExportModelAdmin):
+    pass
+
+@admin.register(Trial)
+class TrialAdmin(ImportExportModelAdmin):
     pass
