@@ -9,6 +9,9 @@ from django.utils.translation import get_language
 from .set import Set, showFailTrials, showSet
 from .models import Survey, Session, Redirect, SetFactor, SetLevel, Trial
 from .forms import SurveyCreateFrom, ParticipantIDForm
+from rest_framework.views import APIView
+from rest_framework.response import Response
+
 import urllib.parse
 from itertools import islice
 import random
@@ -497,3 +500,22 @@ def get_ip(request):
     except:
         ip = ''
     return ip
+
+class FeedbackTimes(APIView):
+
+    authentication_classes = []
+    permission_classes = []
+
+    def get(self, request, session_key):
+
+        session = get_object_or_404(Session, key=session_key)
+        trials = [trial.id for trial in Trial.objects.filter(sessionkey=session)]
+        feedbackTimes = [trial.feedbackDuration for trial in Trial.objects.filter(sessionkey=session)]
+        trialTimes = [trial.trialDuration for trial in Trial.objects.filter(sessionkey=session)]
+
+        data = {
+            'trials': trials,
+            'feedbackDuration': feedbackTimes,
+            'trialDuration': trialTimes
+        }
+        return Response(data)

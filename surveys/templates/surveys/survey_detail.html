@@ -9,6 +9,7 @@
     <li><a href="#">Redirects</a></li>
     <li><a href="#">Factors</a></li>
     <li><a href="#">Sessions</a></li>
+    <li><a href="#">Statistics</a></li>
   </ul>
   <div class="uk-switcher">
     <div class="uk-animation-slide-bottom-small">
@@ -60,7 +61,7 @@
       </ul>
       {% endfor %}
     </div>
-    <div>
+    <div class="uk-animation-slide-bottom-small">
       <h3>Sessions</h3>
       {% if survey.session_set.all %}
       <button class="uk-button uk-button-danger" href="#" uk-toggle="target: #delete-session-modal" disabled>Delete all</button>
@@ -84,7 +85,8 @@
           <tr>
             <th class="uk-table-shrink">#</th>
             <th class="uk-table-expand">Session ID</th>
-            <th class="uk-width-small">Trial</th>
+            <th class="uk-width-small"></th>
+            <th class="uk-width-small"></th>
           </tr>
         </thead>
         <tbody>
@@ -93,10 +95,20 @@
             <td>{{forloop.counter}}</td>
             <td>{{session.key}}</td>
             <td><button class="uk-button uk-button-default" href="#" uk-toggle="target: #trial-modal-{{session.key}}">View</button></td>
+            <td><button class="uk-button uk-button-secondary" href="#" uk-toggle="target: #trial-modal-analytics-{{session.key}}">Analytics</button></td>
           </tr>
           {% endfor %}
         </tbody>
       </table>
+    </div>
+    <div class="uk-animation-slide-bottom-small">
+
+
+
+
+
+
+
     </div>
   </div>
 </div>
@@ -143,5 +155,74 @@
         </div>
     </div>
 </div>
+
+<div id="trial-modal-analytics-{{session.key}}"  class="uk-modal-container" uk-modal>
+    <input id="api-call" name="api-call" type="hidden" value="{% url 'surveys:api-trial-times' session.key %}">
+    <div class="uk-modal-dialog" uk-overflow-auto>
+        <button class="uk-modal-close-default" type="button" uk-close></button>
+        <div class="uk-modal-header">
+            <h2 class="uk-modal-title">{{session.key}}</h2>
+        </div>
+        <div class="uk-modal-body">
+          <canvas id="myChart" width="400" height="400"></canvas>
+          <script>
+          var endpoint = $('#api-call').val();
+          var trialTimes = [];
+          var feedbackTimes = [];
+          var trialNames = [];
+
+          $.ajax({
+            method: "GET",
+            url: endpoint,
+            success: function(data){
+              trialTimes = data.trialDuration;
+              trialNames = data.trials;
+              feedbackTimes = data.feedbackDuration;
+              var ctx = document.getElementById('myChart').getContext('2d');
+
+              var config = {
+                type: 'line',
+                data: {
+                  labels: trialNames,
+                  datasets: [{
+                    label: 'Feedback time',
+                    fill: false,
+                    borderColor: '#995D81',
+                    backgroundColor: '#995D81',
+                    data:
+                      feedbackTimes
+
+                  }, {
+                    label: 'Trial duration ',
+                    fill: false,
+                    borderColor: "#EB8258",
+                    backgroundColor: '#EB8258',
+                    data:
+                      trialTimes
+
+                  }]
+                },
+                options: {
+                  title: {
+                    display: true,
+                    text: 'Feedback times and trial duration'
+                  },
+                }
+              };
+
+              var myChart = new Chart(ctx, config);
+
+            },
+            error: function(error){
+              console.log(error)
+            }
+          });
+          </script>
+        <div class="uk-modal-footer uk-text-right">
+            <button class="uk-button uk-button-default uk-modal-close" type="button">Save</button>
+        </div>
+    </div>
+</div>
+
 {% endfor %}
 {% endblock %}
