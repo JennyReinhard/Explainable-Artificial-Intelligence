@@ -1,5 +1,6 @@
 {% extends 'base.html'%}
 {% block body%}
+{% load static %}
 <div class="uk-container uk-margin-top uk-margin-large-bottom">
   <a href="{% url 'surveys:survey' session.survey.id %}" uk-icon="icon: chevron-left" uk-tooltip="Back to overview"></a>
   <h2 class="uk-heading-small uk-heading-bullet">{{session.key}}</h2>
@@ -53,6 +54,9 @@
       </table>
       <a href="#" uk-totop uk-scroll></a>
     </div>
+    <div>
+    <h2>Times</h2>
+    <hr>
     <div class="uk-column-1-2 uk-animation-slide-bottom-small ">
     <input id="api-call-trialtimes" name="sessionkey" type="hidden" value="{% url 'surveys:api-trial-times' session.key %}">
 
@@ -60,62 +64,16 @@
         <canvas id="trialtimes" width="400" height="400"></canvas>
       </div>
       <div>
-        <h1 class="uk-heading-medium">Number of injuries: {{injuries}}</h1>
+        <p>Average trial duration: {{avgTrialDuration}}</p>
+        <p>Average feedback duration: {{avgFeedBackDuration}}</p>
       </div>
 
-
-      <script>
-        var endpoint = $('#api-call-trialtimes').val();
-        var trialTimes = [];
-        var feedbackTimes = [];
-        var trialNames = [];
-
-        $.ajax({
-          method: "GET",
-          url: endpoint,
-          success: function(data) {
-            trialTimes = data.trialDuration;
-            trialNames = data.trials;
-            feedbackTimes = data.feedbackDuration;
-
-            var ctx = document.getElementById('trialtimes').getContext('2d');
-            var config = {
-              type: 'line',
-              data: {
-                labels: trialNames,
-                datasets: [{
-                  label: 'Feedback time',
-                  fill: false,
-                  borderColor: '#995D81',
-                  backgroundColor: '#995D81',
-                  data: feedbackTimes
-
-                }, {
-                  label: 'Trial duration ',
-                  fill: false,
-                  borderColor: "#EB8258",
-                  backgroundColor: '#EB8258',
-                  data: trialTimes
-
-                }]
-              },
-              options: {
-                title: {
-                  display: true,
-                  text: 'Feedback times and trial duration'
-                },
-              }
-            };
-
-            var myChart = new Chart(ctx, config);
-
-          },
-          error: function(error) {
-            console.log(error)
-          }
-        });
-      </script>
+    </div>
+    <h2>Injuries</h2>
+    <hr>
+    <p> Number of injuries: {{injuries}}</p>
     </div>
   </div>
 </div>
+<script src="{% static 'surveys/js/graphs.js' %}"></script>
 {% endblock %}

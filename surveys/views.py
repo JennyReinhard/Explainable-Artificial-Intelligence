@@ -11,6 +11,7 @@ from .models import Survey, Session, Redirect, SetFactor, SetLevel, Trial
 from .forms import SurveyCreateFrom, ParticipantIDForm
 from rest_framework.views import APIView
 from rest_framework.response import Response
+from django.db.models import Avg
 
 import urllib.parse
 from itertools import islice
@@ -48,10 +49,14 @@ def session_detail(request, survey_id, session_key):
     for trial in trials:
         total_injuries = total_injuries + trial.injuries
 
+    avgTrialDuration = trials.aggregate(Avg('trialDuration'))
+    avgFeedBackDuration = trials.aggregate(Avg('feedbackDuration'))
     context = {
         'survey': survey,
         'session': session,
-        'injuries': total_injuries
+        'injuries': total_injuries,
+        'avgTrialDuration': avgTrialDuration.get('trialDuration__avg', 0)/1000,
+        'avgFeedBackDuration': avgFeedBackDuration.get('feedbackDuration__avg', 0)/1000,
     }
     return render(request, 'surveys/session_detail.html', context)
 
