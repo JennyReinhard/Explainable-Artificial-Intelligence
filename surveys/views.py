@@ -52,7 +52,7 @@ def session_detail(request, survey_id, session_key):
     avgTrialDuration = trials.aggregate(Avg('trialDuration'))
     avgFeedBackDuration = trials.aggregate(Avg('feedbackDuration'))
     totalDuration = trials.aggregate(Sum('trialDuration'))
-    totalTrialDuration = round((totalDuration.get('trialDuration__sum', 0))/6000, 2)
+    totalTrialDuration = round((totalDuration.get('trialDuration__sum', 0))/60000, 2)
 
     context = {
         'survey': survey,
