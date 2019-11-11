@@ -63,15 +63,15 @@
       <div>
         <canvas id="trialtimes" width="400" height="400"></canvas>
       </div>
-      <div>
-        <p>Average trial duration: {{avgTrialDuration}}</p>
-        <p>Average feedback duration: {{avgFeedBackDuration}}</p>
+      <div class="uk-margin-large-top">
+        <p>Average trial duration: <span class="uk-badge">{{avgTrialDuration}}</span> Seconds</p>
+        <p>Average feedback duration: <span class="uk-badge"> {{avgFeedBackDuration}}</span> Seconds</p>
+        <p>Total session duration: <span class="uk-badge"> {{totalTrialDuration}}</span> Minutes</p>
       </div>
-
     </div>
     <h2>Injuries</h2>
     <hr>
-    <p> Number of injuries: {{injuries}}</p>
+    <p> Number of injuries: <span class="uk-badge">{{injuries}}</span></p>
     </div>
   </div>
 </div>
