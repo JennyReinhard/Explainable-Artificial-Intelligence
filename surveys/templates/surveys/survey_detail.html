@@ -85,6 +85,7 @@
           <tr>
             <th class="uk-table-shrink">#</th>
             <th class="uk-table-expand">Session ID</th>
+            <th class="uk-width-small">Participant ID</th>
             <th class="uk-width-medium"></th>
           </tr>
         </thead>
@@ -93,6 +94,7 @@
           <tr>
             <td>{{forloop.counter}}</td>
             <td>{{session.key}}</td>
+            <td><span class="uk-label">{{session.participantID}}</span></td>
             <td><a class="uk-button uk-button-default" href="{% url 'surveys:session' survey.id session.key%}">View details</a></td>
           </tr>
           {% endfor %}
