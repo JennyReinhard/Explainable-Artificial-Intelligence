@@ -61,6 +61,9 @@ class Session(models.Model):
     def __str__(self):
         return str(self.key)
 
+    class Meta:
+        ordering = ['-start_date']
+
 # Trial model
 class Trial(models.Model):
     sessionkey = models.ForeignKey(Session, on_delete=models.CASCADE)
@@ -86,6 +89,9 @@ class Trial(models.Model):
     def __str__(self):
         return str(self.id)
 
+    class Meta:
+        ordering = ['id']
+
 #Redirect model
 class Redirect(models.Model):
     survey = models.ForeignKey(Survey, on_delete=models.CASCADE)
@@ -95,6 +101,9 @@ class Redirect(models.Model):
     # Returns name in the admin panel
     def __str__(self):
         return str(self.url)
+
+    class Meta:
+        ordering = ['purpose']
 
 # Model for a specific factor set
 class SetFactor(models.Model):
