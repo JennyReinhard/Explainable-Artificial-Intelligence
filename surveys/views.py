@@ -39,6 +39,22 @@ class SurveyUptateView(LoginRequiredMixin, generic.UpdateView):
         'ready',
         'end'
     ]
+def session_detail(request, survey_id, session_key):
+    survey = get_object_or_404(Survey, pk=survey_id)
+    session = get_object_or_404(Session, key=session_key)
+
+    trials = Trial.objects.filter(sessionkey=session)
+    total_injuries = 0
+    for trial in trials:
+        total_injuries = total_injuries + trial.injuries
+
+    context = {
+        'survey': survey,
+        'session': session,
+        'injuries': total_injuries
+    }
+    return render(request, 'surveys/session_detail.html', context)
+
 
 # Generic create view to create a new survey
 def create_survey(request):
@@ -401,6 +417,7 @@ def save_trial(request, trial_id):
         trial.blockcounter = int(request.POST.get('blockcounter', False))
         trial.decision = request.POST.get('decision', False)
         trial.trialDuration = int(request.POST.get('trialDuration', False))
+        trial.injuries = int(request.POST.get('injuries', 0))
         trial.save()
 
         # Loads saved session set

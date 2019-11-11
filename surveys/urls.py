@@ -24,6 +24,7 @@ urlpatterns = [
     path('<int:survey_id>/<slug:session_key>/survey/ready/', views.survey_ready, name='survey-ready'),
     path('<int:survey_id>/<slug:session_key>/end/', views.end, name='end'),
 
+    path('<int:survey_id>/<slug:session_key>/', views.session_detail, name='session'),
     path('api/trialtimes/<slug:session_key>', views.FeedbackTimes.as_view(), name='api-trial-times')
 
 

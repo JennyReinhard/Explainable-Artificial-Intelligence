@@ -23,7 +23,8 @@ class Survey(models.Model):
         help_text='Give the survey a short description, so that others know what it us'
     )
 
-    date_created = models.DateTimeField(auto_now=True)
+    date_created = models.DateTimeField(auto_now_add=True)
+    date_modified = models.DateTimeField(auto_now=True)
     introduction = HTMLField(blank=True)
     ready = HTMLField(blank=True)
     end = HTMLField(blank=True)
@@ -47,8 +48,8 @@ class Session(models.Model):
         on_delete=models.CASCADE,
         verbose_name='Related survey')
 
-    start_date = models.DateTimeField(auto_now=True)
-    end_date = models.DateTimeField(auto_now_add=True)
+    start_date = models.DateTimeField(auto_now_add=True)
+    end_date = models.DateTimeField(auto_now=True)
     ip_address = models.GenericIPAddressField(
         protocol = 'both',
         unpack_ipv4=True
@@ -80,6 +81,7 @@ class Trial(models.Model):
     decision = models.CharField(max_length=255, null=True)
     defectiveness = models.BooleanField(default=False)
     profit = models.IntegerField(null=True)
+    injuries = models.IntegerField(default=0)
 
     def __str__(self):
         return str(self.id)

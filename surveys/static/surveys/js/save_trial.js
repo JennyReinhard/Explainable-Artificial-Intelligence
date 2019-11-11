@@ -24,6 +24,7 @@ $(document).ready(function() {
   var blockcounter = $('#blockcounter').val();
   var result_panel_dispaly = $('#result');
   var feedback_url = $('#feedback-url').val();
+  var injuries = 0
 
 
   $(function() {
@@ -125,7 +126,8 @@ $(document).ready(function() {
       'injuries': injuries,
       'trialDuration': trialDuration,
       'feedbackDuration': feedbackDuration,
-      'manual_labour': manualLabour
+      'manual_labour': manualLabour,
+      'injuries': injuries
     };
 
     $.post(url, data, function(response) {
@@ -161,6 +163,7 @@ $(document).ready(function() {
               $('#result-value').addClass('uk-text-danger');
               $('#injuries').html("1");
               $('#injuries').addClass('uk-text-danger');
+              injuries = 1
             } else if (risk == 'property_risk') {
               $('#result-text').html("You have chosen to <strong>automate</strong>! Something went really wrong and you have made a loss of <span class='uk-text-danger'>-" + packageValue + " $</span>. Yayks.");
               $('#result-value').html("0");
@@ -171,6 +174,7 @@ $(document).ready(function() {
               $('#result-value').html("0");
               $('#result-value').addClass('uk-text-danger');
               $('#injuries').html("1");
+              injuries = 1
 
             } else {
               $('#result-text').html("You have chosen to <strong>automate</strong>! There was however a problem with the vehicle and you made a loss of <span class='uk-text-success'>+" + packageValue + " $</span>. No one has been injured! Yipie!");
