@@ -146,7 +146,7 @@ $(document).ready(function() {
       }
       else if (language_code == 'de') {
         if (decision == 'manual') {
-          $('#result-text').html("Sie haben sich für <strong>Manuel</strong> entschieden! Sie haben ein Gewinn von " + manualLabour + " € gemacht.");
+          $('#result-text').html("Sie haben sich für <strong>Manuell</strong> entschieden! Sie haben ein Gewinn von " + manualLabour + " € gemacht.");
           $('#result-value').html(manualLabour);
           $('#injuries').html("0");
         }

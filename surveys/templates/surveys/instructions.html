@@ -229,9 +229,18 @@
         during these rides. Details about the vehicle are shown on the left-hand side of the screen and will be displayed as follows:
       </p>
       <div class="uk-flex uk-flex-center">
-        <img data-src="{% static 'surveys/img/medical_reliability.png' %}" uk-img>
-        <img data-src="{% static 'surveys/img/urban_reliability.png' %}" uk-img>
-        <img data-src="{% static 'surveys/img/warehouse_reliability.png' %}" uk-img>
+        <div class="uk-margin-large-right uk-clearfix">
+          <img class="uk-float-left uk-margin-small-right" src="{% static 'surveys/img/robot.png' %}" width="100" uk-svg>
+          <p class="uk-margin "><strong>{% trans "Attempts" %}: </strong>50<br><strong>{% trans "Errors" %}: </strong>10</p>
+        </div class="uk-margin-large-right uk-clearfix">
+        <div class="uk-margin-large-right uk-clearfix">
+          <img class="uk-float-left uk-margin-small-right" src="{% static 'surveys/img/car.png' %}" width="100" uk-svg>
+          <p class="uk-margin "><strong>{% trans "Attempts" %}: </strong>50<br><strong>{% trans "Errors" %}: </strong>10</p>
+        </div>
+        <div>
+          <img class="uk-float-left uk-margin-small-right" src="{% static 'surveys/img/forklift.png' %}" width="100" uk-svg>
+          <p class="uk-margin "><strong>{% trans "Attempts" %}: </strong>50<br><strong>{% trans "Errors" %}: </strong>10</p>
+        </div>
       </div>
       <h3>Decision support</h3>
       <p>Furthermore, you will be given a suggestion whether to automate or not. This suggestion comes
@@ -294,7 +303,7 @@
       <p>
         You are now ready to start the experiment. Before you start, you will have the
         chance to go through a short training round. Your only task is to choose either <strong>Automate</strong> <code>Keyboard: [A]</code>
-        or <strong>Manual</strong> <code>Keyboard: [C]</code>. In order to proceed to the next trial hit the <code>Spacebar</code>.
+        or <strong>Manual</strong> <code>Keyboard: [M]</code>. In order to proceed to the next trial hit the <code>Spacebar</code>.
       </p>
       <form class="uk-margin-medium-bottom" action="{% url 'surveys: check'}" method="post">
         <label><input id="checked" class="uk-checkbox" type="checkbox"> &nbsp;&nbsp; I have read the instructions and will complete the experiment in a serious manner.</label>
@@ -344,7 +353,7 @@
             </ol>
           </dd>
           <br>
-          <dt>2. <code>Manuel</code></dt>
+          <dt>2. <code>Manuell</code></dt>
           <dd>Die zweite Möglichtkeit ist die Manuelle Zustellung/ Abholung des Paketes.
             Diese Option ermöglicht es Ihnen die Aufgabe von einer menschlichen Arbeitskraft
             ausführen zu lassen. Dabei können Sie sich darauf verlassen, dass das Paket
@@ -406,7 +415,7 @@
       </p>
       <p><strong>Urban:</strong> Der lokale Lieferservice testet seine neue
         selbstfahrende Lieferflotte. Ihre Aufgabe ist es eine Essenslieferung auf die andere Seite der
-        Stadt zu bringen. Sie müsssen entscheiden, ob sie diese Lieferung automatisieren oder manuel steuern. Beachten Sie dabei, dass sich
+        Stadt zu bringen. Sie müsssen entscheiden, ob sie diese Lieferung automatisieren oder manuell steuern. Beachten Sie dabei, dass sich
         Fußgänger und andere Autos auf dem Weg des Fahrzeugs befinden können.
       </p>
       <p><strong>Lager:</strong> Sie arbeiten als Logistikmanager in einem Lager und haben seit einigen
@@ -441,7 +450,7 @@
           leidet an akutem Leberversagen und soll eine neue Leber bekommen. Die Spenderleber soll so schnell wie möglich zum Operationssaal gebracht werden.
         Auf der rechten Seite wird ein Krankenhausroboter dargestellt, der die zuvor erwähnte Leber befördern soll. Der Roboter, hat die
         Aufgabe die Leber so schnell wie möglich in den OP-Saal zu bringen. Es ist Ihre Aufgabe zu entscheiden, ob die Lieferung manuell oder automatisch durchgeführt werden soll.
-        Wählen Sie die automatisierte Methode und verläuft diese reibungslos, könnte so der Gewinn des Krankenhaus maximiert werden, und laufende Kosten inherhalb
+        Wählen Sie die automatisierte Methode und verläuft diese reibungslos, könnte so der Gewinn des Krankenhaus maximiert werden, und laufende Kosten innerhalb
         des Gesundheitssystems auf lange dauer minimiert werden. Bei Ihrer Entscheidung sollten Sie darauf achten, ob sich
         andere Patienten oder medizinische Geräte auf dem Weg des Roboters befinden.
         <div class="uk-modal-footer uk-text-right">
@@ -470,7 +479,7 @@
         Der lokale Lieferservice testet seine neue
           selbstfahrende Lieferflotte. Ihre Aufgabe ist es eine Essenslieferung auf die andere Seite der
           Stadt zu bringen. Der Ausgangspunkt befindet sich
-        auf der rechten Seite der Stadt und das Ziel ist durch eine gelbe Flage markiert. Sie müsssen entscheiden, ob Sie diese Lieferung automatisieren oder manuel steuern. Beachten Sie dabei, dass sich
+        auf der rechten Seite der Stadt und das Ziel ist durch eine gelbe Flage markiert. Sie müsssen entscheiden, ob Sie diese Lieferung automatisieren oder manuell steuern. Beachten Sie dabei, dass sich
         Fußgänger und andere Fahrzeuge auf dem Weg des Fahrzeugs befinden können. Der Einfachheit halber werden Kollisionen mit Fahrzeugen ausschliesslich als Sachschaden gewertet.
       </p>
       <div class="uk-modal-footer uk-text-right">
@@ -528,15 +537,15 @@
       </p>
       <div class="uk-flex uk-flex-center">
         <div class="uk-margin-large-right uk-clearfix">
-          <img class="uk-float-left uk-margin-small-right" src="{% static 'surveys/img/forklift.png' %}" width="100" uk-svg>
-          <p class="uk-margin "><strong>{% trans "Attempts" %}: </strong>50<br><strong>{% trans "Errors" %}: </strong>10</p>
-        </div>
-        <div class="uk-margin-large-right uk-clearfix">
           <img class="uk-float-left uk-margin-small-right" src="{% static 'surveys/img/robot.png' %}" width="100" uk-svg>
           <p class="uk-margin "><strong>{% trans "Attempts" %}: </strong>50<br><strong>{% trans "Errors" %}: </strong>10</p>
         </div class="uk-margin-large-right uk-clearfix">
-        <div>
+        <div class="uk-margin-large-right uk-clearfix">
           <img class="uk-float-left uk-margin-small-right" src="{% static 'surveys/img/car.png' %}" width="100" uk-svg>
+          <p class="uk-margin "><strong>{% trans "Attempts" %}: </strong>50<br><strong>{% trans "Errors" %}: </strong>10</p>
+        </div>
+        <div>
+          <img class="uk-float-left uk-margin-small-right" src="{% static 'surveys/img/forklift.png' %}" width="100" uk-svg>
           <p class="uk-margin "><strong>{% trans "Attempts" %}: </strong>50<br><strong>{% trans "Errors" %}: </strong>10</p>
         </div>
       </div>
@@ -577,7 +586,7 @@
         </div>
       </div>
       <h3>Profit</h3>
-      <p>Schließlich wird Ihnen noch angezeigt wieviel Gewinn durch die Nutzung der beiden Verfahren (<em>Automatisieren</em> und <em>Manuel</em> ) erzielt werden kann.
+      <p>Schließlich wird Ihnen noch angezeigt wieviel Gewinn durch die Nutzung der beiden Verfahren (<em>Automatisieren</em> und <em>Manuell</em> ) erzielt werden kann.
         <div class="uk-modal-footer uk-text-right">
           <a href="#wizard-page-6" class="uk-button uk-button-default" uk-toggle>Zurück</a>
           <a href="#wizard-page-8" class="uk-button uk-button-primary" uk-toggle>Weiter</a>
@@ -596,7 +605,7 @@
       <h3>Herzlichen Glückwunsch!</h3>
       <p>
         Geschafft! Sie sind jetzt bereit das Experiment zu starten. Bevor Sie starten, führen Sie noch eine kleine Trainingsrunde durch.
-        Dabei entscheiden Sie, ob Sie <strong>Automatisieren</strong> <code>Tastatur: [A]</code> oder <strong>Manuel</strong> <code>Tastatur: [M]</code>
+        Dabei entscheiden Sie, ob Sie <strong>Automatisieren</strong> <code>Tastatur: [A]</code> oder <strong>Manuell</strong> <code>Tastatur: [M]</code>
         vorgehen wollen. Um zur nächsten Situation überzugehen drücken Sie <code>Leerzeichen</code>.
       </p>
       <form class="uk-margin-medium-bottom" action="{% url 'surveys: check'}" method="post">

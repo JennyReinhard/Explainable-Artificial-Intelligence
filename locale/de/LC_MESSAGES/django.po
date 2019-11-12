@@ -232,7 +232,7 @@ msgstr "Gewinn"
 #: surveys/templates/surveys/training.html:100
 #: surveys/templates/surveys/trial.html:100
 msgid "Manual"
-msgstr "Manuel"
+msgstr "Manuell"
 
 #: surveys/templates/surveys/training.html:110
 #: surveys/templates/surveys/trial.html:110
