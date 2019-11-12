@@ -61,7 +61,7 @@
     <h2>Times</h2>
     <hr>
     <div class="uk-column-1-2 uk-animation-slide-bottom-small ">
-    <input id="api-call-trialtimes" name="sessionkey" type="hidden" value="{% url 'surveys:api-trial-times' session.key %}">
+    <input id="api-call-trialtimes" name="sessionkey" type="hidden" value="{% url 'surveys:api-sessions' session.key %}">
 
       <div>
         <canvas id="trialtimes" width="400" height="400"></canvas>
@@ -78,5 +78,5 @@
     </div>
   </div>
 </div>
-<script src="{% static 'surveys/js/graphs.js' %}"></script>
+<script src="{% static 'surveys/js/session_graphs.js' %}"></script>
 {% endblock %}

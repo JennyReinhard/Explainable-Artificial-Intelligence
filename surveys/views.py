@@ -59,18 +59,24 @@ def session_detail(request, survey_id, session_key):
     for trial in trials:
         total_injuries = total_injuries + trial.injuries
 
-    avgTrialDuration = trials.aggregate(Avg('trialDuration'))
-    avgFeedBackDuration = trials.aggregate(Avg('feedbackDuration'))
-    totalDuration = trials.aggregate(Sum('trialDuration'))
-    totalTrialDuration = round((totalDuration.get('trialDuration__sum', 0))/60000, 2)
+    if trials:
+        avgTrialDuration = round(trials.aggregate(Avg('trialDuration')).get('trialDuration__avg', 0)/1000,2)
+        avgFeedBackDuration = round(trials.aggregate(Avg('feedbackDuration')).get('feedbackDuration__avg', 0)/1000, 2)
+        totalDuration = round(trials.aggregate(Sum('trialDuration')).get('trialDuration__sum', 0)/60000, 2)
+
+    else:
+        avgTrialDuration = "No trials yet"
+        avgFeedBackDuration = "No trials yet"
+        totalDuration = "No trials yet"
+
 
     context = {
         'survey': survey,
         'session': session,
         'injuries': total_injuries,
-        'avgTrialDuration': round(avgTrialDuration.get('trialDuration__avg', 0)/1000, 2),
-        'avgFeedBackDuration': round(avgFeedBackDuration.get('feedbackDuration__avg', 0)/1000, 2),
-        'totalTrialDuration': totalTrialDuration
+        'avgTrialDuration': avgTrialDuration,
+        'avgFeedBackDuration': avgFeedBackDuration,
+        'totalTrialDuration': totalDuration
     }
     return render(request, 'surveys/session_detail.html', context)
 
@@ -85,7 +91,7 @@ def create_survey(request):
             instance.user = request.user
             instance.save()
             messages.success(request, 'New survey successfully created.')
-            return redirect('surveys:survey', pk=instance.id )
+            return redirect('surveys:survey', survey_id=instance.id )
     else:
         form = SurveyCreateFrom()
         context = {
@@ -537,7 +543,7 @@ def get_ip(request):
         ip = ''
     return ip
 
-class FeedbackTimes(APIView):
+class Sessions(APIView):
 
     authentication_classes = []
     permission_classes = []
@@ -554,4 +560,24 @@ class FeedbackTimes(APIView):
             'feedbackDuration': feedbackTimes,
             'trialDuration': trialTimes
         }
+        return Response(data)
+
+class Surveys(APIView):
+
+    authentication_classes = []
+    permission_classes = []
+
+    def get(self, request, survey_id):
+        survey = get_object_or_404(Survey, pk=survey_id)
+        trials = Trial.objects.filter(sessionkey__survey=survey)
+        scenario_comparison = [
+            trials.filter(scenario='medical').aggregate(Avg('trialDuration')).get('trialDuration__avg', 'No average trial duration'),
+            trials.filter(scenario='urban').aggregate(Avg('trialDuration')).get('trialDuration__avg', 'No average trial duration'),
+            trials.filter(scenario='warehouse').aggregate(Avg('trialDuration')).get('trialDuration__avg', 'No average trial duration')
+        ]
+
+        data = {
+            'scenario_comparison': scenario_comparison
+        }
+
         return Response(data)

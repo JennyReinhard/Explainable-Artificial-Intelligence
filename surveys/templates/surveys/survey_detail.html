@@ -1,5 +1,6 @@
 {% extends 'base.html'%}
 {% block body%}
+{% load static %}
 <div class="uk-container uk-margin-top">
   <a href="{% url 'surveys:surveys' %}" uk-icon="icon: chevron-left" uk-tooltip="Back to overview"></a>
   <h2 class="uk-heading-small uk-heading-bullet">{{survey.name}}</h2>
@@ -102,8 +103,17 @@
       </table>
     </div>
     <div class="uk-animation-slide-bottom-small">
-      <p>Number of trials: <span class="uk-badge">{{ntrials}}</span></p>
+      <input id="api-call-survey" name="api-call-survey" type="hidden" value="{% url 'surveys:api-surveys' survey.id %}">
+      <div class="uk-column-1-2 uk-animation-slide-bottom-small ">
+      <div>
+        <p>Number of trials: <span class="uk-badge">{{ntrials}}</span></p>
+      </div>
+      <div>
+        <canvas id="scenario_comparison" width="400" height="400"></canvas>
+      </div>
+      </div>
     </div>
   </div>
 </div>
+<script src="{% static 'surveys/js/survey_graphs.js' %}"></script>
 {% endblock %}
