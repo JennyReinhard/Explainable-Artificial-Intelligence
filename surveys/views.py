@@ -26,6 +26,18 @@ import os
 class SurveysView(LoginRequiredMixin,generic.ListView):
     model = Survey
 
+
+# Generic update view for surveys
+class SurveyUptateView(LoginRequiredMixin, generic.UpdateView):
+    model = Survey
+    fields = [
+        'name',
+        'description',
+        'introduction',
+        'ready',
+        'end'
+    ]
+
 # Generic detail view for a Surveys
 def survey_detail(request, survey_id):
     survey = get_object_or_404(Survey, pk=survey_id)
@@ -40,43 +52,36 @@ def survey_detail(request, survey_id):
 
     return render(request, 'surveys/survey_detail.html', context)
 
-# Generic update view for surveys
-class SurveyUptateView(LoginRequiredMixin, generic.UpdateView):
-    model = Survey
-    fields = [
-        'name',
-        'description',
-        'introduction',
-        'ready',
-        'end'
-    ]
+# Generates detailed view of sessions
 def session_detail(request, survey_id, session_key):
     survey = get_object_or_404(Survey, pk=survey_id)
     session = get_object_or_404(Session, key=session_key)
 
+    # Gets all trials for that the requested session
     trials = Trial.objects.filter(sessionkey=session)
-    total_injuries = 0
-    for trial in trials:
-        total_injuries = total_injuries + trial.injuries
 
+    # Get statistics if there are trials already
     if trials:
+        injuries = trials.aggregate(Sum('injuries')).get('injuries__sum', 0)
         avgTrialDuration = round(trials.aggregate(Avg('trialDuration')).get('trialDuration__avg', 0)/1000,2)
-        avgFeedBackDuration = round(trials.aggregate(Avg('feedbackDuration')).get('feedbackDuration__avg', 0)/1000, 2)
+        avgFeedbackDuration = round(trials.aggregate(Avg('feedbackDuration')).get('feedbackDuration__avg', 0)/1000, 2)
         totalDuration = round(trials.aggregate(Sum('trialDuration')).get('trialDuration__sum', 0)/60000, 2)
 
     else:
-        avgTrialDuration = "No trials yet"
-        avgFeedBackDuration = "No trials yet"
-        totalDuration = "No trials yet"
-
+        injuries = "N.A."
+        avgTrialDuration = "N.A."
+        avgFeedbackDuration = "N.A."
+        totalDuration = "N.A."
 
     context = {
         'survey': survey,
         'session': session,
-        'injuries': total_injuries,
-        'avgTrialDuration': avgTrialDuration,
-        'avgFeedBackDuration': avgFeedBackDuration,
-        'totalTrialDuration': totalDuration
+        'stats' : {
+            'injuries': injuries,
+            'avgTrialDuration' : avgTrialDuration,
+            'avgFeedbackDuration': avgFeedbackDuration,
+            'totalDuration': totalDuration
+        }
     }
     return render(request, 'surveys/session_detail.html', context)
 
@@ -118,6 +123,7 @@ def delete_sessions(request, pk):
 
     if survey.user != request.user:
         raise PermissionDenied
+
     Session.objects.filter(survey=survey).all().delete()
     messages.success(request, 'Sessions deleted')
     return redirect('surveys:survey', pk=pk)
@@ -130,6 +136,7 @@ def introduction(request, survey_id):
     try:
         redirect_url = survey.redirect_set.get(purpose=0).url
 
+    # else set redirect to None
     except ObjectDoesNotExist:
         redirect_url = None
 
@@ -144,9 +151,10 @@ def introduction(request, survey_id):
 def load_set(request, survey_id):
     survey = get_object_or_404(Survey, pk=survey_id)
     language = get_language()
-    print(language)
-    #Gets trial multiplicator
+
+    #Gets trial multiplicator and training count
     ntrials = survey.ntrials
+    ntraining = survey.ntraining
 
     # Get blockfactors for survey and store them in a list
     blockfactors = SetFactor.objects.filter(survey=survey, blockfactor=True)
@@ -161,8 +169,8 @@ def load_set(request, survey_id):
         trialfactors_list.append(list(SetLevel.objects.filter(set_factor=trialfactor)))
 
     # if there are any trial factors, create set
-    if trialfactors:
-        set = Set(blockfactors_list, trialfactors_list, ntrials, 3)
+    if trialfactors and blockfactors:
+        set = Set(blockfactors_list, trialfactors_list, ntrials, ntraining)
 
     else:
         error_message = "No trial factors found for the current survey"
@@ -179,8 +187,11 @@ def load_set(request, survey_id):
     session.save()
 
     #saves set to pickle to ensure object persistency
-    with open('sessions/set_'+session.key, 'wb') as f:
-        pickle.dump(set, f)
+    try:
+        with open('sessions/set_'+session.key, 'wb') as f:
+            pickle.dump(set, f)
+    except:
+        return render(request, 'surveys/error.html', {'error_message':'Session not found, sorry', 'survey': survey})
 
     # data that is returned to ajax call
     data = {}
@@ -205,60 +216,6 @@ def instructions(request, survey_id, session_key):
 
     return render(request, 'surveys/instructions.html', context )
 
-def block_ready(request, survey_id, session_key):
-    survey = get_object_or_404(Survey, pk=survey_id)
-    session = get_object_or_404(Session, key=session_key)
-    language = get_language()
-
-
-
-    with open('sessions/set_'+session.key, 'rb') as f:
-        set = pickle.load(f)
-
-    if set.isEmpty():
-        try:
-            redirect_url = survey.redirect_set.get(purpose=2).url+"?sessionkey="+session.key+'&surveyid='+str(survey.id)+'&language='+language+'&Q_Language='+language.upper()
-
-        except ObjectDoesNotExist:
-            redirect_url = reverse('surveys:end')
-        return redirect(redirect_url)
-
-    context = {
-        'survey': survey,
-        'session': session,
-    }
-
-    # If session key is not current users session key, raise error
-    if session.key != request.session.session_key:
-        return render(request, 'surveys/error.html', {'error_message': 'Wrong session key', 'session':session, 'survey':survey})
-
-    return render(request, 'surveys/block_ready.html', context )
-
-
-def survey_ready(request, survey_id, session_key):
-    survey = get_object_or_404(Survey, pk=survey_id)
-    session = get_object_or_404(Session, key=session_key)
-
-    try:
-        with open('sessions/set_'+session.key, 'rb') as f:
-            set = pickle.load(f)
-    except:
-        return render(request, 'surveys/error.html', {'error_message':'Session not found, sorry', 'survey': survey})
-
-    #If session key is not current users session key, raise error
-    if session.key != request.session.session_key:
-        error_message = "Wrong session key"
-        return render(request, 'surveys/error.html', {'error_message': error_message, 'session':session, 'survey':survey})
-
-    context = {
-        'survey': survey,
-        'session': session,
-        'injuries': set.training_injuries,
-        'balance': set.training_balance
-    }
-
-    return render(request, 'surveys/survey_ready.html', context)
-
 def training(request, survey_id, session_key):
     survey = get_object_or_404(Survey, pk=survey_id)
     session = get_object_or_404(Session, key=session_key)
@@ -281,7 +238,8 @@ def training(request, survey_id, session_key):
         error_message = "No current set available to work with, try and start a new survey"
         return render(request, 'surveys/error.html', {'error_message': error_message, 'session':session, 'survey':survey})
 
-    if set.training_counter > 0:
+    # if training counter not 0, choose another training
+    if set.ntraining > 0:
         block = random.choice(set.blocks)
         trial = random.choice(block.trials)
 
@@ -307,13 +265,70 @@ def training(request, survey_id, session_key):
         'language': language,
     }
 
-    set.training_counter = set.training_counter - 1
-    with open('sessions/set_'+session.key, 'wb') as f:
-        pickle.dump(set, f)
+    # decrease training counter
+    set.ntraining = set.ntraining - 1
 
-
+    # save set to pickle file
+    try:
+        with open('sessions/set_'+session.key, 'wb') as f:
+            pickle.dump(set, f)
+    except:
+        return render(request, 'surveys/error.html', {'error_message':'Session not found, sorry', 'survey': survey})
 
     return render(request, 'surveys/training.html', context)
+
+def save_training(request, survey_id, session_key):
+    if request.method == 'POST':
+        # try to open pickle file
+        try:
+            with open('sessions/set_'+ session_key, 'rb') as f:
+                set = pickle.load(f)
+        except:
+            return render(request, 'surveys/error.html', {'error_message':'Session not found, sorry', 'survey': survey})
+
+        # Get injuries from ajax request
+        profit = int(request.POST.get('profit', 0))
+        injuries = int(request.POST.get('injuries', 0))
+
+        # Update balance & injury count
+        set.training_balance = set.training_balance + profit
+        set.training_injuries = set.training_injuries + injuries
+
+        # Try to save pickle file
+        try:
+            with open('sessions/set_'+session_key, 'wb') as f:
+                pickle.dump(set, f)
+        except:
+            return render(request, 'surveys/error.html', {'error_message':'Session not found, sorry', 'survey': survey})
+
+        return HttpResponse('success')
+
+    return HttpResponse('fail')
+
+def survey_ready(request, survey_id, session_key):
+    survey = get_object_or_404(Survey, pk=survey_id)
+    session = get_object_or_404(Session, key=session_key)
+
+    #If session key is not current users session key, raise error
+    if session.key != request.session.session_key:
+        error_message = "Wrong session key"
+        return render(request, 'surveys/error.html', {'error_message': error_message, 'session':session, 'survey':survey})
+
+    # try to open set through picke file
+    try:
+        with open('sessions/set_'+session.key, 'rb') as f:
+            set = pickle.load(f)
+    except:
+        return render(request, 'surveys/error.html', {'error_message':'Session not found, sorry', 'survey': survey})
+
+    context = {
+        'survey': survey,
+        'session': session,
+        'injuries': set.training_injuries,
+        'balance': set.training_balance
+    }
+
+    return render(request, 'surveys/survey_ready.html', context)
 
 def trial(request, survey_id, session_key):
     survey = get_object_or_404(Survey, pk=survey_id)
@@ -341,15 +356,19 @@ def trial(request, survey_id, session_key):
     if not set.isEmpty() and set.top().size() >= 1:
         #returns first trial of first block
         trial = set.top().top()
+        #returns firs block
         block = set.top()
 
     #if no more tables on the stack, pop block and redirect
     elif not set.isEmpty() and set.top().isEmpty():
         #pops the set and saves it to pickle
         block = set.top()
+
+        # Checks if there is a intermediate redirect
         try:
             redirect_url = survey.redirect_set.get(purpose=1).url+'?sessionkey='+session.key+'&surveyid='+str(survey.id)+'&balance='+str(block.balance)+'&language='+str(language)+'&dss='+urllib.parse.quote(block.dss.name)+'&blockcounter='+str(block.blockcounter)
             redirect_url = redirect_url+'&scenario='+urllib.parse.quote(block.scenario.name)+'&injuries='+str(block.injuries)+'&max='+str(block.max)+'&Q_Language='+language.upper()
+        # else returns to next trial
         except ObjectDoesNotExist:
             redirect_url = reverse('surveys:trial', kwargs={'survey_id': survey.id, 'session_key': session.key})
 
@@ -366,26 +385,30 @@ def trial(request, survey_id, session_key):
         }
 
         set.pop()
-        with open('sessions/set_'+session.key, 'wb') as f:
-            pickle.dump(set, f)
+
+        try:
+            with open('sessions/set_'+session.key, 'wb') as f:
+                pickle.dump(set, f)
+        except:
+            return render(request, 'surveys/error.html', {'error_message':'Session not found, sorry', 'survey': survey})
 
         return render(request, 'surveys/result.html', context)
 
     #if set is totally empty redirect to
     elif set.isEmpty():
 
-
         #if there is a redirect, redirect, otherwise go to home
         try:
             redirect_obj = survey.redirect_set.get(purpose=2)
             return redirect(redirect_obj.url+"?sessionkey="+session.key+'&surveyid='+str(survey.id)+'&language='+language+'&Q_Language='+language.upper())
-
+        #else redirect to end
         except ObjectDoesNotExist:
             return redirect('surveys:end', survey_id=survey.id, session_key=session.key)
 
     size = set.top().size()
     progress = 12 - size
 
+    # creates new database trial
     db_trial = Trial(sessionkey=session)
     db_trial.save()
 
@@ -414,8 +437,6 @@ def trial(request, survey_id, session_key):
         'max': block.max
     }
 
-
-
     return render(request, 'surveys/trial.html', context )
 
 # Saves trial
@@ -423,86 +444,127 @@ def save_trial(request, trial_id):
     if request.method == 'POST':
         sessionkey = request.POST.get('sessionkey', False)
         session = get_object_or_404(Session, key=sessionkey)
-        trial = Trial.objects.get(id=trial_id)
-        trial.reliability = int(request.POST.get('reliability', False))
-        trial.dss = request.POST.get('dss', False)
-        trial.risk = request.POST.get('risk', False)
-        trial.scenario = request.POST.get('scenario', False)
-        trial.package_value = int(request.POST.get('package_value', False))
-        trial.attempts = int(request.POST.get('attempts', False))
-        trial.errors = int(request.POST.get('errors', False))
+
+        # If session key is not current users session key, raise error
+        if session.key != request.session.session_key:
+            error_message = "Wrong session key"
+            return render(request, 'surveys/error.html', {'error_message': error_message, 'session':session, 'survey':survey})
+
+        #gets trial
+        trial = get_object_or_404(Trial, id=trial_id)
+
+        #Gets ajax call data
+        trial.reliability = int(request.POST.get('reliability', None))
+        trial.dss = request.POST.get('dss', None)
+        trial.risk = request.POST.get('risk', None)
+        trial.scenario = request.POST.get('scenario', None)
+        trial.package_value = int(request.POST.get('package_value', 0))
+        trial.attempts = int(request.POST.get('attempts', 0))
+        trial.errors = int(request.POST.get('errors', 0))
         if request.POST.get('success') == 'True':
             trial.success = True
         elif request.POST.get('success') == 'False':
             trial.success = False
         else:
             trial.success = None
-        trial.suggestion = request.POST.get('suggestion', False)
-        trial.best_choice = request.POST.get('best_choice', False)
-        trial.blockcounter = int(request.POST.get('blockcounter', False))
-        trial.decision = request.POST.get('decision', False)
-        trial.trialDuration = int(request.POST.get('trialDuration', False))
+
+        trial.suggestion = request.POST.get('suggestion', None)
+        trial.best_choice = request.POST.get('best_choice', None)
+        trial.blockcounter = int(request.POST.get('blockcounter', 0))
+        trial.decision = request.POST.get('decision', None)
+        trial.trialDuration = int(request.POST.get('trialDuration', 0))
         trial.injuries = int(request.POST.get('injuries', 0))
         trial.save()
 
         # Loads saved session set
-        with open('sessions/set_'+ sessionkey, 'rb') as f:
-            set = pickle.load(f)
+        try:
+            with open('sessions/set_'+ sessionkey, 'rb') as f:
+                set = pickle.load(f)
+        except:
+            return render(request, 'surveys/error.html', {'error_message':'Session not found, sorry', 'survey': survey})
 
-        if not set.blocks[-1].isEmpty():
-            # Pops the highest block
-            profit = int(request.POST.get('profit', None))
-            injuries = int(request.POST.get('injuries', None))
-            package_value = int(request.POST.get('package_value', None))
-            manual_labour = int(request.POST.get('manual_labour', None))
+        # Pops the highest trial
+        if not set.top().isEmpty():
+            #Gets data form ajax call and updates block properties
+            profit = int(request.POST.get('profit', 0))
+            injuries = int(request.POST.get('injuries', 0))
+            package_value = int(request.POST.get('package_value', 0))
+            manual_labour = int(request.POST.get('manual_labour', 0))
             set.top().balance = set.top().balance + profit
             set.top().injuries = set.top().injuries + injuries
             set.top().pop()
-            with open('sessions/set_'+sessionkey, 'wb') as f:
-                pickle.dump(set, f)
+
+            #Save set to pickle
+            try:
+                with open('sessions/set_'+sessionkey, 'wb') as f:
+                    pickle.dump(set, f)
+            except:
+                return render(request, 'surveys/error.html', {'error_message':'Session not found, sorry', 'survey': survey})
 
     return HttpResponse('success')
 
 def save_feedback(request, trial_id):
     if request.method == 'POST':
-        trial = Trial.objects.get(id=trial_id)
-        trial.feedbackDuration = int(request.POST.get('feedbackDuration', False))
+        # Get trial or throw 404
+        trial = get_object_or_404(Trial, id=trial_id)
+        trial.feedbackDuration = int(request.POST.get('feedbackDuration', 0))
         trial.profit = int(request.POST.get('profit', 0))
-        print(trial.profit)
-        print(trial.feedbackDuration)
         trial.save()
         return HttpResponse('success')
 
     return HttpResponse('fail')
 
-def save_training(request, survey_id, session_key):
-    if request.method == 'POST':
-        with open('sessions/set_'+ session_key, 'rb') as f:
+def block_ready(request, survey_id, session_key):
+    survey = get_object_or_404(Survey, pk=survey_id)
+    session = get_object_or_404(Session, key=session_key)
+
+    # If session key is not current users session key, raise error
+    if session.key != request.session.session_key:
+        return render(request, 'surveys/error.html', {'error_message': 'Wrong session key', 'session':session, 'survey':survey})
+
+    language = get_language()
+
+    #Try to load session set saved in pickle
+    try:
+        with open('sessions/set_'+session.key, 'rb') as f:
             set = pickle.load(f)
+    except:
+        return render(request, 'surveys/error.html', {'error_message':'Session not found, sorry', 'survey': survey})
 
-        profit = int(request.POST.get('profit', None))
-        injuries = int(request.POST.get('injuries', None))
-        set.training_balance = set.training_balance + profit
-        set.training_injuries = set.training_injuries + injuries
-        print(set.training_balance)
+    # if no more trials in the set, redirect to post url
+    if set.isEmpty():
+        try:
+            redirect_url = survey.redirect_set.get(purpose=2).url+"?sessionkey="+session.key+'&surveyid='+str(survey.id)+'&language='+language+'&Q_Language='+language.upper()
 
-        with open('sessions/set_'+session_key, 'wb') as f:
-            pickle.dump(set, f)
+        # if redirect does not exist, redirect to endscreen
+        except ObjectDoesNotExist:
+            redirect_url = reverse('surveys:end')
 
-        return HttpResponse('success')
+        return redirect(redirect_url)
 
-    return HttpResponse('fail')
+    context = {
+        'survey': survey,
+        'session': session,
+    }
+
+    return render(request, 'surveys/block_ready.html', context )
 
 def end(request, survey_id, session_key):
     survey = get_object_or_404(Survey, pk=survey_id)
     session = get_object_or_404(Session, key=session_key)
+
+    # If session key is not current users session key, raise error
+    if session.key != request.session.session_key:
+        return render(request, 'surveys/error.html', {'error_message': 'Wrong session key', 'session':session, 'survey':survey})
 
     if request.method == 'POST':
         form = ParticipantIDForm(request.POST or None, instance=session)
         if form.is_valid():
             form.save()
             messages.success(request, 'Successfully finished and deleted session')
-            # os.remove('sessions/set_'+session.key)
+            #renoves the pickled set
+            os.remove('sessions/set_'+session.key)
+            #redirects to index
             return redirect('home:index')
     else:
         form = ParticipantIDForm(instance=session)
@@ -513,15 +575,6 @@ def end(request, survey_id, session_key):
         }
 
     return render(request, 'surveys/end.html', context)
-
-    # If session key is not current users session key, raise error
-    if session.key != request.session.session_key:
-        error_message = "Wrong session key"
-        return render(request, 'surveys/error.html', {'error_message': error_message, 'session':session, 'survey':survey})
-    # Remove saved session files
-    os.remove('sessions/set_'+session.key)
-
-    return render(request,'surveys/end.html', context)
 
 #404 handler
 def handler404(request, *args, **kwargs):
@@ -542,42 +595,3 @@ def get_ip(request):
     except:
         ip = ''
     return ip
-
-class Sessions(APIView):
-
-    authentication_classes = []
-    permission_classes = []
-
-    def get(self, request, session_key):
-
-        session = get_object_or_404(Session, key=session_key)
-        trials = [trial.id for trial in Trial.objects.filter(sessionkey=session)]
-        feedbackTimes = [trial.feedbackDuration for trial in Trial.objects.filter(sessionkey=session)]
-        trialTimes = [trial.trialDuration for trial in Trial.objects.filter(sessionkey=session)]
-
-        data = {
-            'trials': trials,
-            'feedbackDuration': feedbackTimes,
-            'trialDuration': trialTimes
-        }
-        return Response(data)
-
-class Surveys(APIView):
-
-    authentication_classes = []
-    permission_classes = []
-
-    def get(self, request, survey_id):
-        survey = get_object_or_404(Survey, pk=survey_id)
-        trials = Trial.objects.filter(sessionkey__survey=survey)
-        scenario_comparison = [
-            trials.filter(scenario='medical').aggregate(Avg('trialDuration')).get('trialDuration__avg', 'No average trial duration'),
-            trials.filter(scenario='urban').aggregate(Avg('trialDuration')).get('trialDuration__avg', 'No average trial duration'),
-            trials.filter(scenario='warehouse').aggregate(Avg('trialDuration')).get('trialDuration__avg', 'No average trial duration')
-        ]
-
-        data = {
-            'scenario_comparison': scenario_comparison
-        }
-
-        return Response(data)

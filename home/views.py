@@ -16,6 +16,7 @@ def home(request):
     }
     return render(request, 'home/index.html', context)
 
+# Generic view for creating a post
 class PostCreateView(SuccessMessageMixin, generic.CreateView):
     model = Post
     fields = [
@@ -25,6 +26,7 @@ class PostCreateView(SuccessMessageMixin, generic.CreateView):
     ]
     success_message = "Post was created successfully"
 
+# Generic view for update a post
 class PostUpdateView(SuccessMessageMixin, generic.UpdateView):
     model = Post
     fields = [
@@ -32,4 +34,5 @@ class PostUpdateView(SuccessMessageMixin, generic.UpdateView):
         'content',
         'type'
     ]
+
     success_message = "Post was updated successfully"

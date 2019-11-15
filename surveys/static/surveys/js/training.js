@@ -35,22 +35,22 @@ $(document).ready(function() {
       loadResult();
       setTimeout(save, 300);
     }
-
+    //Manual
     if (e.key == 'm') {
       decision = 'manual';
       loadResult();
       setTimeout(save, 300);
-
     }
-
+    //Next trial
     if (e.keyCode == 32 && result_panel_dispaly.css('display') == 'block') {
       window.location.href = $('#next-training').val();
     }
-
+    //Uncomment to make information panel available
     // if (e.key == 'i') {
     //   UIkit.offcanvas('#offcanvas-reveal').toggle();
     // }
   });
+
   function getCookie(name) {
     var cookieValue = null;
     if (document.cookie && document.cookie !== '') {
@@ -66,12 +66,14 @@ $(document).ready(function() {
     }
     return cookieValue;
   }
+
   var csrftoken = getCookie('csrftoken');
 
   function csrfSafeMethod(method) {
     // these HTTP methods do not require CSRF protection
     return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
   }
+
   $.ajaxSetup({
     beforeSend: function(xhr, settings) {
       if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
@@ -80,6 +82,7 @@ $(document).ready(function() {
     }
   });
 
+  //Saves trial
   function save() {
     var profit = $('#result-value').html()
     var injuries = $('#injuries').html()
@@ -98,10 +101,9 @@ $(document).ready(function() {
     });
   };
 
-
+  //load trial
   function loadResult() {
     $('#decision').fadeOut(200, function() {
-
       if (language_code == 'en') {
         if (decision == 'manual') {
           $('#result-text').html("You have chosen <strong>manual</strong>! You have made a profit of " + manualLabour + " $ No one has been injured.");

@@ -79,8 +79,8 @@
             </p>
           </form>
         </div>
-
       </div>
+      <p>Number of sessions: <span class="uk-badge">{{survey.session_set.all.count}}</span></p>
       <table class="uk-table uk-table-divider">
         <thead>
           <tr>
@@ -103,14 +103,14 @@
       </table>
     </div>
     <div class="uk-animation-slide-bottom-small">
-      <input id="api-call-survey" name="api-call-survey" type="hidden" value="{% url 'surveys:api-surveys' survey.id %}">
+      <input id="api-call-survey" name="api-call-survey" type="hidden" value="{% url 'api:api-surveys' survey.id %}">
       <div class="uk-column-1-2 uk-animation-slide-bottom-small ">
-      <div>
-        <p>Number of trials: <span class="uk-badge">{{ntrials}}</span></p>
-      </div>
-      <div>
-        <canvas id="scenario_comparison" width="400" height="400"></canvas>
-      </div>
+        <div>
+          <p>Number of trials: <span class="uk-badge">{{ntrials}}</span></p>
+        </div>
+        <div>
+          <canvas id="scenario_comparison" width="400" height="400"></canvas>
+        </div>
       </div>
     </div>
   </div>

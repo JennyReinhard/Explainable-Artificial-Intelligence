@@ -2,15 +2,16 @@ import random
 from .block import Block
 from itertools import product
 class Set:
-    def __init__(self, blockfactor_list, trialfactors_list, ntrials, training_counter):
+    def __init__(self, blockfactor_list, trialfactors_list, ntrials, ntraining):
         self.blocks = []
 
+        # Create blocks based on the blockfactorlist by taking product
         for blockfactors in product(* blockfactor_list):
                 block = Block(blockfactors, trialfactors_list, ntrials)
                 self.blocks.append(block)
 
-
-
+        # @TODO: Modularize for dynamic settings
+        # Set fail trials per block
         for block in self.blocks:
             flag_low_reliability = 0
             flag_medium_reliability = 0
@@ -23,15 +24,16 @@ class Set:
                     trial.success = False
                     flag_medium_reliability = flag_medium_reliability +1
 
-
             random.shuffle(block.trials)
 
         random.shuffle(self.blocks)
 
+        #Sets the blockcounter
         for index, block in enumerate(self.blocks):
             block.blockcounter = len(self.blocks) - index
 
-        self.training_counter = training_counter
+        # Training properties
+        self.ntraining = ntraining
         self.training_balance = 0
         self.training_injuries = 0
 
@@ -77,6 +79,7 @@ def showSet(set):
     print('Total number of table: {}'.format(TableCounter))
     print(' \n\n')
 
+# Prints number of failed trials
 def showFailTrials(set):
     low_reliability_fails = 0
     medium_reliability_fails = 0

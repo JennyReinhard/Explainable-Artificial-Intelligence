@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'jet_django',
     'widget_tweaks',
     'tinymce',
+    'api.apps.ApiConfig',
     'surveys.apps.SurveysConfig',
     'accounts.apps.AccountsConfig',
     'home.apps.HomeConfig',
@@ -128,7 +129,6 @@ gettext = lambda s: s
 LANGUAGES = (
     ('en', gettext('English')),
     ('de', gettext('German')),
-
 )
 
 MODELTRANSLATION_AUTO_POPULATE = True
@@ -144,7 +144,6 @@ USE_TZ = True
 LOCALE_PATHS = [
     os.path.join(BASE_DIR, 'locale'),
 ]
-
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.1/howto/static-files/

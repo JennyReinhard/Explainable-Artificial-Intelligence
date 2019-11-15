@@ -18,7 +18,8 @@ from django.urls import path, include
 from accounts import views as account_views
 from django.contrib.auth import views as auth_views
 from django.conf.urls.i18n import i18n_patterns
-
+from . import settings
+from django.conf.urls.static import static
 
 urlpatterns = [
     path('i18n/', include('django.conf.urls.i18n')),
@@ -26,7 +27,7 @@ urlpatterns = [
     # path('register/', account_views.register, name='register'),
     path('login/', auth_views.LoginView.as_view(template_name='accounts/login.html'), name='login'),
     path('logout/', auth_views.LogoutView.as_view(template_name='accounts/logout.html'), name='logout'),
-
+    path('api/', include('api.urls', namespace='api')),
 
     # path('surveys/', include('surveys.urls', namespace='surveys')),
     # Installed apps
@@ -39,3 +40,5 @@ urlpatterns += i18n_patterns(
     path('surveys/', include('surveys.urls', namespace='surveys')),
     path('', include('home.urls', namespace='home')),
 )
+
+urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

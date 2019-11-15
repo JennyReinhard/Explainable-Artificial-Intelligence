@@ -25,7 +25,7 @@ class Block:
         # Shuffles trials in a block
         random.shuffle(self.trials)
 
-
+        # Calculates maximum possible profit based on successfull and unsuccessful trials
         for trial in self.trials:
             if trial.success == True:
                 self.max = self.max + trial.package

@@ -1,8 +1,8 @@
-
 $(document).ready(function() {
   var survey_id = $('#survey_id').val();
   var redirect_url = $('#redirect_url').val();
   var url = '/surveys/' + survey_id + '/load/';
+
   function getCookie(name) {
     var cookieValue = null;
     if (document.cookie && document.cookie !== '') {
@@ -18,12 +18,14 @@ $(document).ready(function() {
     }
     return cookieValue;
   }
+
   var csrftoken = getCookie('csrftoken');
 
   function csrfSafeMethod(method) {
     // these HTTP methods do not require CSRF protection
     return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
   }
+
   $.ajaxSetup({
     beforeSend: function(xhr, settings) {
       if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
@@ -38,16 +40,14 @@ $(document).ready(function() {
     'dataType': 'json',
     'async': true,
     'success': function(json) {
-      $('.preload').fadeOut(500, function(){
+      $('.preload').fadeOut(500, function() {
 
         $('.content').fadeIn(500);
-        if(redirect_url != 'None'){
-          $("#start-trial").attr("href", redirect_url+"?sessionkey="+json.session_key+"&language="+json.language+"&Q_Language="+json.language.toUpperCase());
+        if (redirect_url != 'None') {
+          $("#start-trial").attr("href", redirect_url + "?sessionkey=" + json.session_key + "&language=" + json.language + "&Q_Language=" + json.language.toUpperCase());
+        } else {
+          $("#start-trial").attr("href", "/surveys/" + survey_id + "/" + json.session_key + "/instructions/");
         }
-        else{
-          $("#start-trial").attr("href", "/surveys/"+survey_id+"/"+json.session_key+"/instructions/");
-        }
-
       });
     }
   });

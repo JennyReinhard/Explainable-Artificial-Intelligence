@@ -34,6 +34,7 @@ $(document).ready(function() {
     });
   });
 
+  // Uncomment to enable button clicks with mouse
   // $('.end-trial').on('click', function() {
   //   trialDuration = new Date() - trialStartTime;
   //   feedbackStartTime = new Date();
@@ -51,17 +52,25 @@ $(document).ready(function() {
       trialDuration = new Date() - trialStartTime;
       feedbackStartTime = new Date();
       loadResult();
-      setTimeout(save, 300);
+      if (trialDuration > 240) {
+        setTimeout(save, 240);
+      }
+
 
     }
+    //Manual
     if (e.key == 'm') {
       decision = 'manual';
       trialDuration = new Date() - trialStartTime;
       feedbackStartTime = new Date();
       loadResult();
-      setTimeout(save, 300);
+      if (trialDuration > 240) {
+        setTimeout(save, 240);
+      }
+
 
     }
+    //Next trial
     if (e.keyCode == 32 && result_panel_dispaly.css('display') == 'block') {
 
       window.location.href = $('#next-trial').val();
@@ -70,6 +79,7 @@ $(document).ready(function() {
 
     }
 
+    // Uncomment to make information panel available.
     // if (e.key == 'i') {
     //   UIkit.offcanvas('#offcanvas-reveal').toggle();
     // }
@@ -90,12 +100,14 @@ $(document).ready(function() {
     }
     return cookieValue;
   }
+
   var csrftoken = getCookie('csrftoken');
 
   function csrfSafeMethod(method) {
     // these HTTP methods do not require CSRF protection
     return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
   }
+
   $.ajaxSetup({
     beforeSend: function(xhr, settings) {
       if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
@@ -104,6 +116,7 @@ $(document).ready(function() {
     }
   });
 
+  //Saves trial to database
   function save() {
     var profit = $('#result-value').html()
     var injuries = $('#injuries').html()
@@ -139,6 +152,7 @@ $(document).ready(function() {
     });
   };
 
+  //loads trial result
   function loadResult() {
     $('#decision').fadeOut(200, function() {
 
@@ -229,6 +243,7 @@ $(document).ready(function() {
       $('#result').fadeIn(200);
     });
   }
+
   function saveFeedbackTime() {
     var profit = $('#result-value').html();
     var data = {

@@ -5,6 +5,7 @@ $(document).ready(function() {
   var feedbackTimes = [];
   var trialNames = [];
 
+  //Ajax call to api
   $.ajax({
     method: "GET",
     url: endpoint,
@@ -14,6 +15,7 @@ $(document).ready(function() {
       feedbackTimes = data.feedbackDuration;
 
       var ctx = document.getElementById('trialtimes').getContext('2d');
+
       var config = {
         type: 'line',
         data: {

@@ -52,10 +52,10 @@
         </dd>
       </dl>
       <p>
-      Your final goal is to choose the right option in order
-      to <strong>maximize</strong> the profit from the delivery
-      of the package while <strong>ensuring</strong> the safety of the people that are on
-      the path of the vehicle.
+        Your final goal is to choose the right option in order
+        to <strong>maximize</strong> the profit from the delivery
+        of the package while <strong>ensuring</strong> the safety of the people that are on
+        the path of the vehicle.
       </p>
       <div class="uk-modal-footer uk-text-right">
         <a href="#wizard-page-2" class="uk-button uk-button-primary" uk-toggle>Next</a>
@@ -108,7 +108,7 @@
         patients of the hospital is suffering from liver failure and is in desperate
         need of a new liver. It is your job to decide whether the delivery is to
         carried out manually or automatically. If everything goes well, your decision could lead
-         to an increase of the hospital's profit, potentially minimizing health care costs.
+        to an increase of the hospital's profit, potentially minimizing health care costs.
       </p>
       <p><strong>Urban:</strong> The local delivery service is trying out its new
         self-driving delivery fleet. The task is to complete a food delivery on
@@ -318,12 +318,13 @@
       </div>
       <div class="hidden">
         <input id="trial-redirect" name="trial-redirect" type="hidden" value="{% url 'surveys:training' survey.id session.key %}">
-      </div>
     </div>
   </div>
 </div>
+</div>
 
 {% elif LANGUAGE_CODE == 'de' %}
+<!-- Wizard - Page 1 -->
 <div id="wizard-page-1" class="uk-modal-container" uk-modal>
   <div class="uk-modal-dialog uk-margin-auto-vertical" uk-overflow-auto>
     <button class="uk-modal-close-default" type="button" uk-close></button>
@@ -447,7 +448,7 @@
       </div>
       <p>
         Dieses Szenario findet im Krankenhaus statt. Einer der Patienten
-          leidet an akutem Leberversagen und soll eine neue Leber bekommen. Die Spenderleber soll so schnell wie möglich zum Operationssaal gebracht werden.
+        leidet an akutem Leberversagen und soll eine neue Leber bekommen. Die Spenderleber soll so schnell wie möglich zum Operationssaal gebracht werden.
         Auf der rechten Seite wird ein Krankenhausroboter dargestellt, der die zuvor erwähnte Leber befördern soll. Der Roboter, hat die
         Aufgabe die Leber so schnell wie möglich in den OP-Saal zu bringen. Es ist Ihre Aufgabe zu entscheiden, ob die Lieferung manuell oder automatisch durchgeführt werden soll.
         Wählen Sie die automatisierte Methode und verläuft diese reibungslos, könnte so der Gewinn des Krankenhaus maximiert werden, und laufende Kosten innerhalb
@@ -477,8 +478,8 @@
       </div>
       <p>
         Der lokale Lieferservice testet seine neue
-          selbstfahrende Lieferflotte. Ihre Aufgabe ist es eine Essenslieferung auf die andere Seite der
-          Stadt zu bringen. Der Ausgangspunkt befindet sich
+        selbstfahrende Lieferflotte. Ihre Aufgabe ist es eine Essenslieferung auf die andere Seite der
+        Stadt zu bringen. Der Ausgangspunkt befindet sich
         auf der rechten Seite der Stadt und das Ziel ist durch eine gelbe Flage markiert. Sie müsssen entscheiden, ob Sie diese Lieferung automatisieren oder manuell steuern. Beachten Sie dabei, dass sich
         Fußgänger und andere Fahrzeuge auf dem Weg des Fahrzeugs befinden können. Der Einfachheit halber werden Kollisionen mit Fahrzeugen ausschliesslich als Sachschaden gewertet.
       </p>
@@ -495,7 +496,7 @@
   <div class="uk-modal-dialog uk-margin-auto-vertical" uk-overflow-auto>
     <button class="uk-modal-close-default" type="button" uk-close></button>
     <div class="uk-modal-header">
-      <h2 class="uk-modal-title">Scenario</h2>Lagerhaus
+      <h2 class="uk-modal-title">Szenario</h2>Lagerhaus
     </div>
     <div class="uk-modal-body">
       <p>Das<strong> Lager</strong>-Szenario wird wie folgt dargestellt:</p>
@@ -506,9 +507,9 @@
       </div>
       <p>
         Sie arbeiten als Logistikmanager in einem Lager und haben seit einigen
-          Monaten einen automatisierten Gabelstapler im Einsatz. Um das Paket abzuholen, soll der Gabelstapler das Lager von rechts nach links durchqueren. Sie müssen für jedes Paket entscheiden, ob Sie den
-          automatisierten Gabelstapler nutzen und somit den Gewinn Ihrer Firma steigern, oder ob Sie auf Nummer sicher gehen und
-          die manuelle Variante wählen. Dabei
+        Monaten einen automatisierten Gabelstapler im Einsatz. Um das Paket abzuholen, soll der Gabelstapler das Lager von rechts nach links durchqueren. Sie müssen für jedes Paket entscheiden, ob Sie den
+        automatisierten Gabelstapler nutzen und somit den Gewinn Ihrer Firma steigern, oder ob Sie auf Nummer sicher gehen und
+        die manuelle Variante wählen. Dabei
         ist zu berücksichtigen, dass sich noch andere Arbeiter im Warenhaus befinden können und das an manchen Stellen wertvolle Ware in den Gängen stehen kann, die darauf
         wartet in die Regale eingeräumt zu werden.
       </p>
@@ -594,6 +595,7 @@
     </div>
   </div>
 </div>
+
 <!-- Wizard - Page 6 -->
 <div id="wizard-page-8" class="uk-modal-container" uk-modal>
   <div class="uk-modal-dialog uk-margin-auto-vertical" uk-overflow-auto>
@@ -624,12 +626,12 @@
 </div>
 <div class="hidden">
   <input id="trial-redirect" name="trial-redirect" type="hidden" value="{% url 'surveys:training' survey.id session.key %}">
-</div>
-{% else %}
-<div class="uk-alert-danger" uk-alert>
-  <a class="uk-alert-close" uk-close></a>
-  <p>Language not translated</p>
-</div>
+    </div>
+    {% else %}
+    <div class="uk-alert-danger" uk-alert>
+      <a class="uk-alert-close" uk-close></a>
+      <p>Language not translated</p>
+    </div>
 {% endif %}
 {% load static %}
 <script src="{% static 'surveys/js/checkbox_validation.js' %}"></script>

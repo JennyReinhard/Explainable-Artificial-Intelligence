@@ -8,8 +8,8 @@
   <ul class="uk-list">
     <li><span class="uk-badge uid-padding"><span class="uk-margin-small-right" uk-icon="credit-card"></span>{{balance}}</span></li>
     <li><span class="uk-badge uid-padding"><span class="uk-margin-small-right" uk-icon="heart"></span>{{injuries}}</span></li>
-</ul>
+  </ul>
   <a class="uk-button uk-button-default" href="{% url 'surveys:trial' survey.id session.key %}">{% trans "Start real rounds!" %}</a>
-    <img class="uk-float-right uk-visible@m" src="{% static 'surveys/img/results.png'%}">
+  <img class="uk-float-right uk-visible@m" src="{% static 'surveys/img/results.png'%}">
 </div>
 {% endblock %}

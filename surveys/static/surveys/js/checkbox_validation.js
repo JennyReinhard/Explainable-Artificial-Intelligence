@@ -1,11 +1,9 @@
 $(document).ready(function() {
   $('#to-trial').on('click', function() {
-    if ($('#checked').is(':checked')){
+    if ($('#checked').is(':checked')) {
       window.location.href = $('#trial-redirect').val();
-    }
-    else {
+    } else {
       $('#alert').fadeIn(200);
     }
   });
-
 });

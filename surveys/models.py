@@ -29,6 +29,7 @@ class Survey(models.Model):
     ready = HTMLField(blank=True)
     end = HTMLField(blank=True)
     ntrials = models.IntegerField(default=1, verbose_name='Trial multiplicator')
+    ntraining = models.IntegerField(default=3, verbose_name='Training number')
     user = models.ForeignKey(settings.AUTH_USER_MODEL,on_delete=models.SET_DEFAULT, default=1)
 
     # Returns name in the admin panel
@@ -57,6 +58,8 @@ class Session(models.Model):
     participantID = models.IntegerField(null=True)
     comment = models.TextField(null=True)
 
+    audio = models.FileField(null=True)
+    transcript = models.TextField(null=True)
     # Returns name in the admin panel
     def __str__(self):
         return str(self.key)
