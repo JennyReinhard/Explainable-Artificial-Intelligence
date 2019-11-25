@@ -200,7 +200,6 @@ def load_set(request, survey_id):
     data['session_key'] = session.key
     data['language'] = language
     data['ipaddress'] =  session.ip_address
-    data['startdate'] = session.start_date
 
     return HttpResponse(json.dumps(data), content_type='application/json')
 

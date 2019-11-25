@@ -44,7 +44,7 @@ $(document).ready(function() {
 
         $('.content').fadeIn(500);
         if (redirect_url != 'None') {
-          $("#start-trial").attr("href", redirect_url + "?sessionkey=" + json.session_key + "&language=" + json.language + "&Q_Language=" + json.language.toUpperCase()) + "&ipaddress=" + json.ipaddress + "&startdate=" +json.startdate;
+          $("#start-trial").attr("href", redirect_url + "?sessionkey=" + json.session_key + "&language=" + json.language + "&Q_Language=" + json.language.toUpperCase()) + "&ipaddress=" + json.ipaddress;
         } else {
           $("#start-trial").attr("href", "/surveys/" + survey_id + "/" + json.session_key + "/instructions/");
         }
