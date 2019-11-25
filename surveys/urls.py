@@ -7,7 +7,7 @@ app_name = 'surveys'
 
 urlpatterns = [
     path('', SurveysView.as_view(), name='surveys'),
-    path('<int:survey_id>/', views.survey_detail, name='survey'),
+    path('<int:pk>/', views.survey_detail, name='survey'),
     path('new/', login_required(views.create_survey), name='create-survey'),
     path('<int:pk>/delete/', login_required(views.delete_survey), name='delete-survey'),
     path('<int:pk>/edit/', login_required(SurveyUptateView.as_view()), name='edit-survey'),
@@ -29,5 +29,5 @@ urlpatterns = [
     path('<int:survey_id>/<slug:session_key>/save-training/', views.save_training, name='save-training'),
 
     path('<int:survey_id>/<slug:session_key>/end/', views.end, name='end'),
-    
+
 ]

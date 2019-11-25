@@ -53,7 +53,7 @@ $(document).ready(function() {
       feedbackStartTime = new Date();
       loadResult();
       if (trialDuration > 240) {
-        setTimeout(save, 240);
+        setTimeout(save, 70);
       }
 
 
@@ -65,7 +65,7 @@ $(document).ready(function() {
       feedbackStartTime = new Date();
       loadResult();
       if (trialDuration > 240) {
-        setTimeout(save, 240);
+        setTimeout(save, 70);
       }
 
 
@@ -240,7 +240,7 @@ $(document).ready(function() {
           }
         }
       }
-      $('#result').fadeIn(200);
+      $('#result').fadeIn(10);
     });
   }
 

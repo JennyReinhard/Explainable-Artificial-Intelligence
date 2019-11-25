@@ -38,12 +38,14 @@ class SurveyUptateView(LoginRequiredMixin, generic.UpdateView):
         'end'
     ]
 
+
 # Generic detail view for a Surveys
-def survey_detail(request, survey_id):
-    survey = get_object_or_404(Survey, pk=survey_id)
+def survey_detail(request, pk):
+    survey = get_object_or_404(Survey, pk=pk)
 
     trials = Trial.objects.filter(sessionkey__survey=survey)
     ntrials = len(trials)
+
 
     context = {
         'survey': survey,

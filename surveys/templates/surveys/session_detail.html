@@ -22,6 +22,7 @@
       </dl>
       <h3>Interview</h3>
       <hr>
+      {% if session.audio %}
       <audio controls>
         <source src="{{session.audio.url}}" type="audio/mp3">
       Your browser does not support the audio element.
@@ -30,6 +31,9 @@
       <h3>Transcription</h3>
       <hr>
       <p>{{session.transcript}}</p>
+      {% else %}
+      <a href="{% url 'admin:index' %}"class="uk-button uk-button-default">Upload file</a>
+      {% endif %}
 
     </div>
     <div "uk-animation-slide-bottom-small ">
