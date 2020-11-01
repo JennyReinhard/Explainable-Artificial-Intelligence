@@ -80,6 +80,6 @@ python3 manage.py makemigrations home
 python3 manage.py migrate home
 ```
 
-Make sure create a post in the adminpanel of time `HOMEPAGE` and add some content that will be dispayed on your homepage. 
+Make sure create a post in the admin panel of time `HOMEPAGE` and add some content that will be dispayed on your homepage. 
 
 E voilà, you are good to go!
