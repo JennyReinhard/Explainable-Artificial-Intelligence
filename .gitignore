@@ -6,5 +6,4 @@ accounts/migrations
 home/migrations
 .DS_Store
 *.pyc
-sessions/
 surveys/migrations
