@@ -9,155 +9,22 @@
   </div>
 </div>
 <div class="content">
-  <div id="trial-header" class="uk-height-large uk-flex uk-flex-center uk-flex-middle">
-    <div>
-      <img class="uk-margin-top" src="{% static 'surveys/img/'|add:scenario.slug|add:'_'|add:risk.slug|add:'.png'%}" width="800" alt="">
-      <div class="uk-padding-small" uk-alert>
-        <a class="uk-alert-close" uk-close></a>
-        {% if risk.slug == "no_risk"%}
-        <p><strong>{% trans "Possible damage:" %}</strong> {% trans "Damage to the vehicle." %} <span class="uk-text-danger"> (-{{package}}{% trans "$" %})</span></p>
-        {% elif risk.slug == "property_risk" %}
-        <p><strong>{% trans "Possible damage:" %}</strong> {% trans "Property could be damaged." %}<span class="uk-text-danger"> (-{{package}}{% trans "$" %})</span></p>
-        {% elif risk.slug == "personal_risk" %}
-        <p><strong>{% trans "Possible damage:" %}</strong> {% trans "People could be (badly) injured!" %}<span class="uk-text-danger"> (1 {% trans "injury" %})</span></p>
-        {% elif risk.slug == "property_and_personal_risk" %}
-        <p><strong>{% trans "Possible damage:" %}</strong> {% trans "People could be (badly) injured and property could be damaged." %}<span class="uk-text-danger"> (-{{package}}{% trans "$" %} & 1 {% trans "injury"%})</span></p>
-        {% endif %}
-      </div>
-    </div>
-    <p class="uid uk-position-top-right uk-position-medium uk-visible@l">
-      <span>{% trans "Balance" %}: <span class="uk-badge uid-padding"><span class="uk-margin-small-right" uk-icon="credit-card"></span>{{balance}}</span></span>
-      <span class="uk-margin-left">{% trans "Injuries" %}: <span class="uk-badge uid-padding"><span class="uk-margin-small-right" uk-icon="heart"></span>{{injuries}}</span></span>
-    </p>
-    <p>
-      <form class="uid uk-position-top-left uk-position-small uk-form-width-medium uk-visible@l uk-hidden" action="{% url 'set_language' %}" method="post">
-        {% csrf_token %}
-        <input type="hidden" name="next" value="{% url 'surveys:trial' survey.id session.key%}">
-        <div class="uk-margin">
-          <div uk-form-custom="target: > * > span:first-child">
-            <select name="language" onchange="this.form.submit()">
-              <option value="en" {% if language == 'en'%} selected {% endif %}>English</option>
-              <option value="de" {% if language == 'de'%} selected {% endif %}>Deutsch</option>
-            </select>
-            <button class="uk-button uk-button-primary" type="button" tabindex="-1">
-              <span></span>
-              <span uk-icon="icon: chevron-down"></span>
-            </button>
-          </div>
-        </div>
-      </form>
-    </p>
-  </div>
-  <div class="uk-container uk-animation-fade uk-padding-remove-top uk-margin-medium-top">
-    <p class="uk-flex uk-flex-center uk-hidden@l">
-      <span class="uk-badge uid-padding"><span class="uk-margin-small-right" uk-icon="credit-card"></span>{{balance}}</span>&nbsp;&nbsp;
-      <span class="uk-badge uid-padding uk-margin-medium-right"><span class="uk-margin-small-right" uk-icon="heart"></span>{{injuries}}</span>
-    </p>
-    <div class="uk-grid-large" uk-grid>
-      <div class="uk-width-1-6">
-      </div>
-      <div class="uk-clearfix uk-width-1-3">
-        <h3>{% trans "Previous vehicle performance" %}</h3>
-        {% if scenario.slug == "warehouse"%}
-        <img class="uk-float-left uk-margin-small-right" src="{% static 'surveys/img/forklift.png' %}" width="100" uk-svg>
-        {% elif scenario.slug == "medical"%}
-        <img class="uk-float-left uk-margin-small-right" src="{% static 'surveys/img/robot.png' %}" width="100" uk-svg>
-        {% elif scenario.slug == "urban"%}
-        <img class="uk-float-left uk-margin-small-right" src="{% static 'surveys/img/car.png' %}" width="100" uk-svg>
-        {% endif %}
-        <p class="uk-margin "><strong>{% trans "Attempts" %}: </strong>{{attempts}}<br><strong>{% trans "Errors" %}: </strong>{{errors}}</p>
-      </div>
-      <div class="uk-width-1-3">
-        <h3>{% trans "Decision aid" %}</h3>
-        <img class="uk-float-left uk-margin-medium-right" src="{% static 'surveys/img/'|add:dss.slug|add:'.png'%}" width="100" uk-svg>
-        <blockquote>
-          {% if suggestion == 'automate' %}
-          <p class="uk-text-light">"{% trans "I think you should automate" %}"</p>
-          {% elif suggestion == 'manual' %}
-          <p class="uk-text-light">"{% trans "I think you should choose the manual way" %}"</p>
-          {% else %}
-          <p class="uk-text-light">{% trans "Sorry, I have no idea what to tell you." %}</p>
-          {% endif %}
-          <footer>{{dss.name}}</footer>
-        </blockquote>
-      </div>
-      <div class="uk-width-1-6">
-      </div>
-    </div>
-    <hr>
-    <div id="decision" uk-grid>
-      <div class="uk-width-1-6">
-      </div>
-      <div class="uk-width-1-3 uk-text-center">
-        <button class="uk-button uk-button-primary uk-width-1-1 uk-margin-small-bottom end-trial" data-decision="automate" name="button">{% trans "Automate" %} [A]</button><br>
-        <strong>{% trans "Profit" %}:</strong><span id="package" data-package="{{package}}" class="uk-text-success"> {{package}} {% trans "$" %}</span><br>
-      </div>
-      <div class="uk-width-1-3 uk-text-center">
-        <button class="uk-button uk-button-primary uk-width-1-1 uk-margin-small-bottom end-trial" data-decision="manual" name="button">{% trans "Manual" %} [M]</button><br>
-        <strong>{% trans "Profit" %}:</strong><span id="manual" data-manual="{{manual}}" class="uk-text-success"> {{manual}} {% trans "$" %}</span>
-        <a id="next" href="{% url 'surveys:trial' survey.id session.key %}"></a>
-      </div>
-      <div class="uk-width-1-6">
-      </div>
-    </div>
-    <div id="result">
-      <div class="uk-flex uk-flex-center">
-        <div class="uk-width-2-3">
-          <p class="uk-text-lead">{% trans "Result" %}:</p>
-        </div>
-      </div>
-      <div class="uk-margin-medium-bottom" uk-grid>
-        <div class="uk-width-1-6">
-        </div>
-        <div class="uk-width-1-3">
-          <p><span uk-icon="icon: credit-card" class="uk-margin-small-right"></span> <span id="result-value"></span> {% trans "$" %}</p>
-          <p><span uk-icon="icon: heart" class="uk-margin-small-right"></span> <span id="injuries"></span> {% trans "injured" %}</p>
-        </div>
-        <div class="uk-width-1-3">
-          <p id="result-text">
-          </p>
-          <button class="uk-button uk-button-secondary">{% trans "Next trial" %} [Spacebar]</button>
-        </div>
-        <div class="uk-width-1-6">
-        </div>
-      </div>
-    </div>
     <div class="uk-visible@m">
       <div class="uk-flex uk-flex-center">
         <div id="offcanvas-reveal" uk-offcanvas="mode: reveal; overlay: true">
           <div class="uk-offcanvas-bar">
             <button class="uk-offcanvas-close" type="button" uk-close></button>
             <h3>Trial Details</h3>
-            <p>Reliability: <span class="uk-badge">{{reliability.name}}[{{reliability.value}}]</span></p>
-            <p>DSS: <span class="uk-badge">{{dss.name}}</span></p>
-            <p>Risk: <span class="uk-badge">{{risk.name}}</span></p>
-            <p>Scenario: <span class="uk-badge">{{scenario.name}}</span></p>
-            <p>Package Value: <span class="uk-badge">{{package}}</span></p>
             <p>Attemps: <span class="uk-badge">{{attempts}}</span></p>
-            <p>Errors <span class="uk-badge">{{errors}}</span></p>
-            <p>Success: <span class="uk-badge">{{success}}</span></p>
-            <p>Suggestion <span class="uk-badge">{{suggestion}}</span></p>
-            <p>Best Choice: <span class="uk-badge">{{best_choice}}</span></p>
             <p>Blocknumber: <span class="uk-badge">{{blockcounter}}</span></p>
             <p>Blocksize: <span class="uk-badge">{{size}}</span></p>
           </div>
         </div>
       </div>
     </div>
-  </div>
 </div>
 <div class="hidden">
   <input id="sessionkey" name="sessionkey" type="hidden" value="{{ session.key }}">
-  <input id="reliability" name="reliability" type="hidden" value="{{ reliability.value }}">
-  <input id="dss" name="dss" type="hidden" value="{{ dss.slug }}">
-  <input id="risk" name="risk" type="hidden" value="{{ risk.slug }}">
-  <input id="scenario" name="scenario" type="hidden" value="{{ scenario.slug }}">
-  <input id="package_value" name="package_value" type="hidden" value="{{ package }}">
-  <input id="attempts" name="attempts" type="hidden" value="{{ attempts }}">
-  <input id="errors" name="errors" type="hidden" value="{{ errors }}">
-  <input id="success" name="success" type="hidden" value="{{ success }}">
-  <input id="suggestion" name="suggestion" type="hidden" value="{{ suggestion }}">
-  <input id="best_choice" name="best_choice" type="hidden" value="{{ best_choice }}">
   <input id="blockcounter" name="blockcounter" type="hidden" value="{{ blockcounter }}">
   <input id="trial-id" name="trial-id" type="hidden" value="{{ trial.id }}">
   <input id="language-code" name="language-code" type="hidden" value="{{language}}">

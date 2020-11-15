@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from . import views
-from .models import Post
+from .models import Post, Setting
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.views import generic
@@ -11,8 +11,10 @@ from django.contrib.messages.views import SuccessMessageMixin
 # Renders the homepage
 def home(request):
     homepage = get_object_or_404(Post, type='HOMEPAGE')
+    active_survey = get_object_or_404(Setting, name="Active Survey")
     context = {
-        'homepage': homepage
+        'homepage': homepage,
+        'active_survey': active_survey.value
     }
     return render(request, 'home/index.html', context)
 

@@ -11,20 +11,7 @@ class Set:
                 self.blocks.append(block)
 
         # @TODO: Modularize for dynamic settings
-        # Set fail trials per block
-        for block in self.blocks:
-            flag_low_reliability = 0
-            flag_medium_reliability = 0
-            for trial in block.trials:
-                if trial.reliability.value == 60 and flag_low_reliability < 2:
-                    trial.success = False
-                    flag_low_reliability = flag_low_reliability +1
-
-                if trial.reliability.value == 80 and flag_medium_reliability < 1:
-                    trial.success = False
-                    flag_medium_reliability = flag_medium_reliability +1
-
-            random.shuffle(block.trials)
+        random.shuffle(block.trials)
 
         random.shuffle(self.blocks)
 
@@ -34,8 +21,6 @@ class Set:
 
         # Training properties
         self.ntraining = ntraining
-        self.training_balance = 0
-        self.training_injuries = 0
 
     # Pushes element onto the stack
     def push(self, block):
@@ -77,23 +62,4 @@ def showSet(set):
     print(' \n\n')
     print('Total number of block: {}'.format(BlockCounter))
     print('Total number of table: {}'.format(TableCounter))
-    print(' \n\n')
-
-# Prints number of failed trials
-def showFailTrials(set):
-    low_reliability_fails = 0
-    medium_reliability_fails = 0
-    for i in range(set.size()):
-        for j in range(set.blocks[i].size()):
-            trial = set.blocks[i].trials[j]
-            if trial.reliability.value == 60 and trial.success == False:
-                low_reliability_fails = low_reliability_fails + 1
-
-            if trial.reliability.value == 80 and trial.success == False:
-                medium_reliability_fails = medium_reliability_fails + 1
-
-
-    print(' \n\n')
-    print('Total number of low reliability fails: {}'.format(low_reliability_fails))
-    print('Total number of medium reliability fails: {}'.format(medium_reliability_fails))
     print(' \n\n')

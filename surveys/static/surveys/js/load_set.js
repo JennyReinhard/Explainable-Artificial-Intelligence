@@ -2,7 +2,6 @@ $(document).ready(function() {
   var survey_id = $('#survey_id').val();
   var redirect_url = $('#redirect_url').val();
   var url = '/surveys/' + survey_id + '/load/';
-
   function getCookie(name) {
     var cookieValue = null;
     if (document.cookie && document.cookie !== '') {
@@ -40,8 +39,8 @@ $(document).ready(function() {
     'dataType': 'json',
     'async': true,
     'success': function(json) {
+      console.log("success");
       $('.preload').fadeOut(500, function() {
-
         $('.content').fadeIn(500);
         if (redirect_url != 'None') {
           $("#start-trial").attr("href", redirect_url + "?sessionkey=" + json.session_key + "&language=" + json.language + "&Q_Language=" + json.language.toUpperCase()) + "&ipaddress=" + json.ipaddress;

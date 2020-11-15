@@ -23,7 +23,6 @@ urlpatterns = [
 
     path('<int:survey_id>/<slug:session_key>/trial/', views.trial, name='trial'),
     path('trial/save/<int:trial_id>/', views.save_trial, name='save-trial'),
-    path('trial/save-feedback/<int:trial_id>/', views.save_feedback, name='save-feedback'),
 
     path('<int:survey_id>/<slug:session_key>/training/', views.training, name='training'),
     path('<int:survey_id>/<slug:session_key>/save-training/', views.save_training, name='save-training'),
