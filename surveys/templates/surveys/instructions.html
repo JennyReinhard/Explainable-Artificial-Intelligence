@@ -5,12 +5,12 @@
 {% get_current_language as LANGUAGE_CODE %}
 <div class="uk-container uk-margin-top uk-animation-fade">
   <p>{{survey.ready|safe}}</p>
-  <a class="uk-button uk-button-default uk-margin-bottom" href="" uk-toggle>{% trans "Start Survey" %}</a>
+  <a class="uk-button uk-button-default uk-margin-bottom" href="{% url 'surveys:trial' survey.id session.key %}" uk-toggle>{% trans "Start Survey" %}</a>
   <img class="uk-float-right uk-visible@m" src="{% static 'surveys/img/process.png'%}">
 </div>
 
 <div class="hidden">
-  <input id="trial-redirect" name="trial-redirect" type="hidden" value="{% url 'surveys:training' survey.id session.key %}">
+  <input id="trial-redirect" name="trial-redirect" type="hidden" value="{% url 'surveys:trial' survey.id session.key %}">
 </div>
 
 {% load static %}

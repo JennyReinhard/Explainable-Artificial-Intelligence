@@ -48,6 +48,10 @@ $(document).ready(function() {
           $("#start-trial").attr("href", "/surveys/" + survey_id + "/" + json.session_key + "/instructions/");
         }
       });
-    }
+    },
+    'error': function(data){
+           alert("Ressource <Set> cannot be found");
+           window.location.href = "/404";// the status code
+        }
   });
 });

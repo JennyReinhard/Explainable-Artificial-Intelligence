@@ -7,3 +7,4 @@ home/migrations
 .DS_Store
 *.pyc
 surveys/migrations
+sessions/*

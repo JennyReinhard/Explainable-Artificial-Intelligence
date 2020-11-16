@@ -155,10 +155,10 @@ def load_set(request, survey_id):
     # if there are any trial factors, create set
     if trialfactors or blockfactors:
         set = Set(blockfactors_list, trialfactors_list, ntrials, ntraining)
-
+        print(set)
     else:
-        error_message = "No trial factors found for the current survey"
-        return render(request, 'surveys/error.html', {'error_message': error_message, 'survey':survey})
+        response = HttpResponse('Ressource <Set> could not be found', status=404)
+        return response
 
     # Flushes session and create new one
     request.session.flush()
@@ -376,48 +376,48 @@ def trial(request, survey_id, session_key):
         'blockcounter': block.blockcounter,
         'trial': db_trial,
         'language': language,
-        'max': block.max
+        'max': block.max,
+        'trial': trial,
+        'db_trial':db_trial
     }
 
     return render(request, 'surveys/trial.html', context )
 
 # Saves trial
-def save_trial(request, trial_id):
-    if request.method == 'POST':
-        sessionkey = request.POST.get('sessionkey', False)
-        session = get_object_or_404(Session, key=sessionkey)
+def save_trial(request, session_key, survey_id, trial_id):
+    survey = get_object_or_404(Survey, id = survey_id)
+    session = get_object_or_404(Session, key=session_key)
 
-        # If session key is not current users session key, raise error
-        if session.key != request.session.session_key:
-            error_message = "Wrong session key"
-            return render(request, 'surveys/error.html', {'error_message': error_message, 'session':session, 'survey':survey})
+    # If session key is not current users session key, raise error
+    if session.key != request.session.session_key:
+        error_message = "Wrong session key"
+        return render(request, 'surveys/error.html', {'error_message': error_message, 'session':session, 'survey':survey})
 
-        #gets trial
-        trial = get_object_or_404(Trial, id=trial_id)
+    #gets trial
+    trial = get_object_or_404(Trial, id=trial_id)
 
-        #Gets ajax call data
-        trial.blockcounter = int(request.POST.get('blockcounter', 0))
-        trial.save()
 
-        # Loads saved session set
+    trial.save()
+
+    # Loads saved session set
+    try:
+        with open('sessions/set_'+ session_key, 'rb') as f:
+            set = pickle.load(f)
+    except:
+        return render(request, 'surveys/error.html', {'error_message':'Session not found, sorry', 'survey': survey})
+
+    # Pops the highest trial
+    if not set.top().isEmpty():
+        set.top().pop()
+
+        #Save set to pickle
         try:
-            with open('sessions/set_'+ sessionkey, 'rb') as f:
-                set = pickle.load(f)
+            with open('sessions/set_'+session_key, 'wb') as f:
+                pickle.dump(set, f)
         except:
             return render(request, 'surveys/error.html', {'error_message':'Session not found, sorry', 'survey': survey})
 
-        # Pops the highest trial
-        if not set.top().isEmpty():
-            set.top().pop()
-
-            #Save set to pickle
-            try:
-                with open('sessions/set_'+sessionkey, 'wb') as f:
-                    pickle.dump(set, f)
-            except:
-                return render(request, 'surveys/error.html', {'error_message':'Session not found, sorry', 'survey': survey})
-
-    return HttpResponse('success')
+    return redirect('surveys:trial', survey_id, session_key)
 
 def block_ready(request, survey_id, session_key):
     survey = get_object_or_404(Survey, pk=survey_id)

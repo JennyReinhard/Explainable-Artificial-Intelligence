@@ -2,30 +2,23 @@
 {% block body %}
 {% load static %}
 {% load i18n %}
+
 <div id="preload" class="uk-flex uk-height-medium uk-margin uk-text-center">
   <div class="uk-margin-auto uk-margin-auto-vertical uk-width-1-2@s">
     <div uk-spinner="ratio: 3">
     </div>
   </div>
 </div>
-<div class="content">
-  <div class="uk-flex uk-flex-center">
-    <div id="offcanvas-reveal" uk-offcanvas="mode: reveal; overlay: true">
-      <div class="uk-offcanvas-bar">
-        <button class="uk-offcanvas-close" type="button" uk-close></button>
-        <h3>Trial Details</h3>
-        <p>Blocknumber: <span class="uk-badge">{{blockcounter}}</span></p>
-        <p>Blocksize: <span class="uk-badge">{{size}}</span></p>
-      </div>
-    </div>
-  </div>
+<div class="content uk-container uk-margin">
+  <h3>Factor combination:</h3>{{trial.factor1.name}}
+  <p><a class="uk-button uk-button-default uk-margin-bottom" href="{% url 'surveys:save-trial' survey.id session.key db_trial.id %}" uk-toggle>{% trans "Next Trial" %}</a></p>
+
 </div>
 <div class="hidden">
   <input id="sessionkey" name="sessionkey" type="hidden" value="{{ session.key }}">
   <input id="blockcounter" name="blockcounter" type="hidden" value="{{ blockcounter }}">
   <input id="trial-id" name="trial-id" type="hidden" value="{{ trial.id }}">
   <input id="language-code" name="language-code" type="hidden" value="{{language}}">
-  <input id="feedback-url" name="feedback-url" type="hidden" value="{% url 'surveys:save-feedback' trial.id %}">
   <input id="next-trial" name="next-trial" type="hidden" value="{% url 'surveys:trial' survey.id session.key %}">
 </div>
 {% load static %}
