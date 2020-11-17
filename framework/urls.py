@@ -1,4 +1,4 @@
-"""riskywally URL Configuration
+"""Decision Task Framework URL Configuration
 
 The `urlpatterns` list routes URLs to views. For more information please see:
     https://docs.djangoproject.com/en/2.2/topics/http/urls/
@@ -32,7 +32,6 @@ urlpatterns = [
     # path('surveys/', include('surveys.urls', namespace='surveys')),
     # Installed apps
     path('tinymce/', include('tinymce.urls')),
-    path('jet_api/', include('jet_django.urls')),
 
 ]
 

@@ -6,8 +6,6 @@ class Block:
     def __init__(self, blockfactor, trialfactors_list, ntrials):
         self.trials = []
         #Game stats
-        self.injuries = 0
-        self.balance = 0
         self.blockcounter = 0
         self.max = 0
 
@@ -24,13 +22,6 @@ class Block:
 
         # Shuffles trials in a block
         random.shuffle(self.trials)
-
-        # Calculates maximum possible profit based on successfull and unsuccessful trials
-        for trial in self.trials:
-            if trial.success == True:
-                self.max = self.max + trial.package
-            elif trial.success == False:
-                self.max = self.max + trial.manual
 
     def __repr__(self):
         return "Block with attributes: "+str(self.__dict__)

@@ -25,44 +25,30 @@
       {% if session.audio %}
       <audio controls>
         <source src="{{session.audio.url}}" type="audio/mp3">
-      Your browser does not support the audio element.
+        Your browser does not support the audio element.
       </audio>
-      <a href="{% url 'api:transcribe' session.key %}"class="uk-button uk-button-default uk-margin-medium-left">Transcribe</a>
+      <a href="{% url 'api:transcribe' session.key %}" class="uk-button uk-button-default uk-margin-medium-left">Transcribe</a>
       <h3>Transcription</h3>
       <hr>
       <p>{{session.transcript}}</p>
       {% else %}
-      <a href="{% url 'admin:index' %}"class="uk-button uk-button-default">Upload file</a>
+      <a href="{% url 'admin:index' %}" class="uk-button uk-button-default">Upload file</a>
       {% endif %}
 
     </div>
-    <div "uk-animation-slide-bottom-small ">
+    <div class="uk-animation-slide-bottom-small">
       <p>Trial count: <span class="uk-badge">{{session.trial_set.count}}</span>
       </p>
       <table class="uk-table uk-table-divider">
         <thead>
           <tr>
             <th>ID</th>
-            <th>Reliability</th>
-            <th>DSS</th>
-            <th>Risk</th>
-            <th>Scenario</th>
-            <th>Decision</th>
-            <th>Time</th>
-            <th>Feedback</th>
           </tr>
         </thead>
         <tbody>
           {%for trial in session.trial_set.all %}
           <tr>
             <td>{{trial.id}}</td>
-            <td>{{trial.reliability}}</td>
-            <td>{{trial.dss}}</td>
-            <td>{{trial.risk}}</td>
-            <td>{{trial.scenario}}</td>
-            <td>{{trial.decision}}</td>
-            <td>{{trial.trialDuration}}</td>
-            <td>{{trial.feedbackDuration}}</td>
           </tr>
           {% endfor %}
         </tbody>
@@ -70,24 +56,6 @@
       </table>
 
       <a href="#" uk-totop uk-scroll></a>
-    </div>
-    <div>
-      <h2>Times</h2>
-      <hr>
-      <div class="uk-column-1-2 uk-animation-slide-bottom-small ">
-        <input id="api-call-trialtimes" name="sessionkey" type="hidden" value="{% url 'api:api-sessions' session.key %}">
-        <div>
-          <canvas id="trialtimes" width="400" height="400"></canvas>
-        </div>
-        <div class="uk-margin-large-top">
-          <p>Average trial duration: <span class="uk-badge">{{stats.avgTrialDuration}}</span> Seconds</p>
-          <p>Average feedback duration: <span class="uk-badge"> {{stats.avgFeedbackDuration}}</span> Seconds</p>
-          <p>Total session duration: <span class="uk-badge"> {{stats.totalDuration}}</span> Minutes</p>
-        </div>
-      </div>
-      <h2>Injuries</h2>
-      <hr>
-      <p> Number of injuries: <span class="uk-badge">{{stats.injuries}}</span></p>
     </div>
   </div>
 </div>

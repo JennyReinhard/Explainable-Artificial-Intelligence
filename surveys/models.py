@@ -58,8 +58,6 @@ class Session(models.Model):
     participantID = models.IntegerField(null=True)
     comment = models.TextField(null=True)
 
-    audio = models.FileField(null=True)
-    transcript = models.TextField(null=True)
     # Returns name in the admin panel
     def __str__(self):
         return str(self.key)
@@ -70,24 +68,7 @@ class Session(models.Model):
 # Trial model
 class Trial(models.Model):
     sessionkey = models.ForeignKey(Session, on_delete=models.CASCADE)
-    reliability = models.IntegerField(null=True)
-    dss = models.CharField(max_length=255, null=True)
-    risk = models.CharField(max_length=255, null=True)
-    scenario = models.CharField(max_length=255, null=True)
-    package_value = models.IntegerField(null=True)
-    attempts = models.IntegerField(null=True)
-    errors = models.IntegerField(null=True)
-    success = models.BooleanField(default=True)
-    suggestion = models.CharField(max_length=255, null=True)
-    best_choice = models.CharField(max_length=255, null=True)
-    save_date = models.DateTimeField(auto_now=True, null=True)
     blockcounter = models.IntegerField(null=True)
-    trialDuration = models.IntegerField(null=True)
-    feedbackDuration = models.IntegerField(null=True)
-    decision = models.CharField(max_length=255, null=True)
-    defectiveness = models.BooleanField(default=False)
-    profit = models.IntegerField(null=True)
-    injuries = models.IntegerField(default=0)
 
     def __str__(self):
         return str(self.id)

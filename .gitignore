@@ -1,10 +1,10 @@
-riskywally/__pycache__
+framework/__pycache__
 home/__pycache__
 accounts/__pycache__
-riskywally/migrations
+framework/migrations
 accounts/migrations
 home/migrations
 .DS_Store
 *.pyc
-sessions/
 surveys/migrations
+sessions/*
