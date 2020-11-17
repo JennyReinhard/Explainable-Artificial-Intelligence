@@ -10,6 +10,7 @@
   </div>
 </div>
 <div class="content uk-container uk-margin">
+  <!-- Enter here you factor or lavel name -->
   <h3>Factor combination:</h3>{{trial.factor1.name}}
   <p><a class="uk-button uk-button-default uk-margin-bottom" href="{% url 'surveys:save-trial' survey.id session.key db_trial.id %}" uk-toggle>{% trans "Next Trial" %}</a></p>
 
