@@ -88,8 +88,14 @@ E voilà, you are good to go!
 
 ### Concept and Idea
 
-<figure class="video_container">
-  <iframe width="560" height="315" src="https://www.youtube.com/embed/oom6X5pA7gU?controls=0" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-</figure>
+[![](http://img.youtube.com/vi/oom6X5pA7gU/0.jpg)](http://www.youtube.com/watch?v=oom6X5pA7gU "")
+
+### Installation
+
+[![](http://img.youtube.com/vi/TEdEP_7UoQQ/0.jpg)](http://www.youtube.com/watch?v=TEdEP_7UoQQ "")
+
+### Getting started 
+
+[![](http://img.youtube.com/vi/4kdTDaiT_UI/0.jpg)](http://www.youtube.com/watch?v=4kdTDaiT_UI "")
 
 
