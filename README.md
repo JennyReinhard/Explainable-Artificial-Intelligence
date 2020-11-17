@@ -86,6 +86,10 @@ E voilà, you are good to go!
 
 ## Video Tutorials
 
+### Concept and Idea
+
 <figure class="video_container">
-  <iframe src="https://www.youtube.com/embed/oom6X5pA7gU" frameborder="0" allowfullscreen="true"> </iframe>
+  <iframe width="560" height="315" src="https://www.youtube.com/embed/oom6X5pA7gU?controls=0" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 </figure>
+
+
