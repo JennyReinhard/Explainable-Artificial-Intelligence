@@ -83,3 +83,9 @@ python3 manage.py migrate home
 Make sure create a post in the admin panel of time `HOMEPAGE` and add some content that will be dispayed on your homepage. 
 
 E voilà, you are good to go!
+
+## Video Tutorials
+
+<figure class="video_container">
+  <iframe src="https://www.youtube.com/embed/oom6X5pA7gU" frameborder="0" allowfullscreen="true"> </iframe>
+</figure>
