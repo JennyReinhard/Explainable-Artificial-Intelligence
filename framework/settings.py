@@ -35,7 +35,6 @@ ALLOWED_HOSTS = [
 INSTALLED_APPS = [
     'rest_framework',
     'import_export',
-    'modeltranslation',
     'widget_tweaks',
     'tinymce',
     'api.apps.ApiConfig',
@@ -166,3 +165,5 @@ MESSAGE_TAGS = {
 SESSION_EXPIRE_AT_BROWSER_CLOSE = True
 
 IMPORT_EXPORT_USE_TRANSACTIONS = True
+
+TRANSLATABLE_MODEL_MODULES =
