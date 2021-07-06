@@ -3,14 +3,17 @@
 {% load static %}
 {% load i18n %}
 {% get_current_language as LANGUAGE_CODE %}
+
+<br />
 <div class="uk-container uk-margin-top uk-animation-fade">
-  <p>{{survey.ready|safe}}</p>
-  <a class="uk-button uk-button-default uk-margin-bottom" href="{% url 'surveys:trial' survey.id session.key %}" uk-toggle>{% trans "Start Survey" %}</a>
-  <img class="uk-float-right uk-visible@m" src="{% static 'surveys/img/process.png'%}">
+    <h1>Das Experiment</h1>
+    <p>{{survey.ready|safe}}</p>
+    <a class="uk-button uk-button-primary uk-margin-bottom" style="background-color: #707070" href="{% url 'surveys:instructions2' survey.id session.key %}" uk-toggle>{% trans "Weiter" %}</a>
+    <img class="uk-float-right uk-visible@m" width="300" src="{% static 'surveys/img/process.png'%}">
 </div>
 
 <div class="hidden">
-  <input id="trial-redirect" name="trial-redirect" type="hidden" value="{% url 'surveys:trial' survey.id session.key %}">
+    <input id="trial-redirect" name="trial-redirect" type="hidden" value="{% url 'surveys:instructions2' survey.id session.key %}">
 </div>
 
 {% load static %}

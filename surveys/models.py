@@ -69,6 +69,20 @@ class Session(models.Model):
 class Trial(models.Model):
     sessionkey = models.ForeignKey(Session, on_delete=models.CASCADE)
     blockcounter = models.IntegerField(null=True)
+    context = models.CharField(max_length=255)
+    ai_method = models.CharField(max_length=255)
+    explanation_approach = models.CharField(max_length=255)
+    ai_recommendation = models.CharField(max_length=255)
+    label = models.CharField(max_length=255)
+    choice = models.CharField(max_length=255)
+    rating_1 = models.IntegerField(null=True)
+    rating_2 = models.IntegerField(null=True)
+    rating_3 = models.IntegerField(null=True)
+    rating_4 = models.IntegerField(null=True)
+    rating_5 = models.IntegerField(null=True)
+    decision = models.IntegerField(null=True)
+    start_date = models.DateTimeField(auto_now_add=True)
+    end_date = models.DateTimeField(auto_now=True)
 
     def __str__(self):
         return str(self.id)

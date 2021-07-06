@@ -1,11 +1,14 @@
-$(document).ready(function() {
+$(document).ready(function () {
+
   var language_code = $('#language-code').val();
   var trial_id = $('#trial-id').val();
   var url = '/' + language_code + '/surveys/trial/save/' + trial_id + '/';
   var result_panel = $('#result').css('display');
-  var sessionkey = $('#sessionkey').val();;
+  var sessionkey = $('#sessionkey').val();
   var blockcounter = $('#blockcounter').val();
-
+  var context = $('#context').val();
+  var ai_method = $('#ai_method').val();
+  var explanation_approach = $('#explanation_approach').val();
 
   //Preloader
   $(function() {
@@ -14,10 +17,10 @@ $(document).ready(function() {
     });
   });
 
-
-  $(document).keypress(function(e) {
-    //Here comes your code for keypress actions
+  $(document).keypress(function (e) {
   });
+
+
   //Ajax setup
   function getCookie(name) {
     var cookieValue = null;
@@ -50,15 +53,19 @@ $(document).ready(function() {
     }
   });
 
+
+
   //Saves trial to database
   function save() {
-
     var data = {
-      'sessionkey': sessionkey,
-
+        'blockcounter': blockcounter,
+        'sessionkey': sessionkey,
+        'ai_method': ai_method,
+        'context': context,
+        'explanation_approach': explanation_approach,
     };
 
-    $.post(url, data, function(response) {
+      $.post(url, data, function(response) {
       if (response === 'success') {
         console.log('Trial data sucessfully posted.');
       } else {

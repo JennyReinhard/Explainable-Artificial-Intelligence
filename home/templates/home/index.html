@@ -12,10 +12,10 @@
         <option value="en" {% if LANGUAGE_CODE == 'en'%} selected {% endif %}>English</option>
         <option value="de" {% if LANGUAGE_CODE == 'de'%} selected {% endif %}>Deutsch</option>
       </select>
-      <button class="uk-button uk-button-primary" type="button" tabindex="-1">
+      <!-- <button class="uk-button uk-button-primary" type="button" tabindex="-1">
         <span></span>
         <span uk-icon="icon: chevron-down"></span>
-      </button>
+      </!button> -->
     </div>
   </div>
 </form>
@@ -32,6 +32,32 @@
   </ul>
   {% endif %}
   {{homepage.content|safe}}
-  <a class="uk-button uk-button-primary uk-margin-large-bottom" href="{% url 'surveys:introduction' active_survey %}">{% trans "Start experiment" %}</a>
+  <div>
+    <input type="checkbox" id="consent" name="consent">
+    <label for="consent">
+        Ich bin vollj&aumlhrig und stimme dieser Einverst&aumlndniserkl&aumlrung zu.
+    </label>
+    <br />
+    <i id="error" style="color:#F0506E"></i>
+    <br />
+    <br />
+  </div>
+  
+  <a class="uk-button uk-button-primary uk-margin-large-bottom" id="button" onclick="checkForm()" style="background-color: #707070" href="#">{% trans "Experiment starten" %}</a>
 </div>
+
+<script>
+    function checkForm() {
+        if (!document.getElementById("consent").checked) {
+            document.getElementById("error").innerHTML = "Bitte stimmen Sie der Einverst&aumlndniserkl&aumlrung zu.";
+            document.getElementById("consent").focus({ preventScroll: false });
+            event.preventDefault();
+        } else {
+            document.getElementById("button").href = "{% url 'surveys:introduction' active_survey %}";
+        }
+    }
+</script>
+
 {% endblock %}
+
+

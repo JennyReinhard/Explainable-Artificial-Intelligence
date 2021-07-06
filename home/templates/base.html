@@ -1,6 +1,15 @@
-<!doctype html>
+﻿<!doctype html>
+
+<style>
+    body {
+        min-width: 1080px;
+        width: auto !important;
+        width: 1080px;
+    }
+</style>
+
 <html lang="en">
-  <head>
+<head>
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -11,26 +20,28 @@
     <script src="https://cdn.tiny.cloud/1/i1vbxjxnd2j24fnixr59plwpy46yh1s0e6le8d68brwjl4sa/tinymce/5/tinymce.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js"></script>
-    <title>Decision Task Framework</title>
-  </head>
-  <body>
-      {% if user.is_authenticated %}
-      {% include 'home/header.html' %}
-      {% endif %}
-      {% block body %}
-      {% endblock body %}
-      {% include 'home/scripts.html' %}
-      {% block scripts %}
-      {% if messages%}
-        {% for message in messages %}
-          <script>window.onload = UIkit.notification({
+    <title>Explainable Artificial Intelligence</title>
+</head>
+
+<body>
+    {% if user.is_authenticated %}
+    {% include 'home/header.html' %}
+    {% endif %}
+    {% block body %}
+    {% endblock body %}
+    {% include 'home/scripts.html' %}
+    {% block scripts %}
+    {% if messages%}
+    {% for message in messages %}
+    <script>
+    window.onload = UIkit.notification({
             message: '{{message.message}}',
             status: '{{message.tags}}',
             pos: 'top-right',
             timeout: 2500
           });;</script>
-        {% endfor %}
-      {% endif %}
-      {% endblock %}
-  </body>
+    {% endfor %}
+    {% endif %}
+    {% endblock %}
+</body>
 </html>

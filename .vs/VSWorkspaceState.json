@@ -1,0 +1,13 @@
+{
+  "ExpandedNodes": [
+    "",
+    "\\framework",
+    "\\surveys\\static",
+    "\\surveys\\static\\surveys",
+    "\\surveys\\static\\surveys\\img",
+    "\\surveys\\templates",
+    "\\surveys\\templates\\surveys"
+  ],
+  "SelectedNode": "\\framework\\settings.py",
+  "PreviewInSolutionExplorer": false
+}

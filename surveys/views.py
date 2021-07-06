@@ -13,6 +13,11 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from django.db.models import Avg,Sum
 
+from sklearn.neighbors import KNeighborsClassifier
+from sklearn import svm
+from sklearn.svm import LinearSVC
+import csv
+
 import urllib.parse
 from itertools import islice
 import random
@@ -20,7 +25,9 @@ import random
 import pickle
 import json
 import os
-
+import matplotlib.pyplot as plt
+from mpl_toolkits.axisartist.axislines import AxesZero
+import numpy as np
 
 # Generic survey view displaying a list of all surveys
 class SurveysView(LoginRequiredMixin,generic.ListView):
@@ -187,6 +194,10 @@ def load_set(request, survey_id):
 
 # Renders screen before trials start.
 def instructions(request, survey_id, session_key):
+
+    global i
+    i = 0
+
     survey = get_object_or_404(Survey, pk=survey_id)
     session = get_object_or_404(Session, key=session_key)
 
@@ -200,6 +211,320 @@ def instructions(request, survey_id, session_key):
     }
 
     return render(request, 'surveys/instructions.html', context )
+
+def instructions2(request, survey_id, session_key):
+    survey = get_object_or_404(Survey, pk=survey_id)
+    session = get_object_or_404(Session, key=session_key)
+
+    # If session key is not current users session key, raise error
+    if session.key != request.session.session_key:
+        return render(request, 'surveys/error.html', {'error_message': 'Wrong session key', 'session':session, 'survey':survey})
+
+    context = {
+        'survey': survey,
+        'session': session,
+    }
+
+    return render(request, 'surveys/instructions2.html', context )
+
+def testround(request, survey_id, session_key):
+    survey = get_object_or_404(Survey, pk=survey_id)
+    session = get_object_or_404(Session, key=session_key)
+
+    # If session key is not current users session key, raise error
+    if session.key != request.session.session_key:
+        return render(request, 'surveys/error.html', {'error_message': 'Wrong session key', 'session':session, 'survey':survey})
+    
+    contextRandom = random.choice(["Immobilienpreis", "Kleidergroesse"]) 
+    aimethodRandom = random.choice(["knn", "svm"])
+    explanationRandom = random.choice(["Textuell", "Visuell", "Beispielbasiert"])
+
+    #implementation of ai methods
+
+    def make_meshgrid(x, y, h=.5):
+        x_min, x_max = x.min() - 1, x.max() + 1
+        y_min, y_max = y.min() - 1, y.max() + 1
+        
+        xx, yy = np.meshgrid(np.arange(65, 126, h),np.arange(65, 135, h))
+        return xx, yy
+
+    def plot_contours(ax, clf, xx, yy, **params):
+          
+        Z = clf.predict(np.c_[xx.ravel(), yy.ravel()])              
+        Z = Z.reshape(xx.shape)
+
+        if contextRandom == "Immobilienpreis":
+            xx = ((xx-22)**1.14)
+            yy = (yy/10)-5
+            print(yy)
+
+        out = ax.contourf(xx, yy, Z, **params)
+        return out
+
+    height = []
+    bust = []
+    waist = []
+    hips =[]
+    size=[]
+    sizeInt =[]
+
+    #read data
+    with open('surveys/data_clothes_neu.csv', 'r') as f:
+        csv_reader = csv.reader(f, delimiter=';')
+        for row in csv_reader:
+            height.append(int(row[0]))
+            bust.append(int(row[1]))
+            waist.append(int(row[2]))
+            hips.append(int(row[3]))
+            size.append(row[4])
+            sizeInt.append(row[5])
+
+            
+    features=list(zip(height, bust, waist, hips))
+    features2=list(zip(bust, hips))
+
+    #train model
+    if aimethodRandom == "knn":
+        model = KNeighborsClassifier(n_neighbors=25)
+        clf = KNeighborsClassifier(n_neighbors=25)
+        clf.fit(features2,size)
+    else:
+        model = svm.SVC(kernel='rbf')
+        clf = svm.SVC(kernel='rbf')
+        clf.fit(features2,sizeInt)
+       
+        X = np.array(features2) 
+        y= np.array(sizeInt)
+
+        X0, X1 = X[:, 0], X[:, 1]
+
+        xx, yy = make_meshgrid(X0, X1)
+
+    model.fit(features,size)
+   
+    data = [157,81,56,84]
+    
+    #get prediction
+    predicted = model.predict([data])[0]
+
+    if contextRandom == "Immobilienpreis":
+        if predicted == "Small (S)":
+            predicted = "< 400.000 €"
+        elif predicted == "Medium (M)":
+            predicted = "400.000 - 700.000 €"
+        else: 
+            predicted = "> 700.000 €"
+
+    countS = 0
+    countM = 0
+    countL = 0
+    bustNeighborS=[]
+    bustNeighborM=[]
+    bustNeighborL=[]
+    hipsNeighborS=[]
+    hipsNeighborM=[]
+    hipsNeighborL=[]
+
+    if aimethodRandom == "knn":
+        neighbors = model.kneighbors([data], 25, False)
+
+        for k in neighbors[0]:
+            if size[k] == "Small (S)":
+                countS += 1
+            elif size[k] == "Medium (M)":
+                countM += 1
+            else:
+                countL += 1
+
+        neighborsImage = clf.kneighbors([[data[1],data[3]]],25,False)
+        if contextRandom == "Immobilienpreis":
+             for k in neighborsImage[0]:
+                if size[k] == "Small (S)":
+                    bustNeighborS.append(int((bust[k]-22)**1.14))
+                    hipsNeighborS.append(int(hips[k]/10)-5)
+                elif size[k] == "Medium (M)":
+                    bustNeighborM.append(int((bust[k]-22)**1.14))
+                    hipsNeighborM.append(int(hips[k]/10)-5) 
+                else:
+                    bustNeighborL.append(int((bust[k]-22)**1.14))
+                    hipsNeighborL.append(int(hips[k]/10)-5)
+        else:
+     
+             for k in neighborsImage[0]:
+                if size[k] == "Small (S)":
+                    bustNeighborS.append(bust[k])
+                    hipsNeighborS.append(hips[k])
+                elif size[k] == "Medium (M)":
+                    bustNeighborM.append(bust[k])
+                    hipsNeighborM.append(hips[k]) 
+                else:
+                    bustNeighborL.append(bust[k])
+                    hipsNeighborL.append(hips[k])
+
+    #plot data
+    bustArrayS = []
+    bustArrayM = []
+    bustArrayL =[]
+    hipsArrayS=[]
+    hipsArrayM=[]
+    hipsArrayL=[]
+
+    l = 0
+
+    if contextRandom == "Immobilienpreis":
+        while l < len(size):
+            if size[l] == "Small (S)":
+                bustArrayS.append(int((bust[l]-22)**1.14))
+                hipsArrayS.append(int(hips[l]/10)-5)                  
+            elif size[l] == "Medium (M)":
+                bustArrayM.append(int((bust[l]-22)**1.14))
+                hipsArrayM.append(int(hips[l]/10)-5)
+            else:
+                bustArrayL.append(int((bust[l]-22)**1.14))
+                hipsArrayL.append(int(hips[l]/10)-5)
+            l += 1
+    else:
+        while l < len(size):
+            if size[l] == "Small (S)":
+                bustArrayS.append(bust[l])
+                hipsArrayS.append(hips[l])
+            elif size[l] == "Medium (M)":
+                bustArrayM.append(bust[l])
+                hipsArrayM.append(hips[l])
+            else:
+                bustArrayL.append(bust[l])
+                hipsArrayL.append(hips[l])
+            l += 1
+
+    plt.ion()
+
+    if contextRandom == "Immobilienpreis":
+        if aimethodRandom == "svm":
+            plt.plot(bustArrayS, hipsArrayS, 'rebeccapurple', marker= 5, markersize=7, linestyle = '')
+            plt.plot(int((data[1]-22)**1.14), int(data[3]/10)-5, 'tab:red', marker = 6, markersize= 14,  linestyle = '')
+            plt.plot(bustArrayM, hipsArrayM, 'darkgoldenrod', marker= 7, markersize=7, linestyle = '')
+            plt.plot(bustArrayL, hipsArrayL, 'steelblue', marker = 4, markersize=7, linestyle = '')
+        else:
+            plt.plot(bustArrayS, hipsArrayS, '#d1bae8', marker= 5, markersize=7, linestyle = '')
+            plt.plot(int((data[1]-22)**1.14), int(data[3]/10)-5, 'tab:red', marker = 6, markersize= 14,  linestyle = '', zorder=10)
+            plt.plot(bustArrayM, hipsArrayM, '#edd498', marker= 7, markersize=7, linestyle = '')
+            plt.plot(bustArrayL, hipsArrayL, 'lightsteelblue', marker = 4, markersize=7, linestyle = '')
+            plt.plot(bustNeighborS, hipsNeighborS, 'rebeccapurple', marker= 5, markersize=10, linestyle = '')
+            plt.plot(bustNeighborM, hipsNeighborM, 'darkgoldenrod', marker= 7, markersize=10, linestyle = '')
+            plt.plot(bustNeighborL, hipsNeighborL, 'steelblue', marker = 4, markersize=10, linestyle = '')
+
+        plt.xlim(80,199.99)
+        plt.ylim(1.5,8.6)
+
+        plt.xlabel('Grundstücksfläche [m²]', fontsize=14, labelpad=18, color='dimgrey')
+        plt.ylabel('Zimmeranzahl', fontsize=14, labelpad=18, color='dimgrey')
+
+        l=plt.legend(['< 400.000 €', 'Gegeben', '400.000 - 700.000 €', '> 700.000 €'],  bbox_to_anchor=(1.05, 1.15), loc='center right', framealpha=0, ncol=3, fontsize=12, columnspacing=1.5)
+
+        l.legendHandles[1]._legmarker.set_markersize(7)
+        l.legendHandles[0]._legmarker.set_color('rebeccapurple')
+        l.legendHandles[2]._legmarker.set_color('darkgoldenrod')
+        l.legendHandles[3]._legmarker.set_color('steelblue')
+
+        texts=l.get_texts()
+        texts[0].set_color("rebeccapurple")
+        texts[2].set_color("darkgoldenrod")
+        texts[3].set_color("steelblue")
+        texts[1].set_color("tab:red")
+
+    else:
+        if aimethodRandom == "svm":
+            plt.plot(bustArrayS, hipsArrayS, 'rebeccapurple', marker= 5, markersize=7, linestyle = '')
+            plt.plot(bustArrayM, hipsArrayM, 'darkgoldenrod', marker= 7, markersize=7, linestyle = '')
+            plt.plot(bustArrayL, hipsArrayL, 'steelblue', marker = 4, markersize=7, linestyle = '')
+            plt.plot(data[1], data[3], 'tab:red', marker = 6, markersize= 14,  linestyle = '')
+        else:
+            plt.plot(bustArrayS, hipsArrayS, '#d1bae8', marker= 5, markersize=7, linestyle = '')
+            plt.plot(bustArrayM, hipsArrayM, '#edd498', marker= 7, markersize=7, linestyle = '')
+            plt.plot(bustArrayL, hipsArrayL, 'lightsteelblue', marker = 4, markersize=7, linestyle = '')
+            plt.plot(data[1], data[3], 'tab:red', marker = 6, markersize= 14,  linestyle = '', zorder=10)
+            plt.plot(bustNeighborS, hipsNeighborS, 'rebeccapurple', marker= 5, markersize=10, linestyle = '')
+            plt.plot(bustNeighborM, hipsNeighborM, 'darkgoldenrod', marker= 7, markersize=10, linestyle = '')
+            plt.plot(bustNeighborL, hipsNeighborL, 'steelblue', marker = 4, markersize=10, linestyle = '')
+
+        plt.xlim(70,126.5)
+        plt.ylim(70,136)
+    
+        plt.xlabel('Brustumfang [cm]', fontsize=14, labelpad=18, color='dimgrey')
+        plt.ylabel('Hüftumfang [cm]', fontsize=14, labelpad=18, color='dimgrey')
+
+        l=plt.legend(['Small (S)', 'Medium (M)', 'Large (L)', 'Gegeben'],  bbox_to_anchor=(1.05, 1.15), loc='center right', framealpha=0, ncol=4, fontsize=12, columnspacing=1.5)
+    
+        l.legendHandles[3]._legmarker.set_markersize(7)
+        l.legendHandles[0]._legmarker.set_color('rebeccapurple')
+        l.legendHandles[1]._legmarker.set_color('darkgoldenrod')
+        l.legendHandles[2]._legmarker.set_color('steelblue')
+        
+        texts=l.get_texts()
+        texts[0].set_color("rebeccapurple")
+        texts[1].set_color("darkgoldenrod")
+        texts[2].set_color("steelblue")
+        texts[3].set_color("tab:red")
+
+    plt.gcf().subplots_adjust(bottom=0.15)
+    plt.gcf().subplots_adjust(left=0.15)
+    plt.gcf().subplots_adjust(top=0.85)
+
+    for ax in plt.gcf().axes:
+        ax.spines['bottom'].set_color('grey')
+        ax.spines['left'].set_color('grey')
+        ax.spines['right'].set_visible(False)
+        ax.spines['top'].set_visible(False)
+        ax.tick_params(axis='x', colors='dimgrey')
+        ax.tick_params(axis='y', colors='dimgrey')
+        
+        if contextRandom == "Immobilienpreis":            
+            ax.plot((1), (1.5), ls="", marker=">", ms=10, color="dimgrey", transform=ax.get_yaxis_transform(), clip_on=False)
+            ax.plot((80), (1), ls="", marker="^", ms=10, color="dimgrey", transform=ax.get_xaxis_transform(), clip_on=False)
+        else:
+            ax.plot((1), (70), ls="", marker=">", ms=10, color="dimgrey", transform=ax.get_yaxis_transform(), clip_on=False)
+            ax.plot((70), (1), ls="", marker="^", ms=10, color="dimgrey", transform=ax.get_xaxis_transform(), clip_on=False)
+
+        if aimethodRandom == "svm":
+            plot_contours(ax, clf, xx, yy,colors=['rebeccapurple', 'dimgrey','dimgrey','darkgoldenrod', 'dimgrey','dimgrey','dimgrey','steelblue'], alpha=0.3)
+
+    plt.xticks(fontsize=12)
+    plt.yticks(fontsize=12)
+        
+    plt.savefig('surveys/static/surveys/img/visuell.png', transparent=True)
+
+    plt.show()
+    plt.close()
+
+
+    context = {
+        'survey': survey,
+        'session': session,
+        'contextRandom': contextRandom,
+        'aimethodRandom': aimethodRandom,
+        'explanationRandom': explanationRandom,
+        'predicted': predicted,
+        'countS': countS,
+        'countM': countM,
+        'countL': countL
+    }
+
+    return render(request, 'surveys/testround.html', context )
+
+def testround_end(request, survey_id, session_key):
+    survey = get_object_or_404(Survey, pk=survey_id)
+    session = get_object_or_404(Session, key=session_key)
+
+    # If session key is not current users session key, raise error
+    if session.key != request.session.session_key:
+        return render(request, 'surveys/error.html', {'error_message': 'Wrong session key', 'session':session, 'survey':survey})
+
+    context = {
+        'survey': survey,
+        'session': session,
+    }
+
+    return render(request, 'surveys/testround_end.html', context )
 
 def training(request, survey_id, session_key):
     survey = get_object_or_404(Survey, pk=survey_id)
@@ -292,6 +617,8 @@ def survey_ready(request, survey_id, session_key):
 
     return render(request, 'surveys/survey_ready.html', context)
 
+i = 0
+
 def trial(request, survey_id, session_key):
     survey = get_object_or_404(Survey, pk=survey_id)
     session = get_object_or_404(Session, key=session_key)
@@ -364,10 +691,286 @@ def trial(request, survey_id, session_key):
             return redirect('surveys:end', survey_id=survey.id, session_key=session.key)
 
     size = set.top().size()
+    
+    #implementation of ai methods
 
+    def make_meshgrid(x, y, h=.5):
+        x_min, x_max = x.min() - 1, x.max() + 1
+        y_min, y_max = y.min() - 1, y.max() + 1
+        
+        xx, yy = np.meshgrid(np.arange(65, 126, h),np.arange(65, 135, h))
+        return xx, yy
+
+    def plot_contours(ax, clf, xx, yy, **params):
+          
+        Z = clf.predict(np.c_[xx.ravel(), yy.ravel()])              
+        Z = Z.reshape(xx.shape)
+
+        if trial.context.name == "Immobilienpreis":
+            xx = ((xx-22)**1.14)
+            yy = (yy/10)-5
+            print(yy)
+
+        out = ax.contourf(xx, yy, Z, **params)
+        return out
+
+    height = []
+    bust = []
+    waist = []
+    hips =[]
+    size=[]
+    sizeInt=[]
+
+    #read data
+    with open('surveys/data_clothes_neu.csv', 'r') as f:
+        csv_reader = csv.reader(f, delimiter=';')
+        for row in csv_reader:
+            height.append(int(row[0]))
+            bust.append(int(row[1]))
+            waist.append(int(row[2]))
+            hips.append(int(row[3]))
+            size.append(row[4])
+            sizeInt.append(row[5])
+
+    features=list(zip(height, bust, waist, hips))
+    features2=list(zip(bust, hips))
+
+    #train model
+    if trial.ai_method.name == "Nächste-Nachbarn-Klassifikation":
+        model = KNeighborsClassifier(n_neighbors=25)
+        clf = KNeighborsClassifier(n_neighbors=25)
+        clf.fit(features2,size)
+    else:
+        model = svm.SVC(kernel='rbf')
+        clf = svm.SVC(kernel='rbf')
+        clf.fit(features2,sizeInt)
+       
+        X = np.array(features2) 
+        y= np.array(sizeInt)
+
+        X0, X1 = X[:, 0], X[:, 1]
+
+        xx, yy = make_meshgrid(X0, X1)
+
+    model.fit(features,size)
+    
+    #examples for trials
+    ex_features = [[175,107,86,107],[170,91,76,102],[168,91,74,97],[168,81,69,99],[175,94,76,102],[170,109,94,117],[163,91,71,91],[163,86,69,97],[160,81,64,89],[168,114,102,127],[165,97,71,102],[165,99,76,97]]
+    ex_label = ['Large (L)', 'Medium (M)', 'Small (S)', 'Small (S)', 'Medium (M)', 'Large (L)', 'Medium (M)', 'Small (S)', 'Small (S)', 'Large (L)', 'Medium (M)', 'Medium (M)']
+    
+    global i
+    data = ex_features[i]
+    
+    #get prediction
+    predicted = model.predict([data])[0]
+
+    countS = 0
+    countM = 0
+    countL = 0
+    bustNeighborS=[]
+    bustNeighborM=[]
+    bustNeighborL=[]
+    hipsNeighborS=[]
+    hipsNeighborM=[]
+    hipsNeighborL=[]
+
+    if trial.ai_method.name == "Nächste-Nachbarn-Klassifikation":
+        neighbors = model.kneighbors([data], 25, False)
+        for k in neighbors[0]:
+            if size[k] == "Small (S)":
+                countS += 1 
+            elif size[k] == "Medium (M)":
+                countM += 1
+            else:
+                countL += 1
+                
+        
+        neighborsImage = clf.kneighbors([[data[1],data[3]]],25,False)
+        if trial.context.name == "Immobilienpreis":
+             for k in neighborsImage[0]:
+                if size[k] == "Small (S)":
+                    bustNeighborS.append(int((bust[k]-22)**1.14))
+                    hipsNeighborS.append(int(hips[k]/10)-5)
+                elif size[k] == "Medium (M)":
+                    bustNeighborM.append(int((bust[k]-22)**1.14))
+                    hipsNeighborM.append(int(hips[k]/10)-5) 
+                else:
+                    bustNeighborL.append(int((bust[k]-22)**1.14))
+                    hipsNeighborL.append(int(hips[k]/10)-5)
+        else:
+     
+             for k in neighborsImage[0]:
+                if size[k] == "Small (S)":
+                    bustNeighborS.append(bust[k])
+                    hipsNeighborS.append(hips[k])
+                elif size[k] == "Medium (M)":
+                    bustNeighborM.append(bust[k])
+                    hipsNeighborM.append(hips[k]) 
+                else:
+                    bustNeighborL.append(bust[k])
+                    hipsNeighborL.append(hips[k])
+
+
+    #plot data
+    bustArrayS = []
+    bustArrayM = []
+    bustArrayL =[]
+    hipsArrayS=[]
+    hipsArrayM=[]
+    hipsArrayL=[]
+
+    l = 0
+
+    if trial.context.name == "Immobilienpreis":
+        while l < len(size):
+            if size[l] == "Small (S)":
+                bustArrayS.append(int((bust[l]-22)**1.14))
+                hipsArrayS.append(int(hips[l]/10)-5)                  
+            elif size[l] == "Medium (M)":
+                bustArrayM.append(int((bust[l]-22)**1.14))
+                hipsArrayM.append(int(hips[l]/10)-5)
+            else:
+                bustArrayL.append(int((bust[l]-22)**1.14))
+                hipsArrayL.append(int(hips[l]/10)-5)
+            l += 1
+    else:
+        while l < len(size):
+            if size[l] == "Small (S)":
+                bustArrayS.append(bust[l])
+                hipsArrayS.append(hips[l])
+            elif size[l] == "Medium (M)":
+                bustArrayM.append(bust[l])
+                hipsArrayM.append(hips[l])
+            else:
+                bustArrayL.append(bust[l])
+                hipsArrayL.append(hips[l])
+            l += 1
+
+    plt.ion()
+
+    if trial.context.name == "Immobilienpreis":
+        if trial.ai_method.name == "Support-Vektor-Maschine":
+            plt.plot(bustArrayS, hipsArrayS, 'rebeccapurple', marker= 5, markersize=7, linestyle = '')
+            plt.plot(int((data[1]-22)**1.14), int(data[3]/10)-5, 'tab:red', marker = 6, markersize= 14,  linestyle = '', zorder=10)
+            plt.plot(bustArrayM, hipsArrayM, 'darkgoldenrod', marker= 7, markersize=7, linestyle = '')
+            plt.plot(bustArrayL, hipsArrayL, 'steelblue', marker = 4, markersize=7, linestyle = '')
+        else:
+            plt.plot(bustArrayS, hipsArrayS, '#d1bae8', marker= 5, markersize=7, linestyle = '')
+            plt.plot(int((data[1]-22)**1.14), int(data[3]/10)-5, 'tab:red', marker = 6, markersize= 14,  linestyle = '', zorder=10)
+            plt.plot(bustArrayM, hipsArrayM, '#edd498', marker= 7, markersize=7, linestyle = '')
+            plt.plot(bustArrayL, hipsArrayL, 'lightsteelblue', marker = 4, markersize=7, linestyle = '')
+            plt.plot(bustNeighborS, hipsNeighborS, 'rebeccapurple', marker= 5, markersize=10, linestyle = '')
+            plt.plot(bustNeighborM, hipsNeighborM, 'darkgoldenrod', marker= 7, markersize=10, linestyle = '')
+            plt.plot(bustNeighborL, hipsNeighborL, 'steelblue', marker = 4, markersize=10, linestyle = '')
+
+
+        plt.xlim(80,199.99)
+        plt.ylim(1.5,8.6)
+
+        plt.xlabel('Grundstücksfläche [m²]', fontsize=14, labelpad=18, color='dimgrey')
+        plt.ylabel('Zimmeranzahl', fontsize=14, labelpad=18, color='dimgrey')
+
+        l=plt.legend(['< 400.000 €', 'Gegeben', '400.000 - 700.000 €', '> 700.000 €'],  bbox_to_anchor=(1.05, 1.15), loc='center right', framealpha=0, ncol=3, fontsize=12, columnspacing=1.5)
+
+        l.legendHandles[1]._legmarker.set_markersize(7)
+        l.legendHandles[0]._legmarker.set_color('rebeccapurple')
+        l.legendHandles[2]._legmarker.set_color('darkgoldenrod')
+        l.legendHandles[3]._legmarker.set_color('steelblue')
+
+        texts=l.get_texts()
+        texts[0].set_color("rebeccapurple")
+        texts[2].set_color("darkgoldenrod")
+        texts[3].set_color("steelblue")
+        texts[1].set_color("tab:red")
+    else:
+        if trial.ai_method.name == "Support-Vektor-Maschine":
+            plt.plot(bustArrayS, hipsArrayS, 'rebeccapurple', marker= 5, markersize=7, linestyle = '')
+            plt.plot(bustArrayM, hipsArrayM, 'darkgoldenrod', marker= 7, markersize=7, linestyle = '')
+            plt.plot(bustArrayL, hipsArrayL, 'steelblue', marker = 4, markersize=7, linestyle = '')
+            plt.plot(data[1], data[3], 'tab:red', marker = 6, markersize= 14,  linestyle = '', zorder=10)
+        else:
+            plt.plot(bustArrayS, hipsArrayS, '#d1bae8', marker= 5, markersize=7, linestyle = '')
+            plt.plot(bustArrayM, hipsArrayM, '#edd498', marker= 7, markersize=7, linestyle = '')
+            plt.plot(bustArrayL, hipsArrayL, 'lightsteelblue', marker = 4, markersize=7, linestyle = '')
+            plt.plot(data[1], data[3], 'tab:red', marker = 6, markersize= 14,  linestyle = '', zorder=10)
+            plt.plot(bustNeighborS, hipsNeighborS, 'rebeccapurple', marker= 5, markersize=10, linestyle = '')
+            plt.plot(bustNeighborM, hipsNeighborM, 'darkgoldenrod', marker= 7, markersize=10, linestyle = '')
+            plt.plot(bustNeighborL, hipsNeighborL, 'steelblue', marker = 4, markersize=10, linestyle = '')
+        
+        plt.xlim(70,126.5)
+        plt.ylim(70,136)
+    
+        plt.xlabel('Brustumfang [cm]', fontsize=14, labelpad=18, color='dimgrey')
+        plt.ylabel('Hüftumfang [cm]', fontsize=14, labelpad=18, color='dimgrey')
+
+        l=plt.legend(['Small (S)', 'Medium (M)', 'Large (L)', 'Gegeben'],  bbox_to_anchor=(1.05, 1.15), loc='center right', framealpha=0, ncol=4, fontsize=12, columnspacing=1.5)
+    
+        l.legendHandles[3]._legmarker.set_markersize(7)
+        l.legendHandles[0]._legmarker.set_color('rebeccapurple')
+        l.legendHandles[1]._legmarker.set_color('darkgoldenrod')
+        l.legendHandles[2]._legmarker.set_color('steelblue')
+        texts=l.get_texts()
+        texts[0].set_color("rebeccapurple")
+        texts[1].set_color("darkgoldenrod")
+        texts[2].set_color("steelblue")
+        texts[3].set_color("tab:red")
+
+
+    plt.gcf().subplots_adjust(bottom=0.15)
+    plt.gcf().subplots_adjust(left=0.15)
+    plt.gcf().subplots_adjust(top=0.85)
+
+    for ax in plt.gcf().axes:
+        ax.spines['bottom'].set_color('grey')
+        ax.spines['left'].set_color('grey')
+        ax.spines['right'].set_visible(False)
+        ax.spines['top'].set_visible(False)
+        ax.tick_params(axis='x', colors='dimgrey')
+        ax.tick_params(axis='y', colors='dimgrey')
+        
+        if trial.context.name == "Immobilienpreis":            
+            ax.plot((1), (1.5), ls="", marker=">", ms=10, color="dimgrey", transform=ax.get_yaxis_transform(), clip_on=False)
+            ax.plot((80), (1), ls="", marker="^", ms=10, color="dimgrey", transform=ax.get_xaxis_transform(), clip_on=False)
+
+        else:
+            ax.plot((1), (70), ls="", marker=">", ms=10, color="dimgrey", transform=ax.get_yaxis_transform(), clip_on=False)
+            ax.plot((70), (1), ls="", marker="^", ms=10, color="dimgrey", transform=ax.get_xaxis_transform(), clip_on=False)
+        
+        if trial.ai_method.name == "Support-Vektor-Maschine":
+            plot_contours(ax, clf, xx, yy,colors=['rebeccapurple', 'dimgrey','dimgrey','darkgoldenrod', 'dimgrey','dimgrey','dimgrey','steelblue'], alpha=0.3)
+
+    plt.xticks(fontsize=12)
+    plt.yticks(fontsize=12)
+        
+    plt.savefig('surveys/static/surveys/img/visuell.png', transparent=True)
+
+    plt.show()
+    plt.close()
+   
+    label = ex_label[i]
+
+    #convert data for context "house prices"
+    if trial.context.name == "Immobilienpreis":
+        data[0] = data[0]*3+1465                #range: 1900-2020
+        data[1] = int((data[1]-22)**1.14)       #range: 90-234
+        data[2] = int((data[2]-17)**1.1)        #range: 56-176
+        data[3] = int(data[3]/10)-5             #range: 2-10
+        if predicted == "Small (S)":
+            predicted = "< 400.000 €"
+        elif predicted == "Medium (M)":
+            predicted = "400.000 - 700.000 €"
+        else: 
+            predicted = "> 700.000 €"
+        if label == "Small (S)":
+            label = "< 400.000 €"
+        elif label == "Medium (M)":
+            label = "400.000 - 700.000 €"
+        else:
+            label = "> 700.000 €"
+   
     # creates new database trial
-    db_trial = Trial(sessionkey=session)
-    db_trial.save()
+    db_trial = Trial(sessionkey=session, blockcounter=block.blockcounter, context=trial.context.name, ai_method=trial.ai_method.name, explanation_approach=trial.explanation_approach.name, ai_recommendation=predicted, label=label)
+    db_trial.save()  
 
     context = {
         'set':set,
@@ -378,13 +981,25 @@ def trial(request, survey_id, session_key):
         'language': language,
         'max': block.max,
         'trial': trial,
-        'db_trial':db_trial
+        'db_trial': db_trial,
+        'data0': data[0],
+        'data1': data[1],
+        'data2': data[2],
+        'data3': data[3],
+        'predicted': predicted,
+        'countS': countS,
+        'countM': countM,
+        'countL': countL
     }
 
     return render(request, 'surveys/trial.html', context )
 
 # Saves trial
 def save_trial(request, session_key, survey_id, trial_id):
+    
+    global i
+    i = i+1
+
     survey = get_object_or_404(Survey, id = survey_id)
     session = get_object_or_404(Session, key=session_key)
 
@@ -395,8 +1010,14 @@ def save_trial(request, session_key, survey_id, trial_id):
 
     #gets trial
     trial = get_object_or_404(Trial, id=trial_id)
-
-
+    if request.method == 'POST':
+        trial.choice = request.POST.get('auswahl');
+        trial.rating_1 = request.POST.get('bewertung_1');
+        trial.rating_2 = request.POST.get('bewertung_2');
+        trial.rating_3 = request.POST.get('bewertung_3');
+        trial.rating_4 = request.POST.get('bewertung_4');
+        trial.rating_5 = request.POST.get('bewertung_5');
+        trial.decision = request.POST.get('entscheidung');
     trial.save()
 
     # Loads saved session set

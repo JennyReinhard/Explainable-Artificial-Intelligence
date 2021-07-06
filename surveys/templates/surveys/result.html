@@ -2,10 +2,11 @@
 {% block body %}
 {% load static %}
 {% load i18n %}
+<br />
 <div class="uk-container uk-margin-top">
-  <h2 class="uk-heading-small">Results</h2>
-  <p>{% trans "Congratulations! You have finished the block. Here are your results:" %}</p>
-  <a class="uk-button uk-button-default" href="{{redirect}}">{% trans "To the questionnaire" %}</a>
-  <img class="uk-float-right uk-visible@m" src="{% static 'surveys/img/results.png'%}">
+  <h2 class="uk-heading-small">Herzlichen Gl&uumlckwunsch!</h2>
+  <p style="font-size:19px">{% trans "Sie haben den Aufgabenblock beendet!" %}</p>
+  <a class="uk-button uk-button-primary uk-margin-large-bottom" style="background-color: #707070" href="{{redirect}}">{% trans "Zum Fragebogen" %}</a>
+  <img class="uk-float-right uk-visible@m" width="400" src="{% static 'surveys/img/results.png'%}">
 </div>
 {% endblock %}

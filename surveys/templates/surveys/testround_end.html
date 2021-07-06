@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% block body %}
+{% load static %}
+{% load i18n %}
+<br />
+    <div class="uk-container uk-margin-top">
+        <h2 class="uk-heading-small">Super!</h2>
+        <p style="font-size:19px">{% trans "Sie haben die Testrunde erfolgreich beendet!" %}</p>
+        <p style="font-size:19px;text-align: justify">{% trans "Das Empfehlungssystem hat Ihnen in diesem Fall die bestm&oumlgliche Empfehlung gegeben. Auch wenn Empfehlungssysteme <b>meistens richtig</b> liegen, sollten Sie im Hinterkopf behalten, dass Fehleinsch&aumltzungen nat&uumlrlich bei jedem KI-basierten System auftreten k&oumlnnen." %}</p>
+        <p style="font-size:19px">{% trans "Jetzt kann es endlich losgehen!" %}</p>
+
+        <a class="uk-button uk-button-primary uk-margin-large-bottom" style="background-color: #707070" href="{% url 'surveys:trial' survey.id session.key %}">{% trans "Experiment starten" %}</a>
+        <img class="uk-float-right uk-visible@m" width="400" src="{% static 'surveys/img/results.png'%}">
+    </div>
+{% endblock %}

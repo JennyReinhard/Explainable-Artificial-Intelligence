@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+{% block body %}
+{% load static %}
+{% load i18n %}
+{% get_current_language as LANGUAGE_CODE %}
+<br />
+<div class="uk-container uk-margin-top uk-animation-fade">
+    <h1>Die KI-Methoden</h1>
+    <p style="font-size:19px; text-align: justify">
+        Falls Sie die Funktionsweisen der einzelnen KI-Methoden nicht im Detail nachvollziehen k&oumlnnen, machen Sie sich keine Sorgen! Die Erkl&aumlrungen dienen lediglich dazu, Ihnen eine ungef&aumlhre Vorstellung der Funktionsweisen zu vermitteln. F&uumlr die Aufgabenbearbeitung ben&oumltigen Sie kein detailliertes Verst&aumlndnis.
+    </p>
+    <br />
+    <table>
+        <colgroup>
+            <col style="width:45%">
+            <col style="width:5%">
+            <col style="width:5%">
+            <col style="width:45%">
+        </colgroup>
+        <tr>
+            <td valign="top">
+                <b style="font-size:19px;">N&aumlchste-Nachbarn-Klassifikation</b><br /><br />
+                <img class="uk-visible@m" src="{% static 'surveys/img/knn.png'%}"><br />
+                <p style="font-size:17px;text-align: justify">Bei dieser Methode werden zu einem gegebenen Objekt (hier: rot) &aumlhnliche Objekte, sog. "Nachbarn" herangezogen, um den Wert der Zielgr&ouml&szlige zu prognostizieren. Der Wert, der unter den Nachbarn am h&aumlufigsten vorkommt (hier: Klasse B), wird als Wert der Zielgr&ouml&szlige festgelegt. Kommen zwei oder mehr Werte gleich h&aumlufig vor, so wird zwischen diesen zuf&aumlllig entschieden.</p>
+
+            </td>
+            <td style="border-right: thin solid #d6d6d6;"></td>
+            <td></td>
+            <td valign="top">
+                <b style="font-size:19px;">Support-Vektor-Maschine</b><br /><br />
+                <img class="uk-visible@m" src="{% static 'surveys/img/svm.png'%}">
+                <p style="font-size:17px;text-align: justify">Bei dieser Methode wird jedes Objekt durch einen Vektor in einem Vektorraum repr&aumlsentiert. Die verschiedenen Objektklassen (hier: Klasse A und Klasse B) werden so voneinander getrennt, dass zwischen verschiedenen Klassen ein m&oumlglichst gro&szliger Bereich frei von Objekten bleibt. Ein neues Objekt wird entsprechend seiner Position im Vektorraum mit Hilfe der Trennungslinien bzw. -ebenen zugeordnet.</p>
+            </td>
+        </tr>
+    </table>
+    <br />
+    <p style="font-size:19px; text-align: justify">
+        Bevor es richtig losgeht, starten wir mit einer Testrunde, damit Sie sich mit dem System vertraut machen k&oumlnnen.
+    </p>
+    <a class="uk-button uk-button-primary uk-margin-bottom" style="background-color: #707070" href="{% url 'surveys:testround' survey.id session.key %}" uk-toggle>{% trans "Zur Testrunde" %}</a>
+</div>
+
+<div class="hidden">
+    <input id="trial-redirect" name="trial-redirect" type="hidden" value="{% url 'surveys:testround' survey.id session.key %}">
+</div>
+
+{% load static %}
+<script src="{% static 'surveys/js/checkbox_validation.js' %}"></script>
+{% endblock %}

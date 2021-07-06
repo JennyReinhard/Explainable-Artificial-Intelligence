@@ -3,13 +3,6 @@
 {% load static %}
 {% load i18n %}
 
-<div id="preload" class="uk-flex uk-height-medium uk-margin uk-text-center">
-    <div class="uk-margin-auto uk-margin-auto-vertical uk-width-1-2@s">
-        <div uk-spinner="ratio: 3">
-        </div>
-    </div>
-</div>
-
 <script>
     function openTab() {
         if (document.getElementById("Small (S)") != null) {
@@ -27,64 +20,35 @@
                 document.getElementById('Bewertung').style.display = "block";
                 document.getElementById('Auswahl').style.display = "none";
             }
-        }
-    }
-
-    function update(clicked_id) {
-        document.getElementById("auswahl").value = clicked_id;
-    }
-
-    function update_bew1(clicked_id) {
-        document.getElementById("bewertung_1").value = clicked_id.slice(-1);
-    }
-
-    function update_bew2(clicked_id) {
-        document.getElementById("bewertung_2").value = clicked_id.slice(-1);
-    }
-
-    function update_bew3(clicked_id) {
-        document.getElementById("bewertung_3").value = clicked_id.slice(-1);
-    }
-
-    function update_bew4(clicked_id) {
-        document.getElementById("bewertung_4").value = clicked_id.slice(-1);
-    }
-
-    function update_bew5(clicked_id) {
-        document.getElementById("bewertung_5").value = clicked_id.slice(-1);
-    }
-
-    function update_ent(clicked_id) {
-        document.getElementById("entscheidung").value = clicked_id.slice(-1);
+        }        
     }
 
     function checkBewertung() {
-        if ((document.getElementById("1-0").checked || document.getElementById("1-1").checked || document.getElementById("1-2").checked || document.getElementById("1-3").checked || document.getElementById("1-4").checked) &&
+        if ((document.getElementById("1-0").checked || document.getElementById("1-1").checked || document.getElementById("1-2").checked || document.getElementById("1-3").checked || document.getElementById("1-4").checked) && 
             (document.getElementById("2-0").checked || document.getElementById("2-1").checked || document.getElementById("2-2").checked || document.getElementById("2-3").checked || document.getElementById("2-4").checked) &&
             (document.getElementById("3-0").checked || document.getElementById("3-1").checked || document.getElementById("3-2").checked || document.getElementById("3-3").checked || document.getElementById("3-4").checked) &&
             (document.getElementById("4-0").checked || document.getElementById("4-1").checked || document.getElementById("4-2").checked || document.getElementById("4-3").checked || document.getElementById("4-4").checked) &&
             (document.getElementById("5-0").checked || document.getElementById("5-1").checked || document.getElementById("5-2").checked || document.getElementById("5-3").checked || document.getElementById("5-4").checked) &&
             (document.getElementById("6-0").checked || document.getElementById("6-1").checked || document.getElementById("6-2").checked || document.getElementById("6-3").checked || document.getElementById("6-4").checked)) {
-            return true;
+            document.getElementById("abgabeButton").href = "{% url 'surveys:testround_end' survey.id session.key %}";
         } else {
             document.getElementById("error2").innerHTML = "Bitte vervollst&aumlndigen Sie Ihre Bewertung.";
-            return false;
         }
     }
 </script>
 
 
-<div class="content uk-container uk-margin">
+<div class="uk-container uk-margin-top">
     <table style="border-bottom: 0.5px solid #ccc;height:680px;width:100%">
         <colgroup>
             <col style="width:50%">
             <col style="width:50%">
         </colgroup>
         <tr>
-            <td valign="top" style="font-size: 17px; padding-top:40px;">
+            <td valign="top" style="font-size: 17px; padding-top:40px">
                 <div id="Auswahl" class="tabcontent" style="display:block; padding-left: 12px; width:90%">
 
-                    {% if trial.context.name == "Immobilienpreis" %}
+                    {% if contextRandom == "Immobilienpreis" %}
 
                     <p style="font-weight:bold;">Welchen Wert w&uumlrden Sie einer Immobilie mit folgenden Eigenschaften zuschreiben?</p>
                     <p style="font-weight:bold; padding-top: 30px">Eigenschaften</p>
@@ -106,10 +70,10 @@
                             <td></td>
                             <td style="border-right: thin solid #d6d6d6;"></td>
                             <td align="right">
-                                {{data0}} <br />
-                                {{data1}} <br />
-                                {{data2}} <br />
-                                {{data3}}
+                                1936 <br />
+                                104 <br />
+                                56 <br />
+                                3
                             </td>
                             <td>
 
@@ -119,11 +83,11 @@
                         </tr>
                     </table>
                     <p style="font-weight:bold; padding-top: 30px">Immobilienwert</p>
-                    <input type="radio" id="< 400.000 Euro" name="wert" onclick="update(this.id)" />
+                    <input type="radio" id="< 400.000 Euro" name="wert" />
                     <label for="< 400.000 Euro" style="color:#663399"> < 400.000 &#8364 </label> &nbsp;&nbsp;
-                    <input type="radio" id="400.000 - 700.000 Euro" name="wert" onclick="update(this.id)" />
+                    <input type="radio" id="400.000 - 700.000 Euro" name="wert" />
                     <label for="400.000 - 700.000 Euro" style="color:#b8860b"> 400.000 - 700.000 &#8364 </label>&nbsp;&nbsp;
-                    <input type="radio" id="> 700.000 Euro" name="wert" onclick="update(this.id)" />
+                    <input type="radio" id="> 700.000 Euro" name="wert" />
                     <label for="> 700.000 Euro" style="color:#4682b4"> > 700.000 &#8364 </label>
 
                     {% else %}
@@ -148,10 +112,10 @@
                             <td></td>
                             <td style="border-right: thin solid #d6d6d6;"></td>
                             <td align="right">
-                                {{data0}} <br />
-                                {{data1}} <br />
-                                {{data2}} <br />
-                                {{data3}}
+                                157<br />
+                                81 <br />
+                                56<br />
+                                84
                             </td>
                             <td>
                                 cm <br />
@@ -162,11 +126,11 @@
                         </tr>
                     </table>
                     <p style="font-weight:bold; padding-top: 30px">Kleidergr&ouml&szlige</p>
-                    <input type="radio" id="Small (S)" name="groesse" onclick="update(this.id)" />
+                    <input type="radio" id="Small (S)" name="groesse" />
                     <label for="Small (S)" style="color:#663399"> Small (S) </label> &nbsp;&nbsp;&nbsp;&nbsp;
-                    <input type="radio" id="Medium (M)" name="groesse" onclick="update(this.id)" />
+                    <input type="radio" id="Medium (M)" name="groesse" />
                     <label for="Medium (M)" style="color:#b8860b"> Medium (M) </label>&nbsp;&nbsp;&nbsp;&nbsp;
-                    <input type="radio" id="Large (L)" name="groesse" onclick="update(this.id)" />
+                    <input type="radio" id="Large (L)" name="groesse" />
                     <label for="Large (L)" style="color:#4682b4"> Large (L) </label>
 
                     {% endif %}
@@ -175,7 +139,7 @@
                     <br />
                     <i id="error1" style="color:#F0506E"></i>
                     <br />
-                    <p><a class="uk-button uk-button-primary uk-margin-bottom" id="button1" style="background-color: #707070;" onclick="openTab()">{% trans "Weiter" %}</a></p>
+                    <p><a class="uk-button uk-button-primary uk-margin-bottom" style="background-color: #707070;" onclick="openTab()">{% trans "Weiter" %}</a></p>
                 </div>
 
                 <div id="Bewertung" class="tabcontent" style="display:none; padding-left: 12px;">
@@ -195,31 +159,31 @@
                                 zwielichtig <br />
                             </td>
                             <td>
-                                <input type="radio" name="nuetzlich" id="1-0" onclick="update_bew1(this.id)">
-                                <input type="radio" name="nuetzlich" id="1-1" onclick="update_bew1(this.id)">
-                                <input type="radio" name="nuetzlich" id="1-2" onclick="update_bew1(this.id)">
-                                <input type="radio" name="nuetzlich" id="1-3" onclick="update_bew1(this.id)">
-                                <input type="radio" name="nuetzlich" id="1-4" onclick="update_bew1(this.id)"> <br />
-                                <input type="radio" name="interessant" id="2-0" onclick="update_bew2(this.id)">
-                                <input type="radio" name="interessant" id="2-1" onclick="update_bew2(this.id)">
-                                <input type="radio" name="interessant" id="2-2" onclick="update_bew2(this.id)">
-                                <input type="radio" name="interessant" id="2-3" onclick="update_bew2(this.id)">
-                                <input type="radio" name="interessant" id="2-4" onclick="update_bew2(this.id)"> <br />
-                                <input type="radio" name="verstaendlich" id="3-0" onclick="update_bew3(this.id)">
-                                <input type="radio" name="verstaendlich" id="3-1" onclick="update_bew3(this.id)">
-                                <input type="radio" name="verstaendlich" id="3-2" onclick="update_bew3(this.id)">
-                                <input type="radio" name="verstaendlich" id="3-3" onclick="update_bew3(this.id)">
-                                <input type="radio" name="verstaendlich" id="3-4" onclick="update_bew3(this.id)"> <br />
-                                <input type="radio" name="ueberzeugend" id="4-0" onclick="update_bew4(this.id)">
-                                <input type="radio" name="ueberzeugend" id="4-1" onclick="update_bew4(this.id)">
-                                <input type="radio" name="ueberzeugend" id="4-2" onclick="update_bew4(this.id)">
-                                <input type="radio" name="ueberzeugend" id="4-3" onclick="update_bew4(this.id)">
-                                <input type="radio" name="ueberzeugend" id="4-4" onclick="update_bew4(this.id)"> <br />
-                                <input type="radio" name="vertrauenswuerdig" id="5-0" onclick="update_bew5(this.id)">
-                                <input type="radio" name="vertrauenswuerdig" id="5-1" onclick="update_bew5(this.id)">
-                                <input type="radio" name="vertrauenswuerdig" id="5-2" onclick="update_bew5(this.id)">
-                                <input type="radio" name="vertrauenswuerdig" id="5-3" onclick="update_bew5(this.id)">
-                                <input type="radio" name="vertrauenswuerdig" id="5-4" onclick="update_bew5(this.id)">
+                                <input type="radio" name="nuetzlich" id="1-0">
+                                <input type="radio" name="nuetzlich" id="1-1">
+                                <input type="radio" name="nuetzlich" id="1-2">
+                                <input type="radio" name="nuetzlich" id="1-3">
+                                <input type="radio" name="nuetzlich" id="1-4"> <br />
+                                <input type="radio" name="interessant" id="2-0">
+                                <input type="radio" name="interessant" id="2-1">
+                                <input type="radio" name="interessant" id="2-2">
+                                <input type="radio" name="interessant" id="2-3">
+                                <input type="radio" name="interessant" id="2-4"> <br />
+                                <input type="radio" name="verstaendlich" id="3-0">
+                                <input type="radio" name="verstaendlich" id="3-1">
+                                <input type="radio" name="verstaendlich" id="3-2">
+                                <input type="radio" name="verstaendlich" id="3-3">
+                                <input type="radio" name="verstaendlich" id="3-4"> <br />
+                                <input type="radio" name="ueberzeugend" id="4-0">
+                                <input type="radio" name="ueberzeugend" id="4-1">
+                                <input type="radio" name="ueberzeugend" id="4-2">
+                                <input type="radio" name="ueberzeugend" id="4-3">
+                                <input type="radio" name="ueberzeugend" id="4-4"> <br />
+                                <input type="radio" name="vertrauenswuerdig" id="5-0">
+                                <input type="radio" name="vertrauenswuerdig" id="5-1">
+                                <input type="radio" name="vertrauenswuerdig" id="5-2">
+                                <input type="radio" name="vertrauenswuerdig" id="5-3">
+                                <input type="radio" name="vertrauenswuerdig" id="5-4">
                             </td>
                             <td>
                                 n&uumltzlich <br />
@@ -242,52 +206,40 @@
                                 eigenst&aumlndig
                             </td>
                             <td>
-                                <input type="radio" name="entscheidung" id="6-0" onclick="update_ent(this.id)">
-                                <input type="radio" name="entscheidung" id="6-1" onclick="update_ent(this.id)">
-                                <input type="radio" name="entscheidung" id="6-2" onclick="update_ent(this.id)">
-                                <input type="radio" name="entscheidung" id="6-3" onclick="update_ent(this.id)">
-                                <input type="radio" name="entscheidung" id="6-4" onclick="update_ent(this.id)">
+                                <input type="radio" name="entscheidung" id="6-0">
+                                <input type="radio" name="entscheidung" id="6-1">
+                                <input type="radio" name="entscheidung" id="6-2">
+                                <input type="radio" name="entscheidung" id="6-3">
+                                <input type="radio" name="entscheidung" id="6-4">
                             </td>
                             <td>
                                 mit Hilfe der Empfehlung <br />
                             </td>
                         </tr>
                     </table>
-
                     <br />
                     <i id="error2" style="color:#F0506E"></i>
                     <br />
-
-                    <form id="myform" action="{% url 'surveys:save-trial' survey.id session.key db_trial.id %}" method="POST" onsubmit="return checkBewertung()">
-                        {% csrf_token %}
-                        <input type="hidden" name="auswahl" id="auswahl" />
-                        <input type="hidden" name="bewertung_1" id="bewertung_1" />
-                        <input type="hidden" name="bewertung_2" id="bewertung_2" />
-                        <input type="hidden" name="bewertung_3" id="bewertung_3" />
-                        <input type="hidden" name="bewertung_4" id="bewertung_4" />
-                        <input type="hidden" name="bewertung_5" id="bewertung_5" />
-                        <input type="hidden" name="entscheidung" id="entscheidung" />
-                        <p><input class="uk-button uk-button-primary uk-margin-bottom" type="submit" value="Bewertung abgeben" id="button2" name="button2" style="background-color: #707070;"></p>
-                    </form>
+                    <br />
+                    <a id="abgabeButton" class="uk-button uk-button-primary uk-margin-large-bottom" onClick="checkBewertung()" style="background-color: #707070" href=#>{% trans "Bewertung abgeben" %}</a>
                 </div>
             </td>
 
-
             <td valign="top" style="font-size: 17px;padding-left:35px;background-color:#ededed;padding-top:40px">
 
-                {% if trial.ai_method.name == "Support-Vektor-Maschine" %}
+                {% if aimethodRandom == "svm" %}
                 <p style="font-weight:bold;">Empfehlung auf Basis der <i>Support-Vektor-Maschine</i>: </p>
-                <p style="font-weight:bold;color:#3fa659" id="ki">{{predicted}}</p>
                 {% else %}
                 <p style="font-weight:bold;">Empfehlung auf Basis der <i>N&aumlchsten-Nachbarn-Klassifikation</i>: </p>
-                <p style="font-weight:bold;color:#3fa659" id="ki">{{predicted}}</p>
                 {% endif %}
 
+                <p style="font-weight:bold;color:#3fa659" id="ki">{{predicted}}</p>
+               
                 <div style="padding-top:50px;">
-                    <p style="font-weight:bold;">{{trial.explanation_approach.name}}e Erkl&aumlrung der Empfehlung:</p>
-                    {% if trial.explanation_approach.name == "Textuell" %}
-                    {% if trial.ai_method.name == "Support-Vektor-Maschine" %}
-                    {% if trial.context.name == "Immobilienpreis" %}
+                    <p style="font-weight:bold;">{{explanationRandom}}e Erkl&aumlrung der Empfehlung:</p>
+                    {% if explanationRandom == "Textuell" %}
+                    {% if aimethodRandom == "svm" %}
+                    {% if contextRandom == "Immobilienpreis" %}
 
                     {% if "<" in predicted %}
                     <p style="width:95%">Der Vektor, der die hier aufgef&uumlhrten Eigenschaften umfasst, befindet sich im Vektorraum in dem Bereich, in dem sich die Vektoren der Immobilien befinden, die f&uumlr <font style="color:#663399">{{predicted}}</font> verkauft wurden. </p>
@@ -309,16 +261,16 @@
 
                     {% endif %}
                     {% else %}
-                    {% if trial.context.name == "Immobilienpreis" %}
+                    {% if contextRandom == "Immobilienpreis" %}
                     <p style="width:95%"> Von 25 Immobilien mit &aumlhnlichen Eigenschaften wurden {{countS}} Immobilien f&uumlr <font style="color:#663399">< 400.000&nbsp&#8364</font> verkauft. {{countM}} Immobilien wurden f&uumlr <font style="color:#b8860b">400.000 - 700.000&nbsp&#8364</font> und {{countL}} Immobilien f&uumlr <font style="color:#4682b4">> 700.000&nbsp&#8364</font> verkauft. </p>
                     {% else %}
                     <p style="width:95%"> Von 25 Kunden mit &aumlhnlichen K&oumlrperma&szligen haben sich {{countS}} Kunden f&uumlr Kleidergr&ouml&szlige <font style="color:#663399">Small (S)</font> entschieden. {{countM}} Kunden haben Kleidergr&ouml&szlige <font style="color:#b8860b">Medium (M)</font> und {{countL}} Kunden haben Kleidergr&ouml&szlige <font style="color:#4682b4">Large (L)</font> bestellt. </p>
+                    {% endif %}
+                    {% endif %}
+                    {% endif %}
 
-                    {% endif %}
-                    {% endif %}
-                    {% endif %}
-                    {% if trial.explanation_approach.name == "Beispielbasiert" %}
-                    {% if trial.context.name == "Immobilienpreis" %}
+                    {% if explanationRandom == "Beispielbasiert" %}
+                    {% if contextRandom == "Immobilienpreis" %}
                     <table style="width:95%;text-align:center; line-height:170%">
                         <colgroup>
                             <col style="width:20%">
@@ -340,6 +292,7 @@
                             <td style="border-bottom: thin solid #d6d6d6;"></td>
                             <td style="border-bottom: thin solid #d6d6d6;"></td>
                             <td style="border-bottom: thin solid #d6d6d6;"></td>
+
                         </tr>
                         <tr>
                             <td>1936</td>
@@ -386,6 +339,7 @@
                             <td style="border-bottom: thin solid #d6d6d6;"></td>
                             <td style="border-bottom: thin solid #d6d6d6;"></td>
                             <td style="border-bottom: thin solid #d6d6d6;"></td>
+
                         </tr>
                         <tr>
                             <td>157</td>
@@ -412,7 +366,7 @@
                     <p>* Angaben in cm</p>
                     {% endif %}
                     {% endif %}
-                    {% if trial.explanation_approach.name == "Visuell" %}
+                    {% if explanationRandom == "Visuell" %}
                     <img src="{% static 'surveys/img/visuell.png'%}" style=" height: 100%;width:100%">
                     {% endif %}
                 </div>
@@ -420,19 +374,4 @@
         </tr>
     </table>
 </div>
-
-<div class="hidden">
-    <input id="sessionkey" name="sessionkey" type="hidden" value="{{ session.key }}">
-    <input id="blockcounter" name="blockcounter" type="hidden" value="{{ blockcounter }}">
-    <input id="trial-id" name="trial-id" type="hidden" value="{{ trial.id }}">
-    <input id="language-code" name="language-code" type="hidden" value="{{language}}">
-    <input id="next-trial" name="next-trial" type="hidden" value="{% url 'surveys:trial' survey.id session.key %}">
-    <input id="context" name="context" type="hidden" value="{{ trial.context }}">
-    <input id="ai_method" name="ai_method" type="hidden" value="{{ trial.ai_method }}">
-    <input id="explanation_approach" name="explanation_approach" type="hidden" value="{{ trial.explanation_approach }}">
-</div>
-
-{% load static %}
-<script src="{% static 'surveys/js/save_trial.js' %}"></script>
-
 {% endblock %}
