@@ -168,7 +168,8 @@ def load_set(request, survey_id):
         print(blockfactors_list)
         print(ntrials)
         print(ntraining)
-        response = HttpResponse('Ressource <Set> could not be found', status=404)
+        #response = HttpResponse('Ressource <Set> could not be found', status=404)
+        response = HttpResponse('Keine Faktoren im Survey', status=404)
         return response
         
 
