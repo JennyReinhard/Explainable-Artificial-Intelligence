@@ -125,11 +125,11 @@ def introduction(request, survey_id):
 
     # if there is a redirect, redirect
     try:
-       # redirect_url = survey.redirect_set.get(purpose=0).url
+        redirect_url = survey.redirect_set.get(purpose=0).url
 
     # else set redirect to None
     except ObjectDoesNotExist:
-    redirect_url = None
+        redirect_url = None
 
     context = {
         'survey': survey,
