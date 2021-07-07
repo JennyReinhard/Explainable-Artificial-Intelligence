@@ -164,12 +164,13 @@ def load_set(request, survey_id):
         set = Set(blockfactors_list, trialfactors_list, ntrials, ntraining)
         print(set)
     else:
-        response = HttpResponse('Ressource <Set> could not be found', status=404)
-        return response
-        print(trialfactors)
-        print(blockfactors)
+        print(trialfactors_list)
+        print(blockfactors_list)
         print(ntrials)
         print(ntraining)
+        response = HttpResponse('Ressource <Set> could not be found', status=404)
+        return response
+        
 
     # Flushes session and create new one
     request.session.flush()
