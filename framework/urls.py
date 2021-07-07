@@ -36,7 +36,7 @@ urlpatterns = [
 ]
 
 urlpatterns += i18n_patterns(
-    #path('surveys/', include('surveys.urls', namespace='surveys')),
+    path('surveys/', include('surveys.urls', namespace='surveys')),
     path('', include('home.urls', namespace='home')),
 )
 
