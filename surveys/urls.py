@@ -13,7 +13,7 @@ urlpatterns = [
     path('<int:pk>/edit/', login_required(SurveyUptateView.as_view()), name='edit-survey'),
     path('<int:pk>/delete-sessions/', login_required(views.delete_sessions), name='delete-sessions'),
 
-    path('<int:pk>/introduction/', views.introduction, name='introduction'),
+    path('<int:survey_id>/introduction/', views.introduction, name='introduction'),
     path('<int:survey_id>/load/', views.load_set, name='load-survey'),
     path('<int:survey_id>/<slug:session_key>/', views.session_detail, name='session'),
     path('<int:survey_id>/<slug:session_key>/instructions/', views.instructions, name='instructions'),
