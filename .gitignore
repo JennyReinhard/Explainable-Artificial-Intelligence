@@ -1,12 +1,8 @@
 framework/__pycache__
 home/__pycache__
 accounts/__pycache__
-framework/migrations
-accounts/migrations
-home/migrations
 .DS_Store
 *.pyc
-surveys/migrations
 sessions/*
 *.log
 local_settings.py
