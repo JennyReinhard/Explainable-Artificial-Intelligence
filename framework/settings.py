@@ -35,7 +35,7 @@ ALLOWED_HOSTS = [
 # Application definition
 
 INSTALLED_APPS = [
-    'surveys'
+    'surveys',
     'rest_framework',
     'import_export',
     'widget_tweaks',
