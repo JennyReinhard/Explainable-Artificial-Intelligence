@@ -2,6 +2,11 @@
   "ExpandedNodes": [
     "",
     "\\framework",
+    "\\home",
+    "\\home\\templates",
+    "\\home\\templates\\home",
+    "\\sessions",
+    "\\surveys",
     "\\surveys\\static",
     "\\surveys\\static\\surveys",
     "\\surveys\\static\\surveys\\img",
