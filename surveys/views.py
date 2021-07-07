@@ -124,12 +124,12 @@ def introduction(request, survey_id):
     survey = get_object_or_404(Survey, pk=survey_id)
 
     # if there is a redirect, redirect
-    try:
-        redirect_url = survey.redirect_set.get(purpose=0).url
+    #try:
+       # redirect_url = survey.redirect_set.get(purpose=0).url
 
     # else set redirect to None
-    except ObjectDoesNotExist:
-        redirect_url = None
+    #except ObjectDoesNotExist:
+    redirect_url = None
 
     context = {
         'survey': survey,
