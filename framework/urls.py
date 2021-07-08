@@ -29,7 +29,7 @@ urlpatterns = [
     path('logout/', auth_views.LogoutView.as_view(template_name='accounts/logout.html'), name='logout'),
     path('api/', include('api.urls', namespace='api')),
 
-    path('surveys/', include('surveys.urls', namespace='surveys')),
+    #path('surveys/', include('surveys.urls', namespace='surveys')),
     # Installed apps
     path('tinymce/', include('tinymce.urls')),
 
