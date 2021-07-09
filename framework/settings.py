@@ -25,7 +25,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = '8_fn6njr#&)3rm#ralxrdrnbc2-d7q0)ev*ewgk6s3h)pocxzr'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = [
     'explainable-ai-survey.herokuapp.com',
