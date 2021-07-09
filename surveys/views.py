@@ -29,7 +29,7 @@ import matplotlib.pyplot as plt
 from mpl_toolkits.axisartist.axislines import AxesZero
 import numpy as np
 
-n = 0
+
 
 # Generic survey view displaying a list of all surveys
 class SurveysView(LoginRequiredMixin,generic.ListView):
@@ -47,6 +47,7 @@ class SurveyUptateView(LoginRequiredMixin, generic.UpdateView):
         'end'
     ]
 
+n = 0
 
 # Generic detail view for a Surveys
 def survey_detail(request, pk):
