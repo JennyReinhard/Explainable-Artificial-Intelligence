@@ -47,8 +47,6 @@ class SurveyUptateView(LoginRequiredMixin, generic.UpdateView):
         'end'
     ]
 
-n = 0
-
 # Generic detail view for a Surveys
 def survey_detail(request, pk):
     survey = get_object_or_404(Survey, pk=pk)
@@ -202,10 +200,6 @@ def load_set(request, survey_id):
 
 # Renders screen before trials start.
 def instructions(request, survey_id, session_key):
-
-    global n
-    n = 0
-
     survey = get_object_or_404(Survey, pk=survey_id)
     session = get_object_or_404(Session, key=session_key)
 
@@ -769,8 +763,8 @@ def trial(request, survey_id, session_key):
     ex_features = [[175,107,86,107],[170,91,76,102],[168,91,74,97],[168,81,69,99],[175,94,76,102],[170,109,94,117],[163,91,71,91],[163,86,69,97],[160,81,64,89],[168,114,102,127],[165,97,71,102],[165,99,76,97]]
     ex_label = ['Large (L)', 'Medium (M)', 'Small (S)', 'Small (S)', 'Medium (M)', 'Large (L)', 'Medium (M)', 'Small (S)', 'Small (S)', 'Large (L)', 'Medium (M)', 'Medium (M)']
     
-    global n
-    data = ex_features[n]
+    ex_n = (block.blockcounter-1)*3+(3-set.top().size())
+    data = ex_features[ex_n]
     
     #get prediction
     predicted = model.predict([data])[0]
@@ -958,7 +952,7 @@ def trial(request, survey_id, session_key):
     plt.show()
     plt.close()
    
-    label = ex_label[n]
+    label = ex_label[ex_n]
 
     #convert data for context "house prices"
     if trial.context.name == "Immobilienpreis":
@@ -1007,10 +1001,6 @@ def trial(request, survey_id, session_key):
 
 # Saves trial
 def save_trial(request, session_key, survey_id, trial_id):
-    
-    global n
-    n = n+1
-
     survey = get_object_or_404(Survey, id = survey_id)
     session = get_object_or_404(Session, key=session_key)
 
