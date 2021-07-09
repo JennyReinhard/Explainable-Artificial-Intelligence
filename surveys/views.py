@@ -29,6 +29,8 @@ import matplotlib.pyplot as plt
 from mpl_toolkits.axisartist.axislines import AxesZero
 import numpy as np
 
+n = 0
+
 # Generic survey view displaying a list of all surveys
 class SurveysView(LoginRequiredMixin,generic.ListView):
     model = Survey
@@ -200,8 +202,8 @@ def load_set(request, survey_id):
 # Renders screen before trials start.
 def instructions(request, survey_id, session_key):
 
-    global i
-    i = 0
+    global n
+    n = 0
 
     survey = get_object_or_404(Survey, pk=survey_id)
     session = get_object_or_404(Session, key=session_key)
@@ -622,7 +624,7 @@ def survey_ready(request, survey_id, session_key):
 
     return render(request, 'surveys/survey_ready.html', context)
 
-i = 0
+
 
 def trial(request, survey_id, session_key):
     survey = get_object_or_404(Survey, pk=survey_id)
@@ -766,8 +768,8 @@ def trial(request, survey_id, session_key):
     ex_features = [[175,107,86,107],[170,91,76,102],[168,91,74,97],[168,81,69,99],[175,94,76,102],[170,109,94,117],[163,91,71,91],[163,86,69,97],[160,81,64,89],[168,114,102,127],[165,97,71,102],[165,99,76,97]]
     ex_label = ['Large (L)', 'Medium (M)', 'Small (S)', 'Small (S)', 'Medium (M)', 'Large (L)', 'Medium (M)', 'Small (S)', 'Small (S)', 'Large (L)', 'Medium (M)', 'Medium (M)']
     
-    global i
-    data = ex_features[i]
+    global n
+    data = ex_features[n]
     
     #get prediction
     predicted = model.predict([data])[0]
@@ -955,7 +957,7 @@ def trial(request, survey_id, session_key):
     plt.show()
     plt.close()
    
-    label = ex_label[i]
+    label = ex_label[n]
 
     #convert data for context "house prices"
     if trial.context.name == "Immobilienpreis":
@@ -1005,8 +1007,8 @@ def trial(request, survey_id, session_key):
 # Saves trial
 def save_trial(request, session_key, survey_id, trial_id):
     
-    global i
-    i = i+1
+    global n
+    n = n+1
 
     survey = get_object_or_404(Survey, id = survey_id)
     session = get_object_or_404(Session, key=session_key)
