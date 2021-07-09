@@ -663,7 +663,7 @@ def trial(request, survey_id, session_key):
             #redirect_url = survey.redirect_set.get(purpose=1).url+'?sessionkey='+session.key+'&surveyid='+str(survey.id)+'&balance='+str(block.balance)+'&language='+str(language)+'&dss='+urllib.parse.quote(block.dss.name)+'&blockcounter='+str(block.blockcounter)
             redirect_url = survey.redirect_set.get(purpose=1).url+'?sessionkey='+session.key+'&surveyid='+str(survey.id)+'&language='+str(language)+'&blockcounter='+str(block.blockcounter)
             #redirect_url = redirect_url+'&scenario='+urllib.parse.quote(block.scenario.name)+'&injuries='+str(block.injuries)+'&max='+str(block.max)+'&Q_Language='+language.upper()
-            redirect_url = redirect_url+'&injuries='+str(block.injuries)+'&max='+str(block.max)+'&Q_Language='+language.upper()
+            redirect_url = redirect_url+'&max='+str(block.max)+'&Q_Language='+language.upper()
 
         # else returns to next trial
         except ObjectDoesNotExist:
