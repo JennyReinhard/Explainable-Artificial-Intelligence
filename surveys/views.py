@@ -406,7 +406,7 @@ def testround(request, survey_id, session_key):
             plt.plot(int((data[1]-22)**1.14), int(data[3]/10)-5, 'tab:red', marker = 6, markersize= 14,  linestyle = '')
             plt.plot(bustArrayM, hipsArrayM, 'darkgoldenrod', marker= 7, markersize=7, linestyle = '')
             plt.plot(bustArrayL, hipsArrayL, 'steelblue', marker = 4, markersize=7, linestyle = '')
-        elif aimethodRandom == "knn":
+        else:
             plt.plot(bustArrayS, hipsArrayS, '#d1bae8', marker= 5, markersize=7, linestyle = '')
             plt.plot(int((data[1]-22)**1.14), int(data[3]/10)-5, 'tab:red', marker = 6, markersize= 14,  linestyle = '', zorder=10)
             plt.plot(bustArrayM, hipsArrayM, '#edd498', marker= 7, markersize=7, linestyle = '')
@@ -434,13 +434,13 @@ def testround(request, survey_id, session_key):
         texts[3].set_color("steelblue")
         texts[1].set_color("tab:red")
 
-    if contextRandom == "Kleidergroesse":
+    else:
         if aimethodRandom == "svm":
             plt.plot(bustArrayS, hipsArrayS, 'rebeccapurple', marker= 5, markersize=7, linestyle = '')
             plt.plot(bustArrayM, hipsArrayM, 'darkgoldenrod', marker= 7, markersize=7, linestyle = '')
             plt.plot(bustArrayL, hipsArrayL, 'steelblue', marker = 4, markersize=7, linestyle = '')
             plt.plot(data[1], data[3], 'tab:red', marker = 6, markersize= 14,  linestyle = '')
-        elif aimethodRandom == "knn":
+        else:
             plt.plot(bustArrayS, hipsArrayS, '#d1bae8', marker= 5, markersize=7, linestyle = '')
             plt.plot(bustArrayM, hipsArrayM, '#edd498', marker= 7, markersize=7, linestyle = '')
             plt.plot(bustArrayL, hipsArrayL, 'lightsteelblue', marker = 4, markersize=7, linestyle = '')
