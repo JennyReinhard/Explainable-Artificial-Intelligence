@@ -434,7 +434,7 @@ def testround(request, survey_id, session_key):
         texts[3].set_color("steelblue")
         texts[1].set_color("tab:red")
 
-    else:
+    if contextRandom == "Kleidergroesse":
         if aimethodRandom == "svm":
             plt.plot(bustArrayS, hipsArrayS, 'rebeccapurple', marker= 5, markersize=7, linestyle = '')
             plt.plot(bustArrayM, hipsArrayM, 'darkgoldenrod', marker= 7, markersize=7, linestyle = '')
