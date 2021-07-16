@@ -1016,9 +1016,8 @@ def save_trial(request, session_key, survey_id, trial_id):
         trial.rating_1 = request.POST.get('bewertung_1');
         trial.rating_2 = request.POST.get('bewertung_2');
         trial.rating_3 = request.POST.get('bewertung_3');
-        trial.rating_4 = request.POST.get('bewertung_4');
-        trial.rating_5 = request.POST.get('bewertung_5');
         trial.decision = request.POST.get('entscheidung');
+        trial.certainty = request.POST.get('sicherheit');
     trial.save()
 
     # Loads saved session set
