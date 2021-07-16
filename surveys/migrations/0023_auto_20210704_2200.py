@@ -21,4 +21,6 @@ class Migration(migrations.Migration):
             field=models.DateTimeField(auto_now_add=True, default='2021-07-04 15:00:00'),
             preserve_default=False,
         ),
+
+        
     ]
