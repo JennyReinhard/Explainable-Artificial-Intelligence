@@ -78,9 +78,8 @@ class Trial(models.Model):
     rating_1 = models.IntegerField(null=True)
     rating_2 = models.IntegerField(null=True)
     rating_3 = models.IntegerField(null=True)
-    rating_4 = models.IntegerField(null=True)
-    rating_5 = models.IntegerField(null=True)
     decision = models.IntegerField(null=True)
+    certainty = models.IntegerField(null=True)
     start_date = models.DateTimeField(auto_now_add=True)
     end_date = models.DateTimeField(auto_now=True)
 

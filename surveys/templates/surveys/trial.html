@@ -46,16 +46,12 @@
         document.getElementById("bewertung_3").value = clicked_id.slice(-1);
     }
 
-    function update_bew4(clicked_id) {
-        document.getElementById("bewertung_4").value = clicked_id.slice(-1);
-    }
-
-    function update_bew5(clicked_id) {
-        document.getElementById("bewertung_5").value = clicked_id.slice(-1);
-    }
-
     function update_ent(clicked_id) {
         document.getElementById("entscheidung").value = clicked_id.slice(-1);
+    }
+    
+    function update_sicher(clicked_id) {
+        document.getElementById("sicherheit").value = clicked_id.slice(-1);
     }
 
     function checkBewertung() {
@@ -63,8 +59,7 @@
             (document.getElementById("2-0").checked || document.getElementById("2-1").checked || document.getElementById("2-2").checked || document.getElementById("2-3").checked || document.getElementById("2-4").checked) &&
             (document.getElementById("3-0").checked || document.getElementById("3-1").checked || document.getElementById("3-2").checked || document.getElementById("3-3").checked || document.getElementById("3-4").checked) &&
             (document.getElementById("4-0").checked || document.getElementById("4-1").checked || document.getElementById("4-2").checked || document.getElementById("4-3").checked || document.getElementById("4-4").checked) &&
-            (document.getElementById("5-0").checked || document.getElementById("5-1").checked || document.getElementById("5-2").checked || document.getElementById("5-3").checked || document.getElementById("5-4").checked) &&
-            (document.getElementById("6-0").checked || document.getElementById("6-1").checked || document.getElementById("6-2").checked || document.getElementById("6-3").checked || document.getElementById("6-4").checked)) {
+            (document.getElementById("5-0").checked || document.getElementById("5-1").checked || document.getElementById("5-2").checked || document.getElementById("5-3").checked || document.getElementById("5-4").checked)) {
             return true;
         } else {
             document.getElementById("error2").innerHTML = "Bitte vervollst&aumlndigen Sie Ihre Bewertung.";
@@ -188,10 +183,8 @@
                         </colgroup>
                         <tr style="line-height:170%">
                             <td>
-                                nutzlos <br />
-                                uninteressant <br />
+                                nutzlos <br />                           
                                 unverst&aumlndlich<br />
-                                zweifelhaft <br />
                                 zwielichtig <br />
                             </td>
                             <td>
@@ -199,33 +192,21 @@
                                 <input type="radio" name="nuetzlich" id="1-1" onclick="update_bew1(this.id)">
                                 <input type="radio" name="nuetzlich" id="1-2" onclick="update_bew1(this.id)">
                                 <input type="radio" name="nuetzlich" id="1-3" onclick="update_bew1(this.id)">
-                                <input type="radio" name="nuetzlich" id="1-4" onclick="update_bew1(this.id)"> <br />
-                                <input type="radio" name="interessant" id="2-0" onclick="update_bew2(this.id)">
-                                <input type="radio" name="interessant" id="2-1" onclick="update_bew2(this.id)">
-                                <input type="radio" name="interessant" id="2-2" onclick="update_bew2(this.id)">
-                                <input type="radio" name="interessant" id="2-3" onclick="update_bew2(this.id)">
-                                <input type="radio" name="interessant" id="2-4" onclick="update_bew2(this.id)"> <br />
-                                <input type="radio" name="verstaendlich" id="3-0" onclick="update_bew3(this.id)">
-                                <input type="radio" name="verstaendlich" id="3-1" onclick="update_bew3(this.id)">
-                                <input type="radio" name="verstaendlich" id="3-2" onclick="update_bew3(this.id)">
-                                <input type="radio" name="verstaendlich" id="3-3" onclick="update_bew3(this.id)">
-                                <input type="radio" name="verstaendlich" id="3-4" onclick="update_bew3(this.id)"> <br />
-                                <input type="radio" name="ueberzeugend" id="4-0" onclick="update_bew4(this.id)">
-                                <input type="radio" name="ueberzeugend" id="4-1" onclick="update_bew4(this.id)">
-                                <input type="radio" name="ueberzeugend" id="4-2" onclick="update_bew4(this.id)">
-                                <input type="radio" name="ueberzeugend" id="4-3" onclick="update_bew4(this.id)">
-                                <input type="radio" name="ueberzeugend" id="4-4" onclick="update_bew4(this.id)"> <br />
-                                <input type="radio" name="vertrauenswuerdig" id="5-0" onclick="update_bew5(this.id)">
-                                <input type="radio" name="vertrauenswuerdig" id="5-1" onclick="update_bew5(this.id)">
-                                <input type="radio" name="vertrauenswuerdig" id="5-2" onclick="update_bew5(this.id)">
-                                <input type="radio" name="vertrauenswuerdig" id="5-3" onclick="update_bew5(this.id)">
-                                <input type="radio" name="vertrauenswuerdig" id="5-4" onclick="update_bew5(this.id)">
+                                <input type="radio" name="nuetzlich" id="1-4" onclick="update_bew1(this.id)"> <br />                             
+                                <input type="radio" name="verstaendlich" id="2-0" onclick="update_bew2(this.id)">
+                                <input type="radio" name="verstaendlich" id="2-1" onclick="update_bew2(this.id)">
+                                <input type="radio" name="verstaendlich" id="2-2" onclick="update_bew2(this.id)">
+                                <input type="radio" name="verstaendlich" id="2-3" onclick="update_bew2(this.id)">
+                                <input type="radio" name="verstaendlich" id="2-4" onclick="update_bew2(this.id)"> <br />                             
+                                <input type="radio" name="vertrauenswuerdig" id="3-0" onclick="update_bew3(this.id)">
+                                <input type="radio" name="vertrauenswuerdig" id="3-1" onclick="update_bew3(this.id)">
+                                <input type="radio" name="vertrauenswuerdig" id="3-2" onclick="update_bew3(this.id)">
+                                <input type="radio" name="vertrauenswuerdig" id="3-3" onclick="update_bew3(this.id)">
+                                <input type="radio" name="vertrauenswuerdig" id="3-4" onclick="update_bew3(this.id)">
                             </td>
                             <td>
                                 n&uumltzlich <br />
-                                interessant <br />
                                 verst&aumlndlich <br />
-                                &uumlberzeugend <br />
                                 vertrauensw&uumlrdig
                             </td>
                         </tr>
@@ -242,17 +223,42 @@
                                 eigenst&aumlndig
                             </td>
                             <td>
-                                <input type="radio" name="entscheidung" id="6-0" onclick="update_ent(this.id)">
-                                <input type="radio" name="entscheidung" id="6-1" onclick="update_ent(this.id)">
-                                <input type="radio" name="entscheidung" id="6-2" onclick="update_ent(this.id)">
-                                <input type="radio" name="entscheidung" id="6-3" onclick="update_ent(this.id)">
-                                <input type="radio" name="entscheidung" id="6-4" onclick="update_ent(this.id)">
+                                <input type="radio" name="entscheidung" id="4-0" onclick="update_ent(this.id)">
+                                <input type="radio" name="entscheidung" id="4-1" onclick="update_ent(this.id)">
+                                <input type="radio" name="entscheidung" id="4-2" onclick="update_ent(this.id)">
+                                <input type="radio" name="entscheidung" id="4-3" onclick="update_ent(this.id)">
+                                <input type="radio" name="entscheidung" id="4-4" onclick="update_ent(this.id)">
                             </td>
                             <td>
                                 mit Hilfe der Empfehlung <br />
                             </td>
                         </tr>
+                    </table>                               
+                    <p style="font-weight:bold; padding-top: 30px">Wie sicher haben Sie sich bei der Entscheidung gef&uumlhlt?</p>
+                    <table style="width:90%">
+                        <colgroup>
+                            <col style="width:32%">
+                            <col style="width:36%">
+                            <col style="width:32%">
+                        </colgroup>
+                        <tr style="line-height:170%">
+                            <td>
+                                unsicher
+                            </td>
+                            <td>
+                                <input type="radio" name="sicherheit" id="5-0" onclick="update_sicher(this.id)">
+                                <input type="radio" name="sicherheit" id="5-1" onclick="update_sicher(this.id)">
+                                <input type="radio" name="sicherheit" id="5-2" onclick="update_sicher(this.id)">
+                                <input type="radio" name="sicherheit" id="5-3" onclick="update_sicher(this.id)">
+                                <input type="radio" name="sicherheit" id="5-4" onclick="update_sicher(this.id)">
+                            </td>
+                            <td>
+                                sicher <br />
+                            </td>
+                        </tr>
                     </table>
+                    
+                    
 
                     <br />
                     <i id="error2" style="color:#F0506E"></i>
