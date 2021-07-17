@@ -400,6 +400,8 @@ def testround(request, survey_id, session_key):
 
     plt.ion()
 
+    fig = plt.figure()
+    
     if contextRandom == "Immobilienpreis":
         if aimethodRandom == "svm":
             plt.plot(bustArrayS, hipsArrayS, 'rebeccapurple', marker= 5, markersize=7, linestyle = '')
@@ -498,6 +500,12 @@ def testround(request, survey_id, session_key):
     plt.show()
     plt.close()
 
+    
+    imgdata = StringIO()
+    fig.savefig(imgdata, format='svg')
+    imgdata.seek(0)
+
+    graph = imgdata.getvalue()
 
     context = {
         'survey': survey,
@@ -509,7 +517,7 @@ def testround(request, survey_id, session_key):
         'countS': countS,
         'countM': countM,
         'countL': countL,
-        'graph': return_graph(),
+        'graph': graph,
 
     }
 
