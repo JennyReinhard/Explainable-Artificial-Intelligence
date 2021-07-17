@@ -1032,6 +1032,7 @@ def trial(request, survey_id, session_key):
         'countM': countM,
         'countL': countL,
         'graph': graph,
+        'label': label,
     }
 
     return render(request, 'surveys/trial.html', context )
