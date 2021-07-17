@@ -28,7 +28,7 @@ import os
 import matplotlib.pyplot as plt
 from mpl_toolkits.axisartist.axislines import AxesZero
 import numpy as np
-
+from io import StringIO
 
 
 # Generic survey view displaying a list of all surveys
@@ -508,10 +508,29 @@ def testround(request, survey_id, session_key):
         'predicted': predicted,
         'countS': countS,
         'countM': countM,
-        'countL': countL
+        'countL': countL,
+        'graph': return_graph(),
+
     }
 
     return render(request, 'surveys/testround.html', context )
+
+
+def return_graph():
+
+    x = np.arange(0,np.pi*3,.1)
+    y = np.sin(x)
+
+    fig = plt.figure()
+    plt.plot(x,y)
+
+    imgdata = StringIO()
+    fig.savefig(imgdata, format='svg')
+    imgdata.seek(0)
+
+    data = imgdata.getvalue()
+    return data
+
 
 def testround_end(request, survey_id, session_key):
     survey = get_object_or_404(Survey, pk=survey_id)
