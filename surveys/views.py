@@ -495,7 +495,7 @@ def testround(request, survey_id, session_key):
     plt.xticks(fontsize=12)
     plt.yticks(fontsize=12)
         
-    plt.savefig('surveys/static/surveys/img/visuell.png', transparent=True)
+    #plt.savefig('surveys/static/surveys/img/visuell.png', transparent=True)
 
     plt.show()
     plt.close()
@@ -879,6 +879,8 @@ def trial(request, survey_id, session_key):
             l += 1
 
     plt.ion()
+    
+    fig = plt.figure()
 
     if trial.context.name == "Immobilienpreis":
         if trial.ai_method.name == "Support-Vektor-Maschine":
@@ -974,10 +976,17 @@ def trial(request, survey_id, session_key):
     plt.xticks(fontsize=12)
     plt.yticks(fontsize=12)
         
-    plt.savefig('surveys/static/surveys/img/visuell.png', transparent=True)
+    #plt.savefig('surveys/static/surveys/img/visuell.png', transparent=True)
 
     plt.show()
     plt.close()
+    
+    imgdata = StringIO()
+    fig.savefig(imgdata, format='svg', transparent=True)
+    imgdata.seek(0)
+
+    graph = imgdata.getvalue()
+
    
     label = ex_label[ex_n]
 
@@ -1021,7 +1030,8 @@ def trial(request, survey_id, session_key):
         'predicted': predicted,
         'countS': countS,
         'countM': countM,
-        'countL': countL
+        'countL': countL,
+        'graph': graph,
     }
 
     return render(request, 'surveys/trial.html', context )
