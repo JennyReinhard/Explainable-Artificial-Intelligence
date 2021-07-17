@@ -11,19 +11,17 @@
 </div>
 
 <script>
-   function sleep(miliseconds) {
-       var currentTime = new Date().getTime();
-       while (currentTime + miliseconds >= new Date().getTime()) {
-       }
+    function Sleep(milliseconds) {
+        return new Promise(resolve => setTimeout(resolve, milliseconds));
     }
     
-    function openTab() {
+    async function openTab() {
         if (document.getElementById("Small (S)") != null) {
             if (!document.getElementById("Small (S)").checked && !document.getElementById("Medium (M)").checked && !document.getElementById("Large (L)").checked) {
                 document.getElementById("error1").innerHTML = "Bitte w&aumlhlen Sie eine Option aus.";
             } else {
                 document.getElementById("error1").innerHTML = "Korrekt!";
-                sleep(3000);
+                await Sleep(3000);
                 document.getElementById('Bewertung').style.display = "block";
                 document.getElementById('Auswahl').style.display = "none";
             }
@@ -33,7 +31,7 @@
                 document.getElementById("error1").innerHTML = "Bitte w&aumlhlen Sie eine Option aus.";
             } else {
                 document.getElementById("error1").innerHTML = "Korrekt!";
-                sleep(3000);
+                await Sleep(3000);
                 document.getElementById('Bewertung').style.display = "block";
                 document.getElementById('Auswahl').style.display = "none";
             }
