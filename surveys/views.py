@@ -502,7 +502,7 @@ def testround(request, survey_id, session_key):
 
     
     imgdata = StringIO()
-    fig.savefig(imgdata, format='svg')
+    fig.savefig(imgdata, format='svg', transparent=True)
     imgdata.seek(0)
 
     graph = imgdata.getvalue()
