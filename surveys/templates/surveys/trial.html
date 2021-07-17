@@ -15,12 +15,12 @@
         return new Promise(resolve => setTimeout(resolve, milliseconds));
     }
     
-    async function openTab() {
+    async function openTab(label) {
         if (document.getElementById("Small (S)") != null) {
             if (!document.getElementById("Small (S)").checked && !document.getElementById("Medium (M)").checked && !document.getElementById("Large (L)").checked) {
                 document.getElementById("error1").innerHTML = "Bitte w&aumlhlen Sie eine Option aus.";
             } else {
-                if (document.getElementById("auswahl").value == String({{label}})){
+                if (document.getElementById("auswahl").value == label){
                     document.getElementById("error1").innerHTML = "Korrekt! Sie haben die am besten passende Option ausgewählt!";
                 }
                 await Sleep(3000);
@@ -32,7 +32,7 @@
             if (!document.getElementById("< 400.000 Euro").checked && !document.getElementById("400.000 - 700.000 Euro").checked && !document.getElementById("> 700.000 Euro").checked) {
                 document.getElementById("error1").innerHTML = "Bitte w&aumlhlen Sie eine Option aus.";
             } else {
-                if (document.getElementById("auswahl").value == String({{label}})){
+                if (document.getElementById("auswahl").value == label){
                     document.getElementById("error1").innerHTML = "Korrekt! Sie haben die am besten passende Option ausgewählt!";
                 }                
                 await Sleep(3000);
@@ -182,7 +182,7 @@
                     <br />
                     <i id="error1" style="color:#F0506E"></i>
                     <br />
-                    <p><a class="uk-button uk-button-primary uk-margin-bottom" id="button1" style="background-color: #707070;" onclick="openTab()">{% trans "Weiter" %}</a></p>
+                    <p><a class="uk-button uk-button-primary uk-margin-bottom" id="button1" style="background-color: #707070;" onclick="openTab("Large (L)")">{% trans "Weiter" %}</a></p>
                 </div>
 
                 <div id="Bewertung" class="tabcontent" style="display:none; padding-left: 12px;">
