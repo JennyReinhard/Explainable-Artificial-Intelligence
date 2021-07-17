@@ -11,11 +11,19 @@
 </div>
 
 <script>
+   function sleep(miliseconds) {
+       var currentTime = new Date().getTime();
+       while (currentTime + miliseconds >= new Date().getTime()) {
+       }
+    }
+    
     function openTab() {
         if (document.getElementById("Small (S)") != null) {
             if (!document.getElementById("Small (S)").checked && !document.getElementById("Medium (M)").checked && !document.getElementById("Large (L)").checked) {
                 document.getElementById("error1").innerHTML = "Bitte w&aumlhlen Sie eine Option aus.";
             } else {
+                document.getElementById("error1").innerHTML = "Korrekt!";
+                sleep(3000);
                 document.getElementById('Bewertung').style.display = "block";
                 document.getElementById('Auswahl').style.display = "none";
             }
@@ -24,6 +32,8 @@
             if (!document.getElementById("< 400.000 Euro").checked && !document.getElementById("400.000 - 700.000 Euro").checked && !document.getElementById("> 700.000 Euro").checked) {
                 document.getElementById("error1").innerHTML = "Bitte w&aumlhlen Sie eine Option aus.";
             } else {
+                document.getElementById("error1").innerHTML = "Korrekt!";
+                sleep(3000);
                 document.getElementById('Bewertung').style.display = "block";
                 document.getElementById('Auswahl').style.display = "none";
             }
