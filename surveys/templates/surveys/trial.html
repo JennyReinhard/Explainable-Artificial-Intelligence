@@ -418,7 +418,8 @@
                     {% endif %}
                     {% endif %}
                     {% if trial.explanation_approach.name == "Visuell" %}
-                    <img src="{% static 'surveys/img/visuell.png'%}" style=" height: 100%;width:100%">
+                    <!--<img src="{% static 'surveys/img/visuell.png'%}" style=" height: 100%;width:100%">-->
+                    {{ graph|safe }}
                     {% endif %}
                 </div>
             </td>
