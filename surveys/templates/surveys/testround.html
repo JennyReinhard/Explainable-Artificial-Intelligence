@@ -4,6 +4,10 @@
 {% load i18n %}
 
 <script>
+    function Sleep(milliseconds) {
+        return new Promise(resolve => setTimeout(resolve, milliseconds));
+    }
+    
     async function openTab() {
         if (document.getElementById("Small (S)") != null) {
             if (!document.getElementById("Small (S)").checked && !document.getElementById("Medium (M)").checked && !document.getElementById("Large (L)").checked) {
