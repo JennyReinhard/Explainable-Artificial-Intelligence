@@ -182,7 +182,19 @@
                     <br />
                     <i id="error1" style="color:#F0506E"></i>
                     <br />
-                    <p><a class="uk-button uk-button-primary uk-margin-bottom" id="button1" style="background-color: #707070;" onclick="openTab(label)">{% trans "Weiter" %}</a></p>
+                    {% if label == "Label (L)" %}    
+                        <p><a class="uk-button uk-button-primary uk-margin-bottom" id="button1" style="background-color: #707070;" onclick="openTab('Label (L)')">{% trans "Weiter" %}</a></p>
+                    {% elif label == "Medium (M)" %}
+                        <p><a class="uk-button uk-button-primary uk-margin-bottom" id="button1" style="background-color: #707070;" onclick="openTab('Medium (M)')">{% trans "Weiter" %}</a></p>
+                    {% elif label == "Small (S)" %}
+                        <p><a class="uk-button uk-button-primary uk-margin-bottom" id="button1" style="background-color: #707070;" onclick="openTab('Small (S)')">{% trans "Weiter" %}</a></p>
+                    {% elif label == "< 400.000 Euro" %}
+                        <p><a class="uk-button uk-button-primary uk-margin-bottom" id="button1" style="background-color: #707070;" onclick="openTab('< 400.000 Euro')">{% trans "Weiter" %}</a></p>
+                    {% elif label == "400.000 - 700.000 Euro" %}
+                        <p><a class="uk-button uk-button-primary uk-margin-bottom" id="button1" style="background-color: #707070;" onclick="openTab('400.000 - 700.000 Euro')">{% trans "Weiter" %}</a></p>                   
+                    {% elif label == "> 700.000 Euro" %}
+                        <p><a class="uk-button uk-button-primary uk-margin-bottom" id="button1" style="background-color: #707070;" onclick="openTab('> 700.000 Euro')">{% trans "Weiter" %}</a></p>
+                    {% endif %}
                 </div>
 
                 <div id="Bewertung" class="tabcontent" style="display:none; padding-left: 12px;">
