@@ -9,7 +9,7 @@
             if (!document.getElementById("Small (S)").checked && !document.getElementById("Medium (M)").checked && !document.getElementById("Large (L)").checked) {
                 document.getElementById("error1").innerHTML = "Bitte w&aumlhlen Sie eine Option aus.";
             } else {
-                if (document.getElementById("auswahl").value == "Small (S)"){
+                if (document.getElementById("Small (S)").checked){
                     document.getElementById("error1").innerHTML = "Korrekt! Sie haben die am besten passende Option ausgewählt!";
                 } else {
                     document.getElementById("error1").innerHTML = "Leider haben Sie nicht die am besten passende Option ausgewählt!";
@@ -23,7 +23,7 @@
             if (!document.getElementById("< 400.000 Euro").checked && !document.getElementById("400.000 - 700.000 Euro").checked && !document.getElementById("> 700.000 Euro").checked) {
                 document.getElementById("error1").innerHTML = "Bitte w&aumlhlen Sie eine Option aus.";
             } else {
-                if (document.getElementById("auswahl").value == "< 400.000 Euro"){
+                if (document.getElementById("< 400.000 Euro").checked){
                     document.getElementById("error1").innerHTML = "Korrekt! Sie haben die am besten passende Option ausgewählt!";
                 } else {
                     document.getElementById("error1").innerHTML = "Leider haben Sie nicht die am besten passende Option ausgewählt!";
