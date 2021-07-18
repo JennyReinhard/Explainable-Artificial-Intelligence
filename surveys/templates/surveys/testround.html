@@ -4,7 +4,7 @@
 {% load i18n %}
 
 <script>
-    function openTab() {
+    async function openTab() {
         if (document.getElementById("Small (S)") != null) {
             if (!document.getElementById("Small (S)").checked && !document.getElementById("Medium (M)").checked && !document.getElementById("Large (L)").checked) {
                 document.getElementById("error1").innerHTML = "Bitte w&aumlhlen Sie eine Option aus.";
