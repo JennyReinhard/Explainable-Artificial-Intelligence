@@ -14,6 +14,10 @@
                 document.getElementById("error1").innerHTML = "Bitte w&aumlhlen Sie eine Option aus.";
             } else {
                 document.getElementById("weiter").style.display = "none";
+                document.getElementById("Small (S)").disabled = true;
+                document.getElementById("Medium (M)").disabled = true;
+                document.getElementById("Large (L)").disabled = true;
+
                 if (document.getElementById("Small (S)").checked){
                     document.getElementById("error1").style.color = "#3fa659";
                     document.getElementById("error1").innerHTML = "Korrekt! Sie haben die passendste Option ausgewählt!";
@@ -32,6 +36,9 @@
                 document.getElementById("error1").innerHTML = "Bitte w&aumlhlen Sie eine Option aus.";
             } else {
                 document.getElementById("weiter").style.display = "none";
+                document.getElementById("< 400.000 Euro").disabled = true;
+                document.getElementById("400.000 - 700.000 Euro").disabled = true;
+                document.getElementById("> 700.000 Euro").disabled = true;
                 if (document.getElementById("< 400.000 Euro").checked){
                     document.getElementById("error1").style.color = "#3fa659";
                     document.getElementById("error1").innerHTML = "Korrekt! Sie haben die passendste Option ausgewählt!";
