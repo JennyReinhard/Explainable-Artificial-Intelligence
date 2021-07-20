@@ -20,11 +20,14 @@
             if (!document.getElementById("Small (S)").checked && !document.getElementById("Medium (M)").checked && !document.getElementById("Large (L)").checked) {
                 document.getElementById("error1").innerHTML = "Bitte w&aumlhlen Sie eine Option aus.";
             } else {
+                document.getElementById("weiter").style.display = "none";
                 if (document.getElementById("auswahl").value == label){
                     document.getElementById("error1").style.color = "#3fa659";
                     document.getElementById("error1").innerHTML = "Korrekt! Sie haben die passendste Option ausgewählt!";
+                    document.getElementById("warten").innerHTML = "Bitte kurz warten..."
                 } else {
                     document.getElementById("error1").innerHTML = "Leider haben Sie nicht die passendste Option ausgewählt!";
+                    document.getElementById("warten").innerHTML = "Bitte kurz warten..."
                 }
                 await Sleep(2500);
                 document.getElementById('Bewertung').style.display = "block";
@@ -35,11 +38,14 @@
             if (!document.getElementById("< 400.000 Euro").checked && !document.getElementById("400.000 - 700.000 Euro").checked && !document.getElementById("> 700.000 Euro").checked) {
                 document.getElementById("error1").innerHTML = "Bitte w&aumlhlen Sie eine Option aus.";
             } else {
+                document.getElementById("weiter").style.display = "none";
                 if (document.getElementById("auswahl").value == label){
                     document.getElementById("error1").style.color = "#3fa659";
                     document.getElementById("error1").innerHTML = "Korrekt! Sie haben die passendste Option ausgewählt!";
+                    document.getElementById("warten").innerHTML = "Bitte kurz warten..."
                 } else {
                     document.getElementById("error1").innerHTML = "Leider haben Sie nicht die passendste Option ausgewählt!";
+                    document.getElementById("warten").innerHTML = "Bitte kurz warten..."
                 }
                 await Sleep(2500);
                 document.getElementById('Bewertung').style.display = "block";
@@ -187,19 +193,20 @@
                     <br />
                     <br />
                     <i id="error1" style="color:#F0506E"></i>
+                    <i id="warten"></i>
                     <br />
                     {% if label == "Large (L)" %}    
-                        <p><a class="uk-button uk-button-primary uk-margin-bottom" id="button1" style="background-color: #707070;" onclick="openTab('Large (L)')">{% trans "Überprüfen und weiter" %}</a></p>
+                        <p id="weiter"><a class="uk-button uk-button-primary uk-margin-bottom" id="button1" style="background-color: #707070;" onclick="openTab('Large (L)')">{% trans "Überprüfen und weiter" %}</a></p>
                     {% elif label == "Medium (M)" %}
-                        <p><a class="uk-button uk-button-primary uk-margin-bottom" id="button1" style="background-color: #707070;" onclick="openTab('Medium (M)')">{% trans "Überprüfen und weiter" %}</a></p>
+                        <p id="weiter"><a class="uk-button uk-button-primary uk-margin-bottom" id="button1" style="background-color: #707070;" onclick="openTab('Medium (M)')">{% trans "Überprüfen und weiter" %}</a></p>
                     {% elif label == "Small (S)" %}
-                        <p><a class="uk-button uk-button-primary uk-margin-bottom" id="button1" style="background-color: #707070;" onclick="openTab('Small (S)')">{% trans "Überprüfen und weiter" %}</a></p>
+                        <p id="weiter"><a class="uk-button uk-button-primary uk-margin-bottom" id="button1" style="background-color: #707070;" onclick="openTab('Small (S)')">{% trans "Überprüfen und weiter" %}</a></p>
                     {% elif label == "< 400.000 €" %}
-                        <p><a class="uk-button uk-button-primary uk-margin-bottom" id="button1" style="background-color: #707070;" onclick="openTab('< 400.000 Euro')">{% trans "Überprüfen und weiter" %}</a></p>
+                        <p id="weiter"><a class="uk-button uk-button-primary uk-margin-bottom" id="button1" style="background-color: #707070;" onclick="openTab('< 400.000 Euro')">{% trans "Überprüfen und weiter" %}</a></p>
                     {% elif label == "400.000 - 700.000 €" %}
-                        <p><a class="uk-button uk-button-primary uk-margin-bottom" id="button1" style="background-color: #707070;" onclick="openTab('400.000 - 700.000 Euro')">{% trans "Überprüfen und weiter" %}</a></p>                   
+                        <p id="weiter"><a class="uk-button uk-button-primary uk-margin-bottom" id="button1" style="background-color: #707070;" onclick="openTab('400.000 - 700.000 Euro')">{% trans "Überprüfen und weiter" %}</a></p>                   
                     {% elif label == "> 700.000 €" %}
-                        <p><a class="uk-button uk-button-primary uk-margin-bottom" id="button1" style="background-color: #707070;" onclick="openTab('> 700.000 Euro')">{% trans "Überprüfen und weiter" %}</a></p>
+                        <p id="weiter"><a class="uk-button uk-button-primary uk-margin-bottom" id="button1" style="background-color: #707070;" onclick="openTab('> 700.000 Euro')">{% trans "Überprüfen und weiter" %}</a></p>
                     {% endif %}
                 </div>
 
