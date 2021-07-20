@@ -17,8 +17,10 @@
                 if (document.getElementById("Small (S)").checked){
                     document.getElementById("error1").style.color = "#3fa659";
                     document.getElementById("error1").innerHTML = "Korrekt! Sie haben die passendste Option ausgewählt!";
+                    document.getElementById("warten").innerHTML = "Bitte kurz warten..."
                 } else {
                     document.getElementById("error1").innerHTML = "Leider haben Sie nicht die passendste Option ausgewählt!";
+                    document.getElementById("warten").innerHTML = "Bitte kurz warten..."
                 }
                 await Sleep(3000);
                 document.getElementById('Bewertung').style.display = "block";
@@ -156,6 +158,7 @@
                     <br />
                     <br />
                     <i id="error1" style="color:#F0506E"></i>
+                    <i id="warten"></i>
                     <br />
                     <p id="weiter" ><a class="uk-button uk-button-primary uk-margin-bottom" style="background-color: #707070;" onclick="openTab()">{% trans "Überprüfen und weiter" %}</a></p>
                 </div>
